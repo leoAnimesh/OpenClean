@@ -8,18 +8,20 @@ public struct MonitorSnapshot: Sendable, Equatable {
     public var memory: MemoryUsage?
     public var network: NetworkRates?
     public var disk: DiskSnapshot?
+    public var gpu: GPUSnapshot?
     /// Grouped by app; nil when processes weren't requested or on the first process sample.
     public var groups: [ProcessGroup]?
 
     public init(
         time: TimeInterval, cpu: Double? = nil, memory: MemoryUsage? = nil, network: NetworkRates? = nil,
-        disk: DiskSnapshot? = nil, groups: [ProcessGroup]? = nil
+        disk: DiskSnapshot? = nil, gpu: GPUSnapshot? = nil, groups: [ProcessGroup]? = nil
     ) {
         self.time = time
         self.cpu = cpu
         self.memory = memory
         self.network = network
         self.disk = disk
+        self.gpu = gpu
         self.groups = groups
     }
 }
@@ -82,6 +84,7 @@ public final class SystemMonitor: @unchecked Sendable {
             }
         }
         snapshot.disk = current.disk
+        snapshot.gpu = current.gpu
         if let processes = current.processes, let previousProcesses, let old = previousProcesses.processes {
             let interval = current.time - previousProcesses.time
             if interval > 0 {

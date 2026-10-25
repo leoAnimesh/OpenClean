@@ -46,6 +46,8 @@
 	<string>%1$@ sur %2$@</string>
 	<key>%@ of %@ checks</key>
 	<string>%1$@ vérifications sur %2$@</string>
+	<key>%@ of shared memory</key>
+	<string>%@ de mémoire partagée</string>
 	<key>%@ selected</key>
 	<string>%@ sélectionnés</string>
 	<key>%@ to quarantine</key>
@@ -144,8 +146,10 @@
 	<string>App Apple — fait partie de macOS, jamais supprimée</string>
 	<key>Application</key>
 	<string>Application</string>
-	<key>Apps and processes using the most CPU and memory right now.</key>
-	<string>Les apps et processus qui utilisent le plus de CPU et de mémoire en ce moment.</string>
+	<key>Apps and macOS</key>
+	<string>Apps et macOS</string>
+	<key>Apps and processes using the most CPU, GPU and memory right now.</key>
+	<string>Les apps et processus qui utilisent le plus de CPU, de GPU et de mémoire en ce moment.</string>
 	<key>Apps that are running, changed since the list was loaded, or in use are skipped automatically.</key>
 	<string>Les apps ouvertes, modifiées depuis le chargement de la liste ou en cours d’utilisation sont ignorées automatiquement.</string>
 	<key>Archives</key>
@@ -170,10 +174,14 @@
 	<string>Caches des navigateurs</string>
 	<key>Busy across all cores</key>
 	<string>Occupation sur tous les cœurs</string>
+	<key>Busy with graphics and compute work</key>
+	<string>Occupation par le graphisme et le calcul</string>
 	<key>CPU</key>
 	<string>CPU</string>
 	<key>CPU %@, memory %@</key>
 	<string>CPU %1$@, mémoire %2$@</string>
+	<key>CPU %@, memory %@, GPU %@</key>
+	<string>CPU %1$@, mémoire %2$@, GPU %3$@</string>
 	<key>CPU %lld percent</key>
 	<string>CPU à %lld pour cent</string>
 	<key>CPU and memory in the menu bar</key>
@@ -338,6 +346,8 @@
 	<string>Forcer à quitter arrête l’app immédiatement. Tout ce que vous n’avez pas enregistré sera perdu. Essayez d’abord Quitter si l’app répond encore.</string>
 	<key>Forgets cached website addresses, so name lookups start fresh. Helps when a site moved or won't load after a network change.</key>
 	<string>Oublie les adresses de sites web en cache pour que les résolutions de noms repartent de zéro. Utile quand un site a déménagé ou ne se charge plus après un changement de réseau.</string>
+	<key>Free</key>
+	<string>Libre</string>
 	<key>Freed %@</key>
 	<string>%@ libérés</string>
 	<key>Freed now</key>
@@ -360,6 +370,18 @@
 	<string>L’Accès complet au disque doit être accordé à nouveau</string>
 	<key>Full Disk Access was turned off. Go back one step to allow it again.</key>
 	<string>L’Accès complet au disque a été désactivé. Revenez d’une étape pour l’autoriser à nouveau.</string>
+	<key>GPU</key>
+	<string>GPU</string>
+	<key>GPU %@</key>
+	<string>GPU %@</string>
+	<key>GPU %@, apps and macOS %@, free %@</key>
+	<string>GPU %1$@, apps et macOS %2$@, libre %3$@</string>
+	<key>GPU %lld percent</key>
+	<string>GPU à %lld pour cent</string>
+	<key>GPU limit</key>
+	<string>Limite du GPU</string>
+	<key>GPU memory</key>
+	<string>Mémoire du GPU</string>
 	<key>General</key>
 	<string>Général</string>
 	<key>Get started</key>
@@ -388,6 +410,8 @@
 	<string>Historique</string>
 	<key>Home</key>
 	<string>Départ</string>
+	<key>How your apps and the GPU share your Mac's memory.</key>
+	<string>Comment vos apps et le GPU se partagent la mémoire de votre Mac.</string>
 	<key>If a file already exists at the original location:</key>
 	<string>Si un fichier existe déjà à l’emplacement d’origine :</string>
 	<key>In Utilities — listed for information only</key>
@@ -482,6 +506,8 @@
 	<string>Mémoire</string>
 	<key>Memory %@</key>
 	<string>Mémoire %@</string>
+	<key>Memory &amp; GPU</key>
+	<string>Mémoire et GPU</string>
 	<key>Menu bar</key>
 	<string>Barre des menus</string>
 	<key>Menu bar shows</key>
@@ -542,6 +568,8 @@
 	<string>Aucune analyse pour l’instant</string>
 	<key>None installed.</key>
 	<string>Aucun installé.</string>
+	<key>None of your apps is using the GPU right now.</key>
+	<string>Aucune de vos apps n’utilise le GPU en ce moment.</string>
 	<key>Normal</key>
 	<string>Normale</string>
 	<key>Not allowed</key>
@@ -648,6 +676,8 @@
 	<string>OpenClean, %@</string>
 	<key>OpenClean, CPU %@, memory %@</key>
 	<string>OpenClean, CPU %1$@, mémoire %2$@</string>
+	<key>OpenClean, CPU %@, memory %@, GPU %@</key>
+	<string>OpenClean, CPU %1$@, mémoire %2$@, GPU %3$@</string>
 	<key>Other files</key>
 	<string>Autres fichiers</string>
 	<key>Overview</key>
@@ -812,6 +842,8 @@
 	<string>Réglages</string>
 	<key>Settings…</key>
 	<string>Réglages…</string>
+	<key>Shared memory</key>
+	<string>Mémoire partagée</string>
 	<key>Show CPU and memory in the menu bar</key>
 	<string>Afficher le CPU et la mémoire dans la barre des menus</string>
 	<key>Show OpenClean in the menu bar</key>
@@ -876,6 +908,10 @@
 	<string>Fichiers inutiles du système</string>
 	<key>Tasks marked “Needs admin” ask for your password once per run. OpenClean can only run these exact commands as administrator.</key>
 	<string>Les tâches marquées « Admin requis » demandent votre mot de passe une fois par exécution. OpenClean ne peut exécuter en tant qu’administrateur que ces commandes précises.</string>
+	<key>The GPU has no memory of its own. It uses the same %@ as your apps, up to about %@.</key>
+	<string>Le GPU n’a pas de mémoire à lui. Il utilise les mêmes %1$@ que vos apps, jusqu’à environ %2$@.</string>
+	<key>The GPU has no memory of its own. It uses the same %@ as your apps.</key>
+	<string>Le GPU n’a pas de mémoire à lui. Il utilise les mêmes %@ que vos apps.</string>
 	<key>The app</key>
 	<string>L’app</string>
 	<key>The app could not be moved.</key>
@@ -948,12 +984,16 @@
 	<string>Inconnu</string>
 	<key>Unknown app</key>
 	<string>App inconnue</string>
+	<key>Up to %@ available to the GPU</key>
+	<string>Jusqu’à %@ disponibles pour le GPU</string>
 	<key>Update</key>
 	<string>Mettre à jour</string>
 	<key>Updates</key>
 	<string>Mises à jour</string>
 	<key>User Caches &amp; Logs</key>
 	<string>Caches et journaux de l’utilisateur</string>
+	<key>Using the GPU</key>
+	<string>Utilisent le GPU</string>
 	<key>Utilities</key>
 	<string>Utilitaires</string>
 	<key>Value</key>

@@ -18,7 +18,7 @@ public struct MetricPoint: Identifiable, Sendable, Equatable {
 
 /// What the menu bar label shows next to the glyph.
 public enum MenuBarMetric: String, CaseIterable, Identifiable, Sendable {
-    case none, cpu, memory, cpuAndMemory, network
+    case none, cpu, memory, gpu, cpuAndMemory, cpuMemoryAndGPU, network
 
     public var id: String { rawValue }
 
@@ -27,7 +27,9 @@ public enum MenuBarMetric: String, CaseIterable, Identifiable, Sendable {
         case .none: String(localized: "Icon only", bundle: .appModel)
         case .cpu: String(localized: "CPU", bundle: .appModel)
         case .memory: String(localized: "Memory", bundle: .appModel)
+        case .gpu: String(localized: "GPU", bundle: .appModel)
         case .cpuAndMemory: String(localized: "CPU and memory", bundle: .appModel)
+        case .cpuMemoryAndGPU: String(localized: "CPU, memory and GPU", bundle: .appModel)
         case .network: String(localized: "Network", bundle: .appModel)
         }
     }
@@ -54,9 +56,11 @@ public final class PerformanceModel {
     public private(set) var memory: MemoryUsage?
     public private(set) var network: NetworkRates?
     public private(set) var disk: DiskSnapshot?
+    public private(set) var gpu: GPUSnapshot?
     public private(set) var groups: [ProcessGroup] = []
     public private(set) var cpuHistory: [MetricPoint] = []
     public private(set) var memoryHistory: [MetricPoint] = []
+    public private(set) var gpuHistory: [MetricPoint] = []
     public private(set) var receivedHistory: [MetricPoint] = []
     public private(set) var sentHistory: [MetricPoint] = []
     public private(set) var isSampling = false
@@ -162,6 +166,10 @@ public final class PerformanceModel {
             append(&sentHistory, value.sentPerSecond)
         }
         if let value = snapshot.disk { disk = value }
+        if let value = snapshot.gpu {
+            gpu = value
+            if let utilization = value.utilization { append(&gpuHistory, utilization) }
+        }
         if let value = snapshot.groups { groups = value }
     }
 
@@ -174,6 +182,7 @@ public final class PerformanceModel {
     public func topByMemory(_ limit: Int) -> [ProcessGroup] {
         ProcessUsageCalculator.topByMemory(groups, limit: limit)
     }
+    public func topByGPU(_ limit: Int) -> [ProcessGroup] { ProcessUsageCalculator.topByGPU(groups, limit: limit) }
 
     // MARK: Login items
 

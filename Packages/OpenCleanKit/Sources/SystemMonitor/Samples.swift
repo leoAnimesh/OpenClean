@@ -82,6 +82,26 @@ public struct DiskSnapshot: Sendable, Equatable {
     public var usedFraction: Double { total > 0 ? Double(total - available) / Double(total) : 0 }
 }
 
+/// The integrated GPU at one moment. On Apple silicon it has no memory of its own: what it uses comes
+/// out of the same physical memory as everything else.
+public struct GPUSnapshot: Sendable, Equatable {
+    /// 0…1, the driver's own "Device Utilization %".
+    public var utilization: Double?
+    /// Physical memory the GPU is using right now.
+    public var inUseBytes: UInt64
+    /// Physical memory the GPU driver has allocated, in use or not.
+    public var allocatedBytes: UInt64
+    /// Metal's `recommendedMaxWorkingSetSize`: how much memory the GPU can use before performance suffers.
+    public var workingSetLimit: UInt64?
+
+    public init(utilization: Double?, inUseBytes: UInt64, allocatedBytes: UInt64, workingSetLimit: UInt64? = nil) {
+        self.utilization = utilization
+        self.inUseBytes = inUseBytes
+        self.allocatedBytes = allocatedBytes
+        self.workingSetLimit = workingSetLimit
+    }
+}
+
 /// One process at one moment: cumulative CPU time and resident memory.
 public struct ProcessSample: Sendable, Equatable {
     public var pid: Int32
@@ -91,10 +111,12 @@ public struct ProcessSample: Sendable, Equatable {
     public var path: String?
     public var cpuTimeNanoseconds: UInt64
     public var residentBytes: UInt64
+    /// Cumulative GPU time of the process's Metal clients; 0 when it never used the GPU.
+    public var gpuTimeNanoseconds: UInt64
 
     public init(
         pid: Int32, uid: UInt32 = 501, name: String, path: String?, cpuTimeNanoseconds: UInt64,
-        residentBytes: UInt64
+        residentBytes: UInt64, gpuTimeNanoseconds: UInt64 = 0
     ) {
         self.pid = pid
         self.uid = uid
@@ -102,6 +124,7 @@ public struct ProcessSample: Sendable, Equatable {
         self.path = path
         self.cpuTimeNanoseconds = cpuTimeNanoseconds
         self.residentBytes = residentBytes
+        self.gpuTimeNanoseconds = gpuTimeNanoseconds
     }
 }
 
@@ -121,17 +144,19 @@ public struct RawSample: Sendable, Equatable {
     public var memory: MemorySnapshot?
     public var network: NetworkCounters?
     public var disk: DiskSnapshot?
+    public var gpu: GPUSnapshot?
     public var processes: [ProcessSample]?
 
     public init(
         time: TimeInterval, cpu: CPUTicks? = nil, memory: MemorySnapshot? = nil, network: NetworkCounters? = nil,
-        disk: DiskSnapshot? = nil, processes: [ProcessSample]? = nil
+        disk: DiskSnapshot? = nil, gpu: GPUSnapshot? = nil, processes: [ProcessSample]? = nil
     ) {
         self.time = time
         self.cpu = cpu
         self.memory = memory
         self.network = network
         self.disk = disk
+        self.gpu = gpu
         self.processes = processes
     }
 }

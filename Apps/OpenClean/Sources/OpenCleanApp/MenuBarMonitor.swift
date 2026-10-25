@@ -18,12 +18,13 @@ struct MenuBarLabel: View {
     var body: some View {
         let metric = MenuBarMetric(rawValue: metricRaw) ?? .cpuAndMemory
         HStack(spacing: 4) {
-            if metric == .cpuAndMemory {
+            if metric == .cpuAndMemory || metric == .cpuMemoryAndGPU {
                 // A menu bar label keeps only one image and one text (extra and inline images are dropped),
                 // so the icons and figures are drawn into a single template image.
                 Image(
                     nsImage: MenuBarFiguresImage.render(
-                        cpu: formatPercent(model.cpu), memory: formatPercent(model.memory?.usedFraction)))
+                        cpu: formatPercent(model.cpu), memory: formatPercent(model.memory?.usedFraction),
+                        gpu: metric == .cpuMemoryAndGPU ? formatPercent(model.gpu?.utilization) : nil))
             } else {
                 Image(nsImage: MenuBarGlyph.image)
                 if metric != .none {
@@ -45,6 +46,12 @@ struct MenuBarLabel: View {
         case .memory: formatPercent(model.memory?.usedFraction)
         case .cpuAndMemory:
             String(localized: "CPU \(formatPercent(model.cpu)), memory \(formatPercent(model.memory?.usedFraction))")
+        case .gpu: String(localized: "GPU \(formatPercent(model.gpu?.utilization))")
+        case .cpuMemoryAndGPU:
+            String(
+                localized:
+                    "CPU \(formatPercent(model.cpu)), memory \(formatPercent(model.memory?.usedFraction)), GPU \(formatPercent(model.gpu?.utilization))"
+            )
         case .network: "↓" + formatRate(model.network?.receivedPerSecond)
         }
     }
@@ -73,6 +80,12 @@ struct MenuBarPopover: View {
                     value: model.memory.map { "\(formatMemory($0.used)) · \(pressureLabel($0.pressure))" } ?? "–",
                     fraction: model.memory?.usedFraction ?? 0,
                     color: model.memory.map { pressureColor($0.pressure) } ?? Theme.accent)
+                meterRow(
+                    String(localized: "GPU"),
+                    value: model.gpu.map {
+                        "\(formatPercent($0.utilization)) · \(formatMemory($0.inUseBytes))"
+                    } ?? "–",
+                    fraction: model.gpu?.utilization ?? 0, color: Theme.gpu)
                 meterRow(
                     String(localized: "Disk"),
                     value: model.disk.map { String(localized: "\(formatCapacity($0.available)) free") } ?? "–",
@@ -202,16 +215,21 @@ struct MenuBarPopover: View {
     }
 }
 
-/// Draws "CPU icon · CPU% · memory icon · memory%" into one template image for the menu bar.
+/// Draws "CPU icon · CPU% · memory icon · memory%", and optionally "GPU icon · GPU%", into one
+/// template image for the menu bar.
 @MainActor
 enum MenuBarFiguresImage {
-    static func render(cpu: String, memory: String) -> NSImage {
+    static func render(cpu: String, memory: String, gpu: String? = nil) -> NSImage {
         let font = Font.system(size: 12, weight: .medium)
         let content = HStack(spacing: 4) {
             Image(systemName: "cpu").font(font)
             Text(cpu).font(font).monospacedDigit()
             Image(systemName: "memorychip").font(font).padding(.leading, 3)
             Text(memory).font(font).monospacedDigit()
+            if let gpu {
+                Image(systemName: "cube").font(font).padding(.leading, 3)
+                Text(gpu).font(font).monospacedDigit()
+            }
         }
         .foregroundStyle(.black)
         .frame(height: 18)
@@ -219,7 +237,12 @@ enum MenuBarFiguresImage {
         renderer.scale = 2
         let image = renderer.nsImage ?? MenuBarGlyph.image
         image.isTemplate = true
-        image.accessibilityDescription = String(localized: "OpenClean, CPU \(cpu), memory \(memory)")
+        image.accessibilityDescription =
+            if let gpu {
+                String(localized: "OpenClean, CPU \(cpu), memory \(memory), GPU \(gpu)")
+            } else {
+                String(localized: "OpenClean, CPU \(cpu), memory \(memory)")
+            }
         return image
     }
 }

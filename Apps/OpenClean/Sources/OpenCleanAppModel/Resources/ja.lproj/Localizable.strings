@@ -22,6 +22,8 @@
 	<string>CPU</string>
 	<key>CPU and memory</key>
 	<string>CPU とメモリ</string>
+	<key>CPU, memory and GPU</key>
+	<string>CPU、メモリ、GPU</string>
 	<key>Changed since the scan; an app may be using it.</key>
 	<string>スキャン後に変更されました。App が使用している可能性があります。</string>
 	<key>Could not save settings: %@</key>
@@ -36,6 +38,8 @@
 	<string>理由はさまざまです。詳細を確認してください。</string>
 	<key>Full Disk Access</key>
 	<string>フルディスクアクセス</string>
+	<key>GPU</key>
+	<string>GPU</string>
 	<key>Icon only</key>
 	<string>アイコンのみ</string>
 	<key>In a protected location. OpenClean never removes it.</key>

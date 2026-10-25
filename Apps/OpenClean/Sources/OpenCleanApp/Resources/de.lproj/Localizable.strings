@@ -46,6 +46,8 @@
 	<string>%1$@ von %2$@</string>
 	<key>%@ of %@ checks</key>
 	<string>%1$@ von %2$@ Prüfungen</string>
+	<key>%@ of shared memory</key>
+	<string>%@ des gemeinsamen Speichers</string>
 	<key>%@ selected</key>
 	<string>%@ ausgewählt</string>
 	<key>%@ to quarantine</key>
@@ -144,8 +146,10 @@
 	<string>Apple-App – Teil von macOS, wird nie entfernt</string>
 	<key>Application</key>
 	<string>Programm</string>
-	<key>Apps and processes using the most CPU and memory right now.</key>
-	<string>Apps und Prozesse, die gerade am meisten CPU und Speicher nutzen.</string>
+	<key>Apps and macOS</key>
+	<string>Apps und macOS</string>
+	<key>Apps and processes using the most CPU, GPU and memory right now.</key>
+	<string>Apps und Prozesse, die gerade am meisten CPU, GPU und Speicher nutzen.</string>
 	<key>Apps that are running, changed since the list was loaded, or in use are skipped automatically.</key>
 	<string>Apps, die geöffnet sind, sich seit dem Laden der Liste geändert haben oder in Benutzung sind, werden automatisch übersprungen.</string>
 	<key>Archives</key>
@@ -170,10 +174,14 @@
 	<string>Browser-Caches</string>
 	<key>Busy across all cores</key>
 	<string>Auslastung über alle Kerne</string>
+	<key>Busy with graphics and compute work</key>
+	<string>Auslastung durch Grafik- und Rechenarbeit</string>
 	<key>CPU</key>
 	<string>CPU</string>
 	<key>CPU %@, memory %@</key>
 	<string>CPU %1$@, Speicher %2$@</string>
+	<key>CPU %@, memory %@, GPU %@</key>
+	<string>CPU %1$@, Speicher %2$@, GPU %3$@</string>
 	<key>CPU %lld percent</key>
 	<string>CPU %lld Prozent</string>
 	<key>CPU and memory in the menu bar</key>
@@ -338,6 +346,8 @@
 	<string>Sofort beenden stoppt die App sofort. Alles, was du darin nicht gesichert hast, geht verloren. Versuche zuerst „Beenden“, wenn die App noch reagiert.</string>
 	<key>Forgets cached website addresses, so name lookups start fresh. Helps when a site moved or won't load after a network change.</key>
 	<string>Vergisst zwischengespeicherte Website-Adressen, sodass Namensauflösungen neu beginnen. Hilft, wenn eine Website umgezogen ist oder nach einem Netzwerkwechsel nicht lädt.</string>
+	<key>Free</key>
+	<string>Frei</string>
 	<key>Freed %@</key>
 	<string>%@ freigegeben</string>
 	<key>Freed now</key>
@@ -360,6 +370,18 @@
 	<string>Festplattenvollzugriff muss erneut erteilt werden</string>
 	<key>Full Disk Access was turned off. Go back one step to allow it again.</key>
 	<string>Der Festplattenvollzugriff wurde ausgeschaltet. Gehe einen Schritt zurück, um ihn wieder zu erlauben.</string>
+	<key>GPU</key>
+	<string>GPU</string>
+	<key>GPU %@</key>
+	<string>GPU %@</string>
+	<key>GPU %@, apps and macOS %@, free %@</key>
+	<string>GPU %1$@, Apps und macOS %2$@, frei %3$@</string>
+	<key>GPU %lld percent</key>
+	<string>GPU %lld Prozent</string>
+	<key>GPU limit</key>
+	<string>GPU-Grenze</string>
+	<key>GPU memory</key>
+	<string>GPU-Speicher</string>
 	<key>General</key>
 	<string>Allgemein</string>
 	<key>Get started</key>
@@ -388,6 +410,8 @@
 	<string>Verlauf</string>
 	<key>Home</key>
 	<string>Benutzerordner</string>
+	<key>How your apps and the GPU share your Mac's memory.</key>
+	<string>Wie sich deine Apps und die GPU den Speicher deines Macs teilen.</string>
 	<key>If a file already exists at the original location:</key>
 	<string>Wenn am ursprünglichen Ort bereits eine Datei existiert:</string>
 	<key>In Utilities — listed for information only</key>
@@ -482,6 +506,8 @@
 	<string>Speicher</string>
 	<key>Memory %@</key>
 	<string>Speicher %@</string>
+	<key>Memory &amp; GPU</key>
+	<string>Speicher &amp; GPU</string>
 	<key>Menu bar</key>
 	<string>Menüleiste</string>
 	<key>Menu bar shows</key>
@@ -542,6 +568,8 @@
 	<string>Noch kein Scan</string>
 	<key>None installed.</key>
 	<string>Keine installiert.</string>
+	<key>None of your apps is using the GPU right now.</key>
+	<string>Gerade nutzt keine deiner Apps die GPU.</string>
 	<key>Normal</key>
 	<string>Normal</string>
 	<key>Not allowed</key>
@@ -648,6 +676,8 @@
 	<string>OpenClean, %@</string>
 	<key>OpenClean, CPU %@, memory %@</key>
 	<string>OpenClean, CPU %1$@, Speicher %2$@</string>
+	<key>OpenClean, CPU %@, memory %@, GPU %@</key>
+	<string>OpenClean, CPU %1$@, Speicher %2$@, GPU %3$@</string>
 	<key>Other files</key>
 	<string>Andere Dateien</string>
 	<key>Overview</key>
@@ -812,6 +842,8 @@
 	<string>Einstellungen</string>
 	<key>Settings…</key>
 	<string>Einstellungen …</string>
+	<key>Shared memory</key>
+	<string>Gemeinsamer Speicher</string>
 	<key>Show CPU and memory in the menu bar</key>
 	<string>CPU und Speicher in der Menüleiste zeigen</string>
 	<key>Show OpenClean in the menu bar</key>
@@ -876,6 +908,10 @@
 	<string>Systemreste</string>
 	<key>Tasks marked “Needs admin” ask for your password once per run. OpenClean can only run these exact commands as administrator.</key>
 	<string>Mit „Admin nötig“ markierte Aufgaben fragen bei jeder Ausführung einmal nach deinem Passwort. OpenClean kann nur genau diese Befehle als Administrator ausführen.</string>
+	<key>The GPU has no memory of its own. It uses the same %@ as your apps, up to about %@.</key>
+	<string>Die GPU hat keinen eigenen Speicher. Sie nutzt dieselben %1$@ wie deine Apps, bis zu etwa %2$@.</string>
+	<key>The GPU has no memory of its own. It uses the same %@ as your apps.</key>
+	<string>Die GPU hat keinen eigenen Speicher. Sie nutzt dieselben %@ wie deine Apps.</string>
 	<key>The app</key>
 	<string>Die App</string>
 	<key>The app could not be moved.</key>
@@ -948,12 +984,16 @@
 	<string>Unbekannt</string>
 	<key>Unknown app</key>
 	<string>Unbekannte App</string>
+	<key>Up to %@ available to the GPU</key>
+	<string>Bis zu %@ für die GPU verfügbar</string>
 	<key>Update</key>
 	<string>Aktualisieren</string>
 	<key>Updates</key>
 	<string>Updates</string>
 	<key>User Caches &amp; Logs</key>
 	<string>Benutzer-Caches &amp; Protokolle</string>
+	<key>Using the GPU</key>
+	<string>Nutzen die GPU</string>
 	<key>Utilities</key>
 	<string>Dienstprogramme</string>
 	<key>Value</key>

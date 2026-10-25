@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 
-/// Reads counters straight from the kernel: mach host statistics, sysctl and libproc.
+/// Reads counters straight from the kernel: mach host statistics, sysctl, libproc and the I/O Registry.
 /// No subprocesses. Process sampling covers the current user's processes only (others need root).
 public struct DarwinSampler: SystemSampler {
     let volume: URL
@@ -23,6 +23,7 @@ public struct DarwinSampler: SystemSampler {
             sample.memory = Self.memory()
             sample.network = Self.networkCounters()
             sample.disk = disk()
+            sample.gpu = GPUStatistics.snapshot()
         }
         if request.contains(.processes) {
             sample.processes = processes()
@@ -129,6 +130,7 @@ public struct DarwinSampler: SystemSampler {
         let count = proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size))
         guard count > 0 else { return [] }
 
+        let gpuTimes = GPUStatistics.timeByProcess()
         var samples: [ProcessSample] = []
         samples.reserveCapacity(Int(count))
         var pathBuffer = [CChar](repeating: 0, count: Int(MAXPATHLEN) * 4)
@@ -163,7 +165,7 @@ public struct DarwinSampler: SystemSampler {
                     pid: pid, uid: short.pbsi_uid, name: name.isEmpty ? comm : name, path: path,
                     cpuTimeNanoseconds: ticks.multipliedReportingOverflow(by: timebase.numer).partialValue
                         / timebase.denom,
-                    residentBytes: usage.ri_phys_footprint))
+                    residentBytes: usage.ri_phys_footprint, gpuTimeNanoseconds: gpuTimes[pid] ?? 0))
         }
         return samples
     }

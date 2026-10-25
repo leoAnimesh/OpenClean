@@ -45,21 +45,26 @@ enum AppQuitter {
     }
 }
 
+enum ConsumerSort: Hashable {
+    case cpu, gpu, memory
+}
+
 struct HeavyConsumersView: View {
     @Environment(PerformanceModel.self) private var model
-    @State private var sortByMemory = false
+    @State private var sort: ConsumerSort = .cpu
     @State private var forceQuitTarget: ProcessGroup?
     @State private var notice: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Picker("Sort by", selection: $sortByMemory) {
-                    Text("CPU").tag(false)
-                    Text("Memory").tag(true)
+                Picker("Sort by", selection: $sort) {
+                    Text("CPU").tag(ConsumerSort.cpu)
+                    Text("GPU").tag(ConsumerSort.gpu)
+                    Text("Memory").tag(ConsumerSort.memory)
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 200)
+                .frame(width: 270)
                 Spacer()
                 if let notice {
                     Text(notice).font(.system(size: 12)).foregroundStyle(Theme.gold).lineLimit(1)
@@ -76,6 +81,7 @@ struct HeavyConsumersView: View {
             } else {
                 ScrollView {
                     VStack(spacing: 0) {
+                        ConsumerColumnHeader()
                         ForEach(groups) { group in
                             ConsumerRow(group: group, onQuit: { quit(group) }, onForceQuit: { forceQuitTarget = group })
                             if group.id != groups.last?.id { Divider().overlay(Theme.glassDivider) }
@@ -105,7 +111,11 @@ struct HeavyConsumersView: View {
     }
 
     private var groups: [ProcessGroup] {
-        sortByMemory ? model.topByMemory(25) : model.topByCPU(25)
+        switch sort {
+        case .cpu: model.topByCPU(25)
+        case .gpu: model.topByGPU(25)
+        case .memory: model.topByMemory(25)
+        }
     }
 
     private func quit(_ group: ProcessGroup) {
@@ -125,6 +135,9 @@ struct HeavyConsumersView: View {
 }
 
 struct ConsumerRow: View {
+    /// Wide enough for Quit and Force Quit… side by side, so the figures line up from row to row.
+    static let actionsWidth: CGFloat = 210
+
     let group: ProcessGroup
     let onQuit: () -> Void
     let onForceQuit: () -> Void
@@ -143,22 +156,31 @@ struct ConsumerRow: View {
                 .monospacedDigit()
                 .frame(minWidth: 64, alignment: .trailing)
                 .accessibilityLabel("CPU \(Int(group.cpuPercent.rounded())) percent")
+            Text(String(format: "%.1f%%", group.gpuPercent))
+                .font(.system(size: 14))
+                .monospacedDigit()
+                .foregroundStyle(group.gpuPercent < 0.05 ? Theme.textTertiary : Theme.textPrimary)
+                .frame(minWidth: 64, alignment: .trailing)
+                .accessibilityLabel("GPU \(Int(group.gpuPercent.rounded())) percent")
             Text(formatMemory(group.residentBytes))
                 .font(.system(size: 14))
                 .monospacedDigit()
                 .frame(minWidth: 84, alignment: .trailing)
                 .accessibilityLabel("Memory \(formatMemory(group.residentBytes))")
-            if quittable {
-                Button("Quit", action: onQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
-                Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
-            } else if group.killableProcess != nil {
-                Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
-                    .frame(minWidth: 190, alignment: .trailing)
-            } else {
-                StatusTag(text: group.bundlePath == nil ? String(localized: "Process") : String(localized: "Protected"))
-                    .frame(minWidth: 190, alignment: .trailing)
+            HStack(spacing: 14) {
+                if quittable {
+                    Button("Quit", action: onQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
+                    Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
+                } else if group.killableProcess != nil {
+                    Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
+                } else {
+                    StatusTag(
+                        text: group.bundlePath == nil ? String(localized: "Process") : String(localized: "Protected")
+                    )
                     .help("OpenClean only offers Quit for apps, never for macOS components or itself.")
+                }
             }
+            .frame(minWidth: Self.actionsWidth, alignment: .trailing)
         }
         .padding(.horizontal, 18)
         .frame(minHeight: 56)
@@ -168,6 +190,24 @@ struct ConsumerRow: View {
     private var detail: String {
         let count = group.processes.count
         return count == 1 ? (group.processes.first?.name ?? "") : String(localized: "\(count) processes")
+    }
+}
+
+/// Names the figures in `ConsumerRow`; the widths match the row's columns.
+struct ConsumerColumnHeader: View {
+    var body: some View {
+        HStack(spacing: 14) {
+            Spacer(minLength: 0)
+            Text("CPU").frame(minWidth: 64, alignment: .trailing)
+            Text("GPU").frame(minWidth: 64, alignment: .trailing)
+            Text("Memory").frame(minWidth: 84, alignment: .trailing)
+            Color.clear.frame(width: ConsumerRow.actionsWidth, height: 1)
+        }
+        .font(.system(size: 11, weight: .semibold))
+        .foregroundStyle(Theme.textTertiary)
+        .padding(.horizontal, 18)
+        .padding(.top, 12)
+        .accessibilityHidden(true)
     }
 }
 

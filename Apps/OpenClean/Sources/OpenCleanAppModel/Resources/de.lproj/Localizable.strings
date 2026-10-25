@@ -22,6 +22,8 @@
 	<string>CPU</string>
 	<key>CPU and memory</key>
 	<string>CPU und Speicher</string>
+	<key>CPU, memory and GPU</key>
+	<string>CPU, Speicher und GPU</string>
 	<key>Changed since the scan; an app may be using it.</key>
 	<string>Seit dem Scan geändert; möglicherweise nutzt es eine App.</string>
 	<key>Could not save settings: %@</key>
@@ -36,6 +38,8 @@
 	<string>Aus verschiedenen Gründen; siehe Details.</string>
 	<key>Full Disk Access</key>
 	<string>Festplattenvollzugriff</string>
+	<key>GPU</key>
+	<string>GPU</string>
 	<key>Icon only</key>
 	<string>Nur Symbol</string>
 	<key>In a protected location. OpenClean never removes it.</key>

@@ -2,13 +2,14 @@ import OpenCleanAppModel
 import SwiftUI
 
 enum PerformanceSection: String, CaseIterable, Identifiable {
-    case overview, consumers, loginItems, maintenance
+    case overview, memoryGPU, consumers, loginItems, maintenance
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
         case .overview: String(localized: "Overview")
+        case .memoryGPU: String(localized: "Memory & GPU")
         case .consumers: String(localized: "Heavy consumers")
         case .loginItems: String(localized: "Login items")
         case .maintenance: String(localized: "Maintenance")
@@ -18,7 +19,8 @@ enum PerformanceSection: String, CaseIterable, Identifiable {
     var subtitle: String {
         switch self {
         case .overview: String(localized: "Live figures from your Mac, updated every 2 seconds while you watch.")
-        case .consumers: String(localized: "Apps and processes using the most CPU and memory right now.")
+        case .memoryGPU: String(localized: "How your apps and the GPU share your Mac's memory.")
+        case .consumers: String(localized: "Apps and processes using the most CPU, GPU and memory right now.")
         case .loginItems: String(localized: "What starts when you log in, and who installed it.")
         case .maintenance: String(localized: "One-click macOS housekeeping. Each task says exactly what it runs.")
         }
@@ -56,6 +58,7 @@ struct PerformanceView: View {
                 Group {
                     switch section {
                     case .overview: PerformanceOverview()
+                    case .memoryGPU: MemoryGPUView()
                     case .consumers: HeavyConsumersView()
                     case .loginItems: LoginItemsView()
                     case .maintenance: MaintenanceListView()

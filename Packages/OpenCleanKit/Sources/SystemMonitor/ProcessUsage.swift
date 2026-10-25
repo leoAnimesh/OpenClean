@@ -1,6 +1,6 @@
 import Foundation
 
-/// One process with its CPU use over the last interval.
+/// One process with its CPU and GPU use over the last interval.
 public struct ProcessUsage: Sendable, Equatable, Identifiable {
     public var pid: Int32
     public var uid: UInt32
@@ -9,11 +9,14 @@ public struct ProcessUsage: Sendable, Equatable, Identifiable {
     /// Percent of one core, as Activity Monitor shows it (a busy 4-thread process can exceed 100).
     public var cpuPercent: Double
     public var residentBytes: UInt64
+    /// Percent of the GPU's time spent on this process's work.
+    public var gpuPercent: Double
 
     public var id: Int32 { pid }
 
     public init(
-        pid: Int32, uid: UInt32, name: String, path: String?, cpuPercent: Double, residentBytes: UInt64
+        pid: Int32, uid: UInt32, name: String, path: String?, cpuPercent: Double, residentBytes: UInt64,
+        gpuPercent: Double = 0
     ) {
         self.pid = pid
         self.uid = uid
@@ -21,6 +24,7 @@ public struct ProcessUsage: Sendable, Equatable, Identifiable {
         self.path = path
         self.cpuPercent = cpuPercent
         self.residentBytes = residentBytes
+        self.gpuPercent = gpuPercent
     }
 }
 
@@ -35,6 +39,7 @@ public struct ProcessGroup: Sendable, Equatable, Identifiable {
     public var processes: [ProcessUsage]
     public var cpuPercent: Double
     public var residentBytes: UInt64
+    public var gpuPercent: Double
     /// True when the library's policy allows offering Quit / Force Quit. The app layer still requires
     /// an `NSRunningApplication` for `mainPID`.
     public var canQuit: Bool
@@ -44,7 +49,8 @@ public struct ProcessGroup: Sendable, Equatable, Identifiable {
 
     public init(
         id: String, name: String, bundlePath: String?, mainPID: Int32?, processes: [ProcessUsage],
-        cpuPercent: Double, residentBytes: UInt64, canQuit: Bool, killableProcess: ProcessUsage? = nil
+        cpuPercent: Double, residentBytes: UInt64, gpuPercent: Double = 0, canQuit: Bool,
+        killableProcess: ProcessUsage? = nil
     ) {
         self.id = id
         self.name = name
@@ -53,13 +59,14 @@ public struct ProcessGroup: Sendable, Equatable, Identifiable {
         self.processes = processes
         self.cpuPercent = cpuPercent
         self.residentBytes = residentBytes
+        self.gpuPercent = gpuPercent
         self.canQuit = canQuit
         self.killableProcess = killableProcess
     }
 }
 
 public enum ProcessUsageCalculator {
-    /// Per-process CPU % from two samples `interval` seconds apart. Processes new since the
+    /// Per-process CPU and GPU % from two samples `interval` seconds apart. Processes new since the
     /// previous sample (or whose pid was reused with a lower CPU time) report 0 for this interval.
     public static func usage(previous: [ProcessSample], current: [ProcessSample], interval: TimeInterval)
         -> [ProcessUsage]
@@ -68,14 +75,19 @@ public enum ProcessUsageCalculator {
         let wallNanoseconds = interval * 1_000_000_000
         return current.map { sample in
             var percent = 0.0
+            var gpuPercent = 0.0
             if wallNanoseconds > 0, let old = before[sample.pid], old.name == sample.name,
                 sample.cpuTimeNanoseconds >= old.cpuTimeNanoseconds
             {
                 percent = Double(sample.cpuTimeNanoseconds - old.cpuTimeNanoseconds) / wallNanoseconds * 100
+                // A Metal client closing makes the sum go down; that interval counts as 0.
+                if sample.gpuTimeNanoseconds >= old.gpuTimeNanoseconds {
+                    gpuPercent = Double(sample.gpuTimeNanoseconds - old.gpuTimeNanoseconds) / wallNanoseconds * 100
+                }
             }
             return ProcessUsage(
                 pid: sample.pid, uid: sample.uid, name: sample.name, path: sample.path, cpuPercent: percent,
-                residentBytes: sample.residentBytes)
+                residentBytes: sample.residentBytes, gpuPercent: gpuPercent)
         }
     }
 
@@ -111,7 +123,8 @@ public enum ProcessUsageCalculator {
                 id: key, name: name, bundlePath: bundle, mainPID: main?.pid,
                 processes: processes.sorted { $0.cpuPercent > $1.cpuPercent },
                 cpuPercent: processes.reduce(0) { $0 + $1.cpuPercent },
-                residentBytes: processes.reduce(0) { $0 + $1.residentBytes }, canQuit: canQuit,
+                residentBytes: processes.reduce(0) { $0 + $1.residentBytes },
+                gpuPercent: processes.reduce(0) { $0 + $1.gpuPercent }, canQuit: canQuit,
                 killableProcess: killable)
         }
     }
@@ -126,6 +139,14 @@ public enum ProcessUsageCalculator {
 
     public static func topByMemory(_ groups: [ProcessGroup], limit: Int) -> [ProcessGroup] {
         Array(groups.sorted { $0.residentBytes > $1.residentBytes }.prefix(limit))
+    }
+
+    public static func topByGPU(_ groups: [ProcessGroup], limit: Int) -> [ProcessGroup] {
+        Array(
+            groups.sorted {
+                $0.gpuPercent != $1.gpuPercent ? $0.gpuPercent > $1.gpuPercent : $0.cpuPercent > $1.cpuPercent
+            }
+            .prefix(limit))
     }
 
     /// "/Applications/Foo.app/Contents/Frameworks/Bar.app/Contents/MacOS/Bar" → "/Applications/Foo.app".

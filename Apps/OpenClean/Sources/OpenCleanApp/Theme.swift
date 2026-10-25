@@ -395,6 +395,13 @@ struct SafetyTag: View {
     }
 }
 
+// MARK: Performance
+
+extension Theme {
+    /// The GPU's share in the shared memory bar, next to `accent` for everything else.
+    static let gpu = Color(hex: 0xB3A6FF)
+}
+
 // MARK: Space Lens
 
 extension Theme {

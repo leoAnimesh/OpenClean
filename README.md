@@ -40,7 +40,7 @@ Intel Macs with macOS 14 or later.
 - **Uninstall apps completely.** Remove an app together with the files it leaves behind.
 - **See what fills your disk.** Space Lens maps your storage and finds large, old and duplicate files.
 - **Clean up developer tools.** Xcode, npm, Cargo, Docker, AI model downloads and old project folders.
-- **Watch your Mac.** CPU, memory, disk and network in the menu bar.
+- **Watch your Mac.** CPU, GPU, memory, disk and network in the menu bar, and how the GPU shares memory with your apps.
 - **Private.** No account, no tracking. It only checks GitHub for updates, and you can turn that off.
 
 ## Safe and undoable

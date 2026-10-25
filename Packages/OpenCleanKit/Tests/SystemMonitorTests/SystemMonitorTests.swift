@@ -114,6 +114,12 @@ struct SystemMonitorTests {
         #expect(second.network == NetworkRates(receivedPerSecond: 2_000, sentPerSecond: 1_000))
     }
 
+    @Test func gpuFiguresPassThroughFromTheFirstSample() {
+        let gpu = GPUSnapshot(utilization: 0.4, inUseBytes: 1_000, allocatedBytes: 2_000, workingSetLimit: 8_000)
+        let monitor = SystemMonitor(sampler: FakeSampler([RawSample(time: 0, gpu: gpu)]), policy: policy)
+        #expect(monitor.next(.metrics).gpu == gpu)
+    }
+
     @Test func processIntervalIsTrackedSeparatelyFromMetrics() throws {
         let app = "/Applications/Editor.app/Contents/MacOS/Editor"
         let ticks = CPUTicks(user: 0, system: 0, idle: 1, nice: 0)
@@ -188,6 +194,28 @@ struct ProcessUsageTests {
         #expect(usage[0].residentBytes == 20)
     }
 
+    @Test func gpuPercentFromGPUTimeDelta() {
+        let previous = [
+            ProcessSample(
+                pid: 1_000, name: "a", path: "/x/a", cpuTimeNanoseconds: 0, residentBytes: 0,
+                gpuTimeNanoseconds: 1_000_000_000),
+            ProcessSample(
+                pid: 1_001, name: "b", path: "/x/b", cpuTimeNanoseconds: 0, residentBytes: 0,
+                gpuTimeNanoseconds: 5_000_000_000),
+        ]
+        let current = [
+            ProcessSample(
+                pid: 1_000, name: "a", path: "/x/a", cpuTimeNanoseconds: 0, residentBytes: 0,
+                gpuTimeNanoseconds: 1_500_000_000),
+            // A Metal client closed, so the sum went down: 0, not a wrapped value.
+            ProcessSample(
+                pid: 1_001, name: "b", path: "/x/b", cpuTimeNanoseconds: 0, residentBytes: 0,
+                gpuTimeNanoseconds: 1_000_000_000),
+        ]
+        let usage = ProcessUsageCalculator.usage(previous: previous, current: current, interval: 2)
+        #expect(usage.map(\.gpuPercent) == [25, 0])
+    }
+
     @Test func helpersGroupUnderTheirOutermostApp() throws {
         let usages = [
             ProcessUsage(
@@ -218,6 +246,24 @@ struct ProcessUsageTests {
 
         #expect(ProcessUsageCalculator.topByCPU(groups, limit: 1).map(\.name) == ["node"])
         #expect(ProcessUsageCalculator.topByMemory(groups, limit: 1).map(\.name) == ["Google Chrome"])
+    }
+
+    @Test func gpuPercentSumsOverTheGroup() throws {
+        let usages = [
+            ProcessUsage(
+                pid: 10, uid: 501, name: "Game", path: "/Applications/Game.app/Contents/MacOS/Game", cpuPercent: 5,
+                residentBytes: 100, gpuPercent: 30),
+            ProcessUsage(
+                pid: 11, uid: 501, name: "Game Helper",
+                path: "/Applications/Game.app/Contents/Helpers/Game Helper.app/Contents/MacOS/Game Helper",
+                cpuPercent: 1, residentBytes: 10, gpuPercent: 12),
+            ProcessUsage(
+                pid: 12, uid: 501, name: "node", path: "/opt/homebrew/bin/node", cpuPercent: 80, residentBytes: 50),
+        ]
+        let groups = ProcessUsageCalculator.group(usages, policy: policy)
+        let game = try #require(groups.first { $0.name == "Game" })
+        #expect(game.gpuPercent == 42)
+        #expect(ProcessUsageCalculator.topByGPU(groups, limit: 1).map(\.name) == ["Game"])
     }
 
     @Test func helpersOnlyGroupHasNoMainProcessAndCannotQuit() throws {
@@ -283,6 +329,45 @@ struct ForceQuitPolicyTests {
                     "Activity Monitor",
                     path: "/System/Applications/Utilities/Activity Monitor.app/Contents/MacOS/Activity Monitor")))
         #expect(!policy.isProtected(process("node", path: "/opt/homebrew/bin/node")))
+    }
+}
+
+struct GPUStatisticsTests {
+    @Test func snapshotReadsDriverStatistics() {
+        let statistics: [String: Any] = [
+            "Device Utilization %": NSNumber(value: 30),
+            "In use system memory": NSNumber(value: 1_013_137_408),
+            "Alloc system memory": NSNumber(value: 3_865_821_184),
+        ]
+        let snapshot = GPUStatistics.snapshot(statistics: statistics, workingSetLimit: 17_179_869_184)
+        #expect(snapshot.utilization == 0.3)
+        #expect(snapshot.inUseBytes == 1_013_137_408)
+        #expect(snapshot.allocatedBytes == 3_865_821_184)
+        #expect(snapshot.workingSetLimit == 17_179_869_184)
+    }
+
+    @Test func missingOrOutOfRangeFiguresStayInBounds() {
+        let empty = GPUStatistics.snapshot(statistics: [:], workingSetLimit: nil)
+        #expect(empty == GPUSnapshot(utilization: nil, inUseBytes: 0, allocatedBytes: 0))
+        let over = GPUStatistics.snapshot(
+            statistics: ["Device Utilization %": NSNumber(value: 140)], workingSetLimit: nil)
+        #expect(over.utilization == 1)
+    }
+
+    @Test func pidComesFromTheClientCreator() {
+        #expect(GPUStatistics.pid(fromCreator: "pid 171, WindowServer") == 171)
+        #expect(GPUStatistics.pid(fromCreator: "pid 42") == 42)
+        #expect(GPUStatistics.pid(fromCreator: "WindowServer") == nil)
+        #expect(GPUStatistics.pid(fromCreator: "pid , x") == nil)
+    }
+
+    @Test func gpuTimeSumsEveryQueue() {
+        let usage: [[String: Any]] = [
+            ["API": "Metal", "accumulatedGPUTime": NSNumber(value: 70_700_371_987_250)],
+            ["API": "Metal", "accumulatedGPUTime": NSNumber(value: 522_832_708)],
+            ["API": "Metal"],
+        ]
+        #expect(GPUStatistics.gpuTime(appUsage: usage) == 70_700_894_819_958)
     }
 }
 

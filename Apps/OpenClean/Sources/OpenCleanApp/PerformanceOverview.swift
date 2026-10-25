@@ -10,9 +10,7 @@ struct PerformanceOverview: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                LazyVGrid(
-                    columns: [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)], spacing: 14
-                ) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 14), count: 3), spacing: 14) {
                     MetricCard(
                         title: String(localized: "CPU"), symbol: "cpu", value: formatPercent(model.cpu),
                         detail: String(localized: "Busy across all cores"), points: model.cpuHistory, maxValue: 1)
@@ -23,6 +21,16 @@ struct PerformanceOverview: View {
                         tag: model.memory.map {
                             (String(localized: "Pressure: \(pressureLabel($0.pressure))"), pressureColor($0.pressure))
                         })
+                    MetricCard(
+                        title: String(localized: "GPU"), symbol: "cube", value: formatPercent(model.gpu?.utilization),
+                        detail: model.gpu.map {
+                            String(localized: "\(formatMemory($0.inUseBytes)) of shared memory")
+                        } ?? "",
+                        points: model.gpuHistory, maxValue: 1)
+                }
+                LazyVGrid(
+                    columns: [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)], spacing: 14
+                ) {
                     MetricCard(
                         title: String(localized: "Disk"), symbol: "internaldrive",
                         value: model.disk.map { String(localized: "\(formatCapacity($0.available)) free") } ?? "–",

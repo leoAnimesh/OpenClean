@@ -909,6 +909,40 @@
         }
       }
     },
+    "%@ of shared memory": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ des gemeinsamen Speichers"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ de memoria compartida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ de mémoire partagée"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有メモリ %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共享内存 %@"
+          }
+        }
+      }
+    },
     "%@ selected": {
       "localizations": {
         "de": {
@@ -4635,36 +4669,70 @@
         }
       }
     },
-    "Apps and processes using the most CPU and memory right now.": {
+    "Apps and macOS": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apps und Prozesse, die gerade am meisten CPU und Speicher nutzen."
+            "value": "Apps und macOS"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apps y procesos que más CPU y memoria usan ahora mismo."
+            "value": "Apps y macOS"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les apps et processus qui utilisent le plus de CPU et de mémoire en ce moment."
+            "value": "Apps et macOS"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "現在、CPU とメモリを最も多く使っている App とプロセスです。"
+            "value": "App と macOS"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "当前占用 CPU 和内存最多的 App 和进程。"
+            "value": "App 和 macOS"
+          }
+        }
+      }
+    },
+    "Apps and processes using the most CPU, GPU and memory right now.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps und Prozesse, die gerade am meisten CPU, GPU und Speicher nutzen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps y procesos que más CPU, GPU y memoria usan ahora mismo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les apps et processus qui utilisent le plus de CPU, de GPU et de mémoire en ce moment."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在、CPU、GPU、メモリを最も多く使っている App とプロセスです。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前占用 CPU、GPU 和内存最多的 App 和进程。"
           }
         }
       }
@@ -5177,6 +5245,40 @@
         }
       }
     },
+    "Busy with graphics and compute work": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auslastung durch Grafik- und Rechenarbeit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uso en gráficos y cálculo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Occupation par le graphisme et le calcul"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "グラフィックスと演算の使用率"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图形和计算的占用"
+          }
+        }
+      }
+    },
     "CPU": {
       "localizations": {
         "de": {
@@ -5241,6 +5343,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "CPU %1$@，内存 %2$@"
+          }
+        }
+      }
+    },
+    "CPU %@, memory %@, GPU %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@, Speicher %2$@, GPU %3$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@, memoria %2$@, GPU %3$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@, mémoire %2$@, GPU %3$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@、メモリ %2$@、GPU %3$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@，内存 %2$@，GPU %3$@"
           }
         }
       }
@@ -8233,6 +8369,40 @@
         }
       }
     },
+    "Free": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frei"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libre"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libre"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空き"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可用"
+          }
+        }
+      }
+    },
     "Freed %@": {
       "localizations": {
         "de": {
@@ -8603,6 +8773,210 @@
           "stringUnit": {
             "state": "translated",
             "value": "完全磁盘访问权限已关闭。返回上一步重新允许。"
+          }
+        }
+      }
+    },
+    "GPU": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        }
+      }
+    },
+    "GPU %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %@"
+          }
+        }
+      }
+    },
+    "GPU %@, apps and macOS %@, free %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %1$@, Apps und macOS %2$@, frei %3$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %1$@, apps y macOS %2$@, libre %3$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %1$@, apps et macOS %2$@, libre %3$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %1$@、App と macOS %2$@、空き %3$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %1$@，App 和 macOS %2$@，可用 %3$@"
+          }
+        }
+      }
+    },
+    "GPU %lld percent": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %lld Prozent"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU al %lld por ciento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU à %lld pour cent"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %lld パーセント"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU 百分之 %lld"
+          }
+        }
+      }
+    },
+    "GPU limit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU-Grenze"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Límite de la GPU"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limite du GPU"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU の上限"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU 上限"
+          }
+        }
+      }
+    },
+    "GPU memory": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU-Speicher"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria de la GPU"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémoire du GPU"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU メモリ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU 内存"
           }
         }
       }
@@ -9079,6 +9453,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "个人"
+          }
+        }
+      }
+    },
+    "How your apps and the GPU share your Mac's memory.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie sich deine Apps und die GPU den Speicher deines Macs teilen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cómo comparten tus apps y la GPU la memoria de tu Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comment vos apps et le GPU se partagent la mémoire de votre Mac."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App と GPU が Mac のメモリをどう共有しているかを示します。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 和 GPU 如何共享 Mac 的内存。"
           }
         }
       }
@@ -10781,6 +11189,40 @@
         }
       }
     },
+    "Memory & GPU": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speicher & GPU"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria y GPU"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémoire et GPU"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メモリと GPU"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内存和 GPU"
+          }
+        }
+      }
+    },
     "Menu bar": {
       "localizations": {
         "de": {
@@ -11997,6 +12439,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "未安装任何项目。"
+          }
+        }
+      }
+    },
+    "None of your apps is using the GPU right now.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerade nutzt keine deiner Apps die GPU."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ninguna de tus apps está usando la GPU ahora mismo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune de vos apps n’utilise le GPU en ce moment."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在、GPU を使っている App はありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前没有 App 在使用 GPU。"
           }
         }
       }
@@ -14059,6 +14535,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "OpenClean，CPU %1$@，内存 %2$@"
+          }
+        }
+      }
+    },
+    "OpenClean, CPU %@, memory %@, GPU %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean, CPU %1$@, Speicher %2$@, GPU %3$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean, CPU %1$@, memoria %2$@, GPU %3$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean, CPU %1$@, mémoire %2$@, GPU %3$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean、CPU %1$@、メモリ %2$@、GPU %3$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean，CPU %1$@，内存 %2$@，GPU %3$@"
           }
         }
       }
@@ -16951,6 +17461,40 @@
         }
       }
     },
+    "Shared memory": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemeinsamer Speicher"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria compartida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémoire partagée"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有メモリ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共享内存"
+          }
+        }
+      }
+    },
     "Show CPU and memory in the menu bar": {
       "localizations": {
         "de": {
@@ -18135,6 +18679,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "标有“需要管理员”的任务每次运行时会询问一次密码。OpenClean 只能以管理员身份运行这些确切的命令。"
+          }
+        }
+      }
+    },
+    "The GPU has no memory of its own. It uses the same %@ as your apps, up to about %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die GPU hat keinen eigenen Speicher. Sie nutzt dieselben %1$@ wie deine Apps, bis zu etwa %2$@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La GPU no tiene memoria propia. Usa los mismos %1$@ que tus apps, hasta unos %2$@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le GPU n’a pas de mémoire à lui. Il utilise les mêmes %1$@ que vos apps, jusqu’à environ %2$@."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU には専用のメモリがありません。App と同じ %1$@ を、最大でおよそ %2$@ まで使います。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU 没有自己的内存。它与 App 共用同样的 %1$@，最多约 %2$@。"
+          }
+        }
+      }
+    },
+    "The GPU has no memory of its own. It uses the same %@ as your apps.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die GPU hat keinen eigenen Speicher. Sie nutzt dieselben %@ wie deine Apps."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La GPU no tiene memoria propia. Usa los mismos %@ que tus apps."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le GPU n’a pas de mémoire à lui. Il utilise les mêmes %@ que vos apps."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU には専用のメモリがありません。App と同じ %@ を使います。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU 没有自己的内存。它与 App 共用同样的 %@。"
           }
         }
       }
@@ -19463,6 +20075,40 @@
         }
       }
     },
+    "Up to %@ available to the GPU": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bis zu %@ für die GPU verfügbar"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hasta %@ disponibles para la GPU"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jusqu’à %@ disponibles pour le GPU"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU が使えるのは最大 %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU 最多可用 %@"
+          }
+        }
+      }
+    },
     "Update": {
       "localizations": {
         "de": {
@@ -19561,6 +20207,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "用户缓存与日志"
+          }
+        }
+      }
+    },
+    "Using the GPU": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nutzen die GPU"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usan la GPU"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisent le GPU"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU を使用中"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在使用 GPU"
           }
         }
       }

@@ -46,6 +46,8 @@
 	<string>%1$@ / %2$@</string>
 	<key>%@ of %@ checks</key>
 	<string>%2$@ 件中 %1$@ 件を確認</string>
+	<key>%@ of shared memory</key>
+	<string>共有メモリ %@</string>
 	<key>%@ selected</key>
 	<string>%@ を選択中</string>
 	<key>%@ to quarantine</key>
@@ -144,8 +146,10 @@
 	<string>Apple の App — macOS の一部のため、削除されることはありません</string>
 	<key>Application</key>
 	<string>アプリケーション</string>
-	<key>Apps and processes using the most CPU and memory right now.</key>
-	<string>現在、CPU とメモリを最も多く使っている App とプロセスです。</string>
+	<key>Apps and macOS</key>
+	<string>App と macOS</string>
+	<key>Apps and processes using the most CPU, GPU and memory right now.</key>
+	<string>現在、CPU、GPU、メモリを最も多く使っている App とプロセスです。</string>
 	<key>Apps that are running, changed since the list was loaded, or in use are skipped automatically.</key>
 	<string>実行中の App、一覧の読み込み後に変更された App、使用中の App は自動的にスキップされます。</string>
 	<key>Archives</key>
@@ -170,10 +174,14 @@
 	<string>ブラウザのキャッシュ</string>
 	<key>Busy across all cores</key>
 	<string>全コアの使用率</string>
+	<key>Busy with graphics and compute work</key>
+	<string>グラフィックスと演算の使用率</string>
 	<key>CPU</key>
 	<string>CPU</string>
 	<key>CPU %@, memory %@</key>
 	<string>CPU %1$@、メモリ %2$@</string>
+	<key>CPU %@, memory %@, GPU %@</key>
+	<string>CPU %1$@、メモリ %2$@、GPU %3$@</string>
 	<key>CPU %lld percent</key>
 	<string>CPU %lld パーセント</string>
 	<key>CPU and memory in the menu bar</key>
@@ -338,6 +346,8 @@
 	<string>強制終了すると App はただちに停止し、保存していない内容はすべて失われます。App がまだ応答する場合は、先に「終了」を試してください。</string>
 	<key>Forgets cached website addresses, so name lookups start fresh. Helps when a site moved or won't load after a network change.</key>
 	<string>キャッシュされた Web サイトのアドレスを消去し、名前解決をやり直します。サイトが移転したときや、ネットワークを変えた後にサイトが読み込めないときに役立ちます。</string>
+	<key>Free</key>
+	<string>空き</string>
 	<key>Freed %@</key>
 	<string>%@ を解放</string>
 	<key>Freed now</key>
@@ -360,6 +370,18 @@
 	<string>フルディスクアクセスをもう一度許可する必要があります</string>
 	<key>Full Disk Access was turned off. Go back one step to allow it again.</key>
 	<string>フルディスクアクセスがオフになりました。1 つ前の手順に戻って、もう一度許可してください。</string>
+	<key>GPU</key>
+	<string>GPU</string>
+	<key>GPU %@</key>
+	<string>GPU %@</string>
+	<key>GPU %@, apps and macOS %@, free %@</key>
+	<string>GPU %1$@、App と macOS %2$@、空き %3$@</string>
+	<key>GPU %lld percent</key>
+	<string>GPU %lld パーセント</string>
+	<key>GPU limit</key>
+	<string>GPU の上限</string>
+	<key>GPU memory</key>
+	<string>GPU メモリ</string>
 	<key>General</key>
 	<string>一般</string>
 	<key>Get started</key>
@@ -388,6 +410,8 @@
 	<string>履歴</string>
 	<key>Home</key>
 	<string>ホーム</string>
+	<key>How your apps and the GPU share your Mac's memory.</key>
+	<string>App と GPU が Mac のメモリをどう共有しているかを示します。</string>
 	<key>If a file already exists at the original location:</key>
 	<string>元の場所にすでにファイルがある場合：</string>
 	<key>In Utilities — listed for information only</key>
@@ -482,6 +506,8 @@
 	<string>メモリ</string>
 	<key>Memory %@</key>
 	<string>メモリ %@</string>
+	<key>Memory &amp; GPU</key>
+	<string>メモリと GPU</string>
 	<key>Menu bar</key>
 	<string>メニューバー</string>
 	<key>Menu bar shows</key>
@@ -542,6 +568,8 @@
 	<string>まだスキャンしていません</string>
 	<key>None installed.</key>
 	<string>インストールされていません。</string>
+	<key>None of your apps is using the GPU right now.</key>
+	<string>現在、GPU を使っている App はありません。</string>
 	<key>Normal</key>
 	<string>正常</string>
 	<key>Not allowed</key>
@@ -648,6 +676,8 @@
 	<string>OpenClean、%@</string>
 	<key>OpenClean, CPU %@, memory %@</key>
 	<string>OpenClean、CPU %1$@、メモリ %2$@</string>
+	<key>OpenClean, CPU %@, memory %@, GPU %@</key>
+	<string>OpenClean、CPU %1$@、メモリ %2$@、GPU %3$@</string>
 	<key>Other files</key>
 	<string>その他のファイル</string>
 	<key>Overview</key>
@@ -812,6 +842,8 @@
 	<string>設定</string>
 	<key>Settings…</key>
 	<string>設定…</string>
+	<key>Shared memory</key>
+	<string>共有メモリ</string>
 	<key>Show CPU and memory in the menu bar</key>
 	<string>メニューバーに CPU とメモリを表示</string>
 	<key>Show OpenClean in the menu bar</key>
@@ -876,6 +908,10 @@
 	<string>システムの不要ファイル</string>
 	<key>Tasks marked “Needs admin” ask for your password once per run. OpenClean can only run these exact commands as administrator.</key>
 	<string>「管理者権限が必要」と表示されたタスクは、実行のたびにパスワードを 1 回求めます。OpenClean が管理者として実行できるのは、これらの決まったコマンドだけです。</string>
+	<key>The GPU has no memory of its own. It uses the same %@ as your apps, up to about %@.</key>
+	<string>GPU には専用のメモリがありません。App と同じ %1$@ を、最大でおよそ %2$@ まで使います。</string>
+	<key>The GPU has no memory of its own. It uses the same %@ as your apps.</key>
+	<string>GPU には専用のメモリがありません。App と同じ %@ を使います。</string>
 	<key>The app</key>
 	<string>App</string>
 	<key>The app could not be moved.</key>
@@ -948,12 +984,16 @@
 	<string>不明</string>
 	<key>Unknown app</key>
 	<string>不明な App</string>
+	<key>Up to %@ available to the GPU</key>
+	<string>GPU が使えるのは最大 %@</string>
 	<key>Update</key>
 	<string>アップデート</string>
 	<key>Updates</key>
 	<string>アップデート</string>
 	<key>User Caches &amp; Logs</key>
 	<string>ユーザのキャッシュとログ</string>
+	<key>Using the GPU</key>
+	<string>GPU を使用中</string>
 	<key>Utilities</key>
 	<string>ユーティリティ</string>
 	<key>Value</key>
