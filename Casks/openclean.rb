@@ -7,8 +7,8 @@
 # `version` and `sha256` are bumped by scripts/bump-homebrew.sh, which the release workflow runs in a
 # pull request after every release (see CONTRIBUTING.md "Homebrew").
 cask "openclean" do
-  version "0.3.1"
-  sha256 "6d7436e0be79dfe59df18cee5edac43dcc1de5fdce0ebf67298cf8318f4e5e07"
+  version "0.4.0"
+  sha256 "e38895998c869f38360b78307ac32d5341bc769c7ddbd320af53a68ab2f240ec"
 
   url "https://github.com/leoAnimesh/OpenClean/releases/download/v#{version}/OpenClean-#{version}.dmg"
   name "OpenClean"
