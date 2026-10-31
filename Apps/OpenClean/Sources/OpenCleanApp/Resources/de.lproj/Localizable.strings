@@ -184,6 +184,8 @@
 	<string>CPU %1$@, Speicher %2$@</string>
 	<key>CPU %@, memory %@, GPU %@</key>
 	<string>CPU %1$@, Speicher %2$@, GPU %3$@</string>
+	<key>CPU %@, memory %@, download %@, upload %@</key>
+	<string>CPU %1$@, Speicher %2$@, Download %3$@, Upload %4$@</string>
 	<key>CPU %lld percent</key>
 	<string>CPU %lld Prozent</string>
 	<key>CPU and memory in the menu bar</key>
@@ -678,6 +680,8 @@
 	<string>OpenClean, CPU %1$@, Speicher %2$@</string>
 	<key>OpenClean, CPU %@, memory %@, GPU %@</key>
 	<string>OpenClean, CPU %1$@, Speicher %2$@, GPU %3$@</string>
+	<key>OpenClean, CPU %@, memory %@, download %@, upload %@</key>
+	<string>OpenClean, CPU %1$@, Speicher %2$@, Download %3$@, Upload %4$@</string>
 	<key>Other files</key>
 	<string>Andere Dateien</string>
 	<key>Overview</key>

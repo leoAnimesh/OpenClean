@@ -13,18 +13,23 @@ enum MenuBarSettings {
 /// Samples only while a figure is shown (or the popover is open).
 struct MenuBarLabel: View {
     @Environment(PerformanceModel.self) private var model
-    @AppStorage(MenuBarSettings.metricKey) private var metricRaw = MenuBarMetric.cpuAndMemory.rawValue
+    @AppStorage(MenuBarSettings.metricKey) private var metricRaw = MenuBarMetric.cpuMemoryAndNetwork.rawValue
 
     var body: some View {
-        let metric = MenuBarMetric(rawValue: metricRaw) ?? .cpuAndMemory
+        let metric = MenuBarMetric(rawValue: metricRaw) ?? .cpuMemoryAndNetwork
         HStack(spacing: 4) {
-            if metric == .cpuAndMemory || metric == .cpuMemoryAndGPU {
+            if metric == .cpuAndMemory || metric == .cpuMemoryAndGPU || metric == .cpuMemoryAndNetwork {
                 // A menu bar label keeps only one image and one text (extra and inline images are dropped),
                 // so the icons and figures are drawn into a single template image.
                 Image(
                     nsImage: MenuBarFiguresImage.render(
                         cpu: formatPercent(model.cpu), memory: formatPercent(model.memory?.usedFraction),
-                        gpu: metric == .cpuMemoryAndGPU ? formatPercent(model.gpu?.utilization) : nil))
+                        gpu: metric == .cpuMemoryAndGPU ? formatPercent(model.gpu?.utilization) : nil,
+                        network: metric == .cpuMemoryAndNetwork
+                            ? (
+                                down: formatRate(model.network?.receivedPerSecond),
+                                up: formatRate(model.network?.sentPerSecond)
+                            ) : nil))
             } else {
                 Image(nsImage: MenuBarGlyph.image)
                 if metric != .none {
@@ -52,7 +57,13 @@ struct MenuBarLabel: View {
                 localized:
                     "CPU \(formatPercent(model.cpu)), memory \(formatPercent(model.memory?.usedFraction)), GPU \(formatPercent(model.gpu?.utilization))"
             )
-        case .network: "↓" + formatRate(model.network?.receivedPerSecond)
+        case .cpuMemoryAndNetwork:
+            String(
+                localized:
+                    "CPU \(formatPercent(model.cpu)), memory \(formatPercent(model.memory?.usedFraction)), download \(formatRate(model.network?.receivedPerSecond)), upload \(formatRate(model.network?.sentPerSecond))"
+            )
+        case .network:
+            "↓" + formatRate(model.network?.receivedPerSecond) + " ↑" + formatRate(model.network?.sentPerSecond)
         }
     }
 }
@@ -250,11 +261,13 @@ struct MenuBarPopover: View {
     }
 }
 
-/// Draws "CPU icon · CPU% · memory icon · memory%", and optionally "GPU icon · GPU%", into one
-/// template image for the menu bar.
+/// Draws "CPU icon · CPU% · memory icon · memory%", and optionally "GPU icon · GPU%" or the download and
+/// upload rates, into one template image for the menu bar.
 @MainActor
 enum MenuBarFiguresImage {
-    static func render(cpu: String, memory: String, gpu: String? = nil) -> NSImage {
+    static func render(
+        cpu: String, memory: String, gpu: String? = nil, network: (down: String, up: String)? = nil
+    ) -> NSImage {
         let font = Font.system(size: 12, weight: .medium)
         let content = HStack(spacing: 4) {
             Image(systemName: "cpu").font(font)
@@ -264,6 +277,10 @@ enum MenuBarFiguresImage {
             if let gpu {
                 Image(systemName: "cube").font(font).padding(.leading, 3)
                 Text(gpu).font(font).monospacedDigit()
+            }
+            if let network {
+                Text(verbatim: "↓ \(network.down)").font(font).monospacedDigit().padding(.leading, 3)
+                Text(verbatim: "↑ \(network.up)").font(font).monospacedDigit().padding(.leading, 3)
             }
         }
         .foregroundStyle(.black)
@@ -275,6 +292,10 @@ enum MenuBarFiguresImage {
         image.accessibilityDescription =
             if let gpu {
                 String(localized: "OpenClean, CPU \(cpu), memory \(memory), GPU \(gpu)")
+            } else if let network {
+                String(
+                    localized:
+                        "OpenClean, CPU \(cpu), memory \(memory), download \(network.down), upload \(network.up)")
             } else {
                 String(localized: "OpenClean, CPU \(cpu), memory \(memory)")
             }

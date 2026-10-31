@@ -18,7 +18,7 @@ public struct MetricPoint: Identifiable, Sendable, Equatable {
 
 /// What the menu bar label shows next to the glyph.
 public enum MenuBarMetric: String, CaseIterable, Identifiable, Sendable {
-    case none, cpu, memory, gpu, cpuAndMemory, cpuMemoryAndGPU, network
+    case none, cpu, memory, gpu, cpuAndMemory, cpuMemoryAndGPU, cpuMemoryAndNetwork, network
 
     public var id: String { rawValue }
 
@@ -30,6 +30,7 @@ public enum MenuBarMetric: String, CaseIterable, Identifiable, Sendable {
         case .gpu: String(localized: "GPU", bundle: .appModel)
         case .cpuAndMemory: String(localized: "CPU and memory", bundle: .appModel)
         case .cpuMemoryAndGPU: String(localized: "CPU, memory and GPU", bundle: .appModel)
+        case .cpuMemoryAndNetwork: String(localized: "CPU, memory and network", bundle: .appModel)
         case .network: String(localized: "Network", bundle: .appModel)
         }
     }

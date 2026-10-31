@@ -5415,6 +5415,40 @@
         }
       }
     },
+    "CPU %@, memory %@, download %@, upload %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@, Speicher %2$@, Download %3$@, Upload %4$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@, memoria %2$@, descarga %3$@, subida %4$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@, mémoire %2$@, réception %3$@, envoi %4$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@、メモリ %2$@、ダウンロード %3$@、アップロード %4$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU %1$@，内存 %2$@，下载 %3$@，上传 %4$@"
+          }
+        }
+      }
+    },
     "CPU %lld percent": {
       "localizations": {
         "de": {
@@ -14569,6 +14603,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "OpenClean，CPU %1$@，内存 %2$@，GPU %3$@"
+          }
+        }
+      }
+    },
+    "OpenClean, CPU %@, memory %@, download %@, upload %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean, CPU %1$@, Speicher %2$@, Download %3$@, Upload %4$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean, CPU %1$@, memoria %2$@, descarga %3$@, subida %4$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean, CPU %1$@, mémoire %2$@, réception %3$@, envoi %4$@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean、CPU %1$@、メモリ %2$@、ダウンロード %3$@、アップロード %4$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean，CPU %1$@，内存 %2$@，下载 %3$@，上传 %4$@"
           }
         }
       }

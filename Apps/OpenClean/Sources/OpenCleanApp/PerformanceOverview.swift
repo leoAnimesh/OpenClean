@@ -5,7 +5,7 @@ import SystemMonitor
 struct PerformanceOverview: View {
     @Environment(PerformanceModel.self) private var model
     @AppStorage(MenuBarSettings.enabledKey) private var menuBarEnabled = true
-    @AppStorage(MenuBarSettings.metricKey) private var menuBarMetric = MenuBarMetric.cpuAndMemory.rawValue
+    @AppStorage(MenuBarSettings.metricKey) private var menuBarMetric = MenuBarMetric.cpuMemoryAndNetwork.rawValue
 
     var body: some View {
         ScrollView {

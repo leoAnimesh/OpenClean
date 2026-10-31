@@ -9,7 +9,7 @@ struct SettingsView: View {
     @Environment(UpdateModel.self) private var updates
     @Environment(OnboardingModel.self) private var onboarding
     @AppStorage(MenuBarSettings.enabledKey) private var menuBarEnabled = true
-    @AppStorage(MenuBarSettings.metricKey) private var menuBarMetric = MenuBarMetric.cpuAndMemory.rawValue
+    @AppStorage(MenuBarSettings.metricKey) private var menuBarMetric = MenuBarMetric.cpuMemoryAndNetwork.rawValue
 
     var body: some View {
         @Bindable var model = model
