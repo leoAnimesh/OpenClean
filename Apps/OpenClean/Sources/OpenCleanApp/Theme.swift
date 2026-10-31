@@ -78,6 +78,12 @@ struct GlassPanel: ViewModifier {
 }
 
 extension View {
+    /// Hover/selection highlight for a row in a full-width divided list: a flat, square-cornered, edge-to-edge
+    /// fill with no stroke, so it lines up with the dividers above and below (the panel clips the corners).
+    func flatRowHighlight(_ fill: Color) -> some View {
+        background { Rectangle().fill(fill) }
+    }
+
     func glassPanel(radius: CGFloat = Theme.panelRadius) -> some View {
         modifier(GlassPanel(radius: radius))
     }
@@ -145,28 +151,31 @@ struct GlassCircleButtonStyle: ButtonStyle {
 /// Secondary pill buttons. `prominent` is white with teal text, used for Done.
 struct CapsuleButtonStyle: ButtonStyle {
     var prominent = false
+    /// Smaller, for buttons inside table rows.
+    var compact = false
 
     func makeBody(configuration: Configuration) -> some View {
-        Pill(configuration: configuration, prominent: prominent)
+        Pill(configuration: configuration, prominent: prominent, compact: compact)
     }
 
     private struct Pill: View {
         let configuration: Configuration
         let prominent: Bool
+        let compact: Bool
         @Environment(\.isEnabled) private var isEnabled
 
         var body: some View {
-            CapsuleButtonStyle.body(configuration, prominent: prominent)
+            CapsuleButtonStyle.body(configuration, prominent: prominent, compact: compact)
                 .opacity(isEnabled ? 1 : 0.4)
         }
     }
 
-    fileprivate static func body(_ configuration: Configuration, prominent: Bool) -> some View {
+    fileprivate static func body(_ configuration: Configuration, prominent: Bool, compact: Bool) -> some View {
         configuration.label
-            .font(.system(size: 14, weight: prominent ? .semibold : .medium))
+            .font(.system(size: compact ? 12 : 14, weight: prominent ? .semibold : .medium))
             .foregroundStyle(prominent ? Theme.deepTeal : .white)
-            .padding(.horizontal, 20)
-            .frame(minHeight: 36)
+            .padding(.horizontal, compact ? 12 : 20)
+            .frame(minHeight: compact ? 26 : 36)
             .background(prominent ? Color.white : Color.white.opacity(0.14), in: Capsule())
             .overlay(Capsule().strokeBorder(.white.opacity(prominent ? 0 : 0.28)))
             .contentShape(Capsule())

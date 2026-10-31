@@ -61,6 +61,8 @@ struct MenuBarLabel: View {
 struct MenuBarPopover: View {
     @Environment(PerformanceModel.self) private var model
     @Environment(AppModel.self) private var app
+    @Environment(UninstallerModel.self) private var uninstaller
+    @Environment(UpdateModel.self) private var updates
     @Environment(AppNavigation.self) private var navigation
     @Environment(\.openWindow) private var openWindow
     @State private var forceQuitNotice: String?
@@ -71,9 +73,22 @@ struct MenuBarPopover: View {
                 AppIconView(size: 22)
                 Wordmark(size: 15)
                 Spacer()
+                // With the window closed there is no Dock icon, so the popover is where you quit.
+                Button {
+                    quit()
+                } label: {
+                    Image(systemName: "power")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(width: 22, height: 22)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .help("Quit OpenClean")
+                .accessibilityLabel("Quit OpenClean")
             }
 
-            VStack(spacing: 10) {
+            VStack(spacing: 14) {
                 meterRow(String(localized: "CPU"), value: formatPercent(model.cpu), fraction: model.cpu ?? 0)
                 meterRow(
                     String(localized: "Memory"),
@@ -90,7 +105,7 @@ struct MenuBarPopover: View {
                     String(localized: "Disk"),
                     value: model.disk.map { String(localized: "\(formatCapacity($0.available)) free") } ?? "–",
                     fraction: model.disk?.usedFraction ?? 0)
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     HStack {
                         Text("Network").foregroundStyle(Theme.textSecondary)
                         Spacer()
@@ -125,19 +140,28 @@ struct MenuBarPopover: View {
                                 .foregroundStyle(Theme.textSecondary)
                                 .frame(minWidth: 64, alignment: .trailing)
                             let allowed = AppQuitter.canForceQuit(group)
+                            // Always clickable: a protected process explains why instead of being quit.
                             Button {
-                                confirmForceQuit(group)
+                                if allowed {
+                                    confirmForceQuit(group)
+                                } else {
+                                    forceQuitNotice = AppQuitter.unavailableReason(group)
+                                }
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.system(size: 14))
-                                    .foregroundStyle(allowed ? Theme.textSecondary : Theme.textTertiary.opacity(0.5))
+                                    .foregroundStyle(Theme.textSecondary)
                                     .frame(width: 22, height: 22)
                                     .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
-                            .disabled(!allowed)
-                            .help(allowed ? String(localized: "Force Quit \(group.name)…") : AppQuitter.protectedReason)
-                            .accessibilityLabel("Force quit \(group.name)")
+                            .help(
+                                allowed
+                                    ? String(localized: "Force Quit \(group.name)…")
+                                    : AppQuitter.unavailableReason(group)
+                            )
+                            .accessibilityLabel(
+                                allowed ? Text("Force quit \(group.name)") : Text(AppQuitter.unavailableReason(group)))
                         }
                     }
                     .font(.system(size: 12))
@@ -165,7 +189,7 @@ struct MenuBarPopover: View {
     }
 
     private func meterRow(_ title: String, value: String, fraction: Double, color: Color = Theme.accent) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(title).foregroundStyle(Theme.textSecondary)
                 Spacer()
@@ -198,20 +222,31 @@ struct MenuBarPopover: View {
         if alert.runModal() == .alertFirstButtonReturn { forceQuit(group) }
     }
 
+    /// With the window closed, nothing shows that work is running, so quitting mid-way asks first.
+    private func quit() {
+        let busy =
+            app.phase == .scanning || app.phase == .cleaning || uninstaller.phase == .uninstalling
+            || updates.state == .installing
+        if busy {
+            NSApp.activate(ignoringOtherApps: true)
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = String(localized: "Quit OpenClean while it’s working?")
+            alert.informativeText = String(
+                localized: "A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.")
+            alert.addButton(withTitle: String(localized: "Quit"))
+            alert.addButton(withTitle: String(localized: "Cancel"))
+            guard alert.runModal() == .alertFirstButtonReturn else { return }
+        }
+        NSApp.terminate(nil)
+    }
+
     private func forceQuit(_ group: ProcessGroup) {
         forceQuitNotice = AppQuitter.forceQuit(group)
     }
 
     private func showMainWindow() {
-        NSApp.activate(ignoringOtherApps: true)
-        if let window = NSApp.windows.first(where: {
-            $0.identifier?.rawValue.hasPrefix(MenuBarSettings.mainWindowID) == true && $0.canBecomeMain
-        }) {
-            if window.isMiniaturized { window.deminiaturize(nil) }
-            window.makeKeyAndOrderFront(nil)
-        } else {
-            openWindow(id: MenuBarSettings.mainWindowID)
-        }
+        MainWindow.show(openWindow: openWindow)
     }
 }
 

@@ -81,6 +81,8 @@ struct SpaceLensItemRow<Accessory: View>: View {
     let isSelected: Bool
     /// Why the checkbox is disabled, shown as help text; nil when it can be ticked.
     let disabledReason: String?
+    /// Highlighted from outside, e.g. while its segment in the Space Lens map is hovered.
+    var isHighlighted = false
     let onToggle: () -> Void
     @ViewBuilder var accessory: Accessory
     @State private var hovering = false
@@ -133,6 +135,7 @@ struct SpaceLensItemRow<Accessory: View>: View {
         }
         .padding(.horizontal, 16)
         .frame(minHeight: 52)
+        .flatRowHighlight(hovering || isHighlighted ? Theme.rowHover : .clear)
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
         .contextMenu {
@@ -173,7 +176,9 @@ struct SpaceLensPanel<Content: View>: View {
     @ViewBuilder var content: Content
 
     var body: some View {
-        VStack(spacing: 0) { content }.glassPanel()
+        VStack(spacing: 0) { content }
+            .clipShape(RoundedRectangle(cornerRadius: Theme.panelRadius, style: .continuous))
+            .glassPanel()
     }
 }
 

@@ -119,7 +119,12 @@ struct StorageCard: View {
                     .progressViewStyle(.linear)
                     .tint(Theme.accent)
             }
-            Text(caption).font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
+            // Nothing freed yet: no line at all rather than a placeholder.
+            if Self.showsFreed(stats) {
+                Text("\(formatBytes(stats.totalFreedBytes)) freed by OpenClean")
+                    .font(.system(size: 11))
+                    .foregroundStyle(Theme.textSecondary)
+            }
         }
         .foregroundStyle(.white)
         .padding(12)
@@ -127,10 +132,13 @@ struct StorageCard: View {
         .accessibilityElement(children: .combine)
     }
 
-    private var caption: String {
-        stats.cleanups == 0
-            ? String(localized: "Nothing cleaned yet")
-            : String(localized: "\(formatBytes(stats.totalFreedBytes)) freed by OpenClean")
+    /// The card is shown only when it has something in it.
+    static func hasContent(disk: DiskSpace?, stats: CleanupStats) -> Bool {
+        disk != nil || showsFreed(stats)
+    }
+
+    private static func showsFreed(_ stats: CleanupStats) -> Bool {
+        stats.cleanups > 0 && stats.totalFreedBytes > 0
     }
 }
 

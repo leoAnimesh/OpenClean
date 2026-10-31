@@ -3785,6 +3785,40 @@
         }
       }
     },
+    "A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Scan, eine Bereinigung, eine Deinstallation oder ein Update läuft noch. Wenn du jetzt beendest, wird der Vorgang mittendrin abgebrochen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todavía hay un análisis, una limpieza, una desinstalación o una actualización en curso. Si sales ahora, se detendrá a medias."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une analyse, un nettoyage, une désinstallation ou une mise à jour est en cours. Quitter maintenant l’interrompra en cours de route."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スキャン、クリーンアップ、アンインストール、またはアップデートが実行中です。今終了すると途中で中断されます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描、清理、卸载或更新仍在进行中。现在退出会使其中途停止。"
+          }
+        }
+      }
+    },
     "A transparent, open-source cleaner for your Mac. Take a quick look at what it does, then set up the one permission it needs.": {
       "localizations": {
         "de": {
@@ -12715,40 +12749,6 @@
         }
       }
     },
-    "Nothing cleaned yet": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noch nichts bereinigt"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no se ha limpiado nada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rien de nettoyé pour l’instant"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "まだ何もクリーンアップしていません"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚未清理任何内容"
-          }
-        }
-      }
-    },
     "Nothing inside takes up space.": {
       "localizations": {
         "de": {
@@ -15351,6 +15351,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "退出 %@ 后即可卸载"
+          }
+        }
+      }
+    },
+    "Quit OpenClean": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean beenden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir de OpenClean"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter OpenClean"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean を終了"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出 OpenClean"
+          }
+        }
+      }
+    },
+    "Quit OpenClean while it’s working?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean beenden, während es noch arbeitet?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Salir de OpenClean mientras está trabajando?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter OpenClean pendant une opération ?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "処理中に OpenClean を終了しますか？"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要在 OpenClean 处理任务时退出吗？"
           }
         }
       }

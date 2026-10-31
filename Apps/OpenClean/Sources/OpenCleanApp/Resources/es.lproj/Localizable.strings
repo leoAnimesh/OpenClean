@@ -94,6 +94,8 @@
 	<string>6 meses</string>
 	<key>A new version of OpenClean is available</key>
 	<string>Hay una nueva versión de OpenClean disponible</string>
+	<key>A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.</key>
+	<string>Todavía hay un análisis, una limpieza, una desinstalación o una actualización en curso. Si sales ahora, se detendrá a medias.</string>
 	<key>A transparent, open-source cleaner for your Mac. Take a quick look at what it does, then set up the one permission it needs.</key>
 	<string>Un limpiador transparente y de código abierto para tu Mac. Echa un vistazo rápido a lo que hace y luego configura el único permiso que necesita.</string>
 	<key>AI Models &amp; Caches</key>
@@ -584,8 +586,6 @@
 	<string>Aún no se ha ejecutado desde OpenClean</string>
 	<key>Nothing</key>
 	<string>Nada</string>
-	<key>Nothing cleaned yet</key>
-	<string>Aún no se ha limpiado nada</string>
 	<key>Nothing inside takes up space.</key>
 	<string>Nada de su contenido ocupa espacio.</string>
 	<key>Nothing is excluded. Excluded folders and files are never scanned or cleaned.</key>
@@ -724,6 +724,10 @@
 	<string>Salir</string>
 	<key>Quit %@ to uninstall it</key>
 	<string>Cierra %@ para desinstalarla</string>
+	<key>Quit OpenClean</key>
+	<string>Salir de OpenClean</string>
+	<key>Quit OpenClean while it’s working?</key>
+	<string>¿Salir de OpenClean mientras está trabajando?</string>
 	<key>Quitting %@…</key>
 	<string>Cerrando %@…</string>
 	<key>Reading launch agents…</key>

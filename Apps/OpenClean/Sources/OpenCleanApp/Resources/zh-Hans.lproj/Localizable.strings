@@ -94,6 +94,8 @@
 	<string>6 个月</string>
 	<key>A new version of OpenClean is available</key>
 	<string>OpenClean 有新版本可用</string>
+	<key>A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.</key>
+	<string>扫描、清理、卸载或更新仍在进行中。现在退出会使其中途停止。</string>
 	<key>A transparent, open-source cleaner for your Mac. Take a quick look at what it does, then set up the one permission it needs.</key>
 	<string>一款透明、开源的 Mac 清理工具。先快速了解它的功能，然后设置它唯一需要的权限。</string>
 	<key>AI Models &amp; Caches</key>
@@ -584,8 +586,6 @@
 	<string>尚未从 OpenClean 运行</string>
 	<key>Nothing</key>
 	<string>无</string>
-	<key>Nothing cleaned yet</key>
-	<string>尚未清理任何内容</string>
 	<key>Nothing inside takes up space.</key>
 	<string>其中没有占用空间的内容。</string>
 	<key>Nothing is excluded. Excluded folders and files are never scanned or cleaned.</key>
@@ -724,6 +724,10 @@
 	<string>退出</string>
 	<key>Quit %@ to uninstall it</key>
 	<string>退出 %@ 后即可卸载</string>
+	<key>Quit OpenClean</key>
+	<string>退出 OpenClean</string>
+	<key>Quit OpenClean while it’s working?</key>
+	<string>要在 OpenClean 处理任务时退出吗？</string>
 	<key>Quitting %@…</key>
 	<string>正在退出 %@…</string>
 	<key>Reading launch agents…</key>

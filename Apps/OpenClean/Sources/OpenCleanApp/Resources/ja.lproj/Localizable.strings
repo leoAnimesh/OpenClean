@@ -94,6 +94,8 @@
 	<string>6か月</string>
 	<key>A new version of OpenClean is available</key>
 	<string>OpenClean の新しいバージョンがあります</string>
+	<key>A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.</key>
+	<string>スキャン、クリーンアップ、アンインストール、またはアップデートが実行中です。今終了すると途中で中断されます。</string>
 	<key>A transparent, open-source cleaner for your Mac. Take a quick look at what it does, then set up the one permission it needs.</key>
 	<string>Mac のための、透明性の高いオープンソースのクリーナーです。できることをざっと確認してから、必要な権限をひとつだけ設定します。</string>
 	<key>AI Models &amp; Caches</key>
@@ -584,8 +586,6 @@
 	<string>まだ OpenClean から実行していません</string>
 	<key>Nothing</key>
 	<string>なし</string>
-	<key>Nothing cleaned yet</key>
-	<string>まだ何もクリーンアップしていません</string>
 	<key>Nothing inside takes up space.</key>
 	<string>中身は容量を使っていません。</string>
 	<key>Nothing is excluded. Excluded folders and files are never scanned or cleaned.</key>
@@ -724,6 +724,10 @@
 	<string>終了</string>
 	<key>Quit %@ to uninstall it</key>
 	<string>アンインストールするには %@ を終了してください</string>
+	<key>Quit OpenClean</key>
+	<string>OpenClean を終了</string>
+	<key>Quit OpenClean while it’s working?</key>
+	<string>処理中に OpenClean を終了しますか？</string>
 	<key>Quitting %@…</key>
 	<string>%@ を終了しています…</string>
 	<key>Reading launch agents…</key>

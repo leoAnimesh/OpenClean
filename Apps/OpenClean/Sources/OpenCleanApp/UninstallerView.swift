@@ -184,10 +184,8 @@ struct UninstallerAppRow: View {
         }
         .padding(.horizontal, 14)
         .frame(minHeight: 54)
-        .background {
-            // Square-cornered, edge-to-edge fill so it lines up with the dividers above and below.
-            Rectangle().fill(isSelected ? Theme.glassStroke : Color.clear)
-        }
+        // Square-cornered, edge-to-edge fill so it lines up with the dividers above and below.
+        .flatRowHighlight(isSelected ? Theme.glassStroke : Color.clear)
         .contentShape(Rectangle())
         .onTapGesture(perform: action)
         .accessibilityElement(children: .combine)

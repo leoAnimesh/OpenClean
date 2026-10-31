@@ -146,7 +146,8 @@ struct SessionRow: View {
                 quarantineStatus(hasRestorable: !restorable.isEmpty)
                 if manifest.purgedAt == nil && !restorable.isEmpty {
                     Button("Restore All…") { onRestore(nil) }
-                        .buttonStyle(CapsuleButtonStyle(prominent: true))
+                        .buttonStyle(CapsuleButtonStyle())
+                        .fixedSize()
                 }
             }
             if isExpanded {
@@ -177,6 +178,7 @@ struct SessionRow: View {
     private func quarantineStatus(hasRestorable: Bool) -> some View {
         if manifest.purgedAt != nil {
             Text("Expired and deleted").font(.caption).foregroundStyle(Theme.textTertiary)
+                .frame(width: 200, alignment: .leading)
         } else if hasRestorable {
             let left = daysLeft
             VStack(alignment: .leading, spacing: 5) {
