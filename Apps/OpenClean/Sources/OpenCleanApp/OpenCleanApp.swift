@@ -46,6 +46,7 @@ struct OpenCleanApp: App {
                 currentAppPath: Bundle.main.bundlePath, relaunch: { AppRelauncher.relaunch($0) }))
         // Needed when started with `swift run`; harmless inside OpenClean.app.
         NSApplication.shared.setActivationPolicy(.regular)
+        DockPresence.start()
     }
 
     var body: some Scene {
@@ -110,5 +111,6 @@ struct OpenCleanApp: App {
             MenuBarLabel().environment(performance)
         }
         .menuBarExtraStyle(.window)
+        .onChange(of: menuBarEnabled) { _, enabled in DockPresence.menuBarItemChanged(enabled: enabled) }
     }
 }

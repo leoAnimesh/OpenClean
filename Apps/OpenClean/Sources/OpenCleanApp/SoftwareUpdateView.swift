@@ -346,15 +346,60 @@ struct OpenSettingsButton: View {
 @MainActor
 enum MainWindow {
     static func show(openWindow: OpenWindowAction) {
+        DockPresence.showInDock()
         NSApp.activate(ignoringOtherApps: true)
-        if let window = NSApp.windows.first(where: {
-            $0.identifier?.rawValue.hasPrefix(MenuBarSettings.mainWindowID) == true && $0.canBecomeMain
-        }) {
+        if let window = NSApp.windows.first(where: isMain) {
             if window.isMiniaturized { window.deminiaturize(nil) }
             window.makeKeyAndOrderFront(nil)
         } else {
             openWindow(id: MenuBarSettings.mainWindowID)
         }
+    }
+
+    static func isMain(_ window: NSWindow) -> Bool {
+        window.identifier?.rawValue.hasPrefix(MenuBarSettings.mainWindowID) == true && window.canBecomeMain
+    }
+}
+
+/// Keeps OpenClean in the Dock only while a main window is open: closing the last one leaves just the
+/// menu bar item (when it is enabled), and opening a window, from the menu bar or by launching the app
+/// again, brings the Dock icon back.
+@MainActor
+enum DockPresence {
+    static func start() {
+        let center = NotificationCenter.default
+        center.addObserver(forName: NSWindow.willCloseNotification, object: nil, queue: .main) { note in
+            // Posted on the main queue, so the window is only ever touched on the main thread.
+            nonisolated(unsafe) let closing = note.object as? NSWindow
+            MainActor.assumeIsolated {
+                guard let closing, MainWindow.isMain(closing) else { return }
+                let othersOpen = NSApp.windows.contains { $0 !== closing && MainWindow.isMain($0) && $0.isVisible }
+                if !othersOpen && menuBarEnabled { NSApp.setActivationPolicy(.accessory) }
+            }
+        }
+        center.addObserver(forName: NSWindow.didBecomeMainNotification, object: nil, queue: .main) { note in
+            nonisolated(unsafe) let window = note.object as? NSWindow
+            MainActor.assumeIsolated {
+                guard let window, MainWindow.isMain(window) else { return }
+                showInDock()
+            }
+        }
+    }
+
+    static func showInDock() {
+        guard NSApp.activationPolicy() != .regular else { return }
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    /// The menu bar item was removed (Settings, or ⌘-dragged out of the menu bar): without a Dock icon
+    /// too, nothing would be left to reopen or quit the app.
+    static func menuBarItemChanged(enabled: Bool) {
+        if !enabled { showInDock() }
+    }
+
+    private static var menuBarEnabled: Bool {
+        UserDefaults.standard.object(forKey: MenuBarSettings.enabledKey) as? Bool ?? true
     }
 }
 
