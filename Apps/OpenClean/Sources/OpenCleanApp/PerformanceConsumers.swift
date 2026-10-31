@@ -8,11 +8,29 @@ import SystemMonitor
 @MainActor
 enum AppQuitter {
     static func runningApp(for group: ProcessGroup) -> NSRunningApplication? {
+        if group.mainPID == nil { return runningAppElsewhere(for: group) }
         guard group.canQuit, let pid = group.mainPID, let bundlePath = group.bundlePath,
             pid != ProcessInfo.processInfo.processIdentifier,
             let app = NSRunningApplication(processIdentifier: pid), !app.isTerminated,
             let bundleURL = app.bundleURL,
             bundleURL.resolvingSymlinksInPath().path == URL(fileURLWithPath: bundlePath).resolvingSymlinksInPath().path
+        else { return nil }
+        return app
+    }
+
+    /// Only the app's helpers were sampled because its main process runs from another path (Chrome
+    /// relaunches from a signed copy in a temporary folder after updating itself). The app is then
+    /// identified by the bundle id of the sampled bundle, and only when exactly one app has that id.
+    private static func runningAppElsewhere(for group: ProcessGroup) -> NSRunningApplication? {
+        let policy = ForceQuitPolicy()
+        guard let bundlePath = group.bundlePath, !group.processes.isEmpty,
+            !group.processes.contains(where: policy.isProtected),
+            let bundleID = Bundle(path: bundlePath)?.bundleIdentifier,
+            bundleID != Bundle.main.bundleIdentifier
+        else { return nil }
+        let running = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID)
+        guard running.count == 1, let app = running.first, !app.isTerminated,
+            app.processIdentifier != ProcessInfo.processInfo.processIdentifier
         else { return nil }
         return app
     }
@@ -135,8 +153,8 @@ struct HeavyConsumersView: View {
 }
 
 struct ConsumerRow: View {
-    /// Wide enough for Quit and Force Quit… side by side, so the figures line up from row to row.
-    static let actionsWidth: CGFloat = 210
+    /// Wide enough for the compact Quit and Force Quit side by side, so the figures line up from row to row.
+    static let actionsWidth: CGFloat = 170
 
     let group: ProcessGroup
     let onQuit: () -> Void
@@ -167,12 +185,13 @@ struct ConsumerRow: View {
                 .monospacedDigit()
                 .frame(minWidth: 84, alignment: .trailing)
                 .accessibilityLabel("Memory \(formatMemory(group.residentBytes))")
-            HStack(spacing: 14) {
+            HStack(spacing: 8) {
                 if quittable {
-                    Button("Quit", action: onQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
-                    Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
-                } else if group.killableProcess != nil {
-                    Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle()).fixedSize()
+                    Button("Quit", action: onQuit).buttonStyle(CapsuleButtonStyle(compact: true)).fixedSize()
+                }
+                if quittable || group.killableProcess != nil {
+                    Button("Force Quit", action: onForceQuit).buttonStyle(CapsuleButtonStyle(compact: true))
+                        .fixedSize()
                 } else {
                     StatusTag(
                         text: group.bundlePath == nil ? String(localized: "Process") : String(localized: "Protected")
@@ -180,7 +199,7 @@ struct ConsumerRow: View {
                     .help("OpenClean only offers Quit for apps, never for macOS components or itself.")
                 }
             }
-            .frame(minWidth: Self.actionsWidth, alignment: .trailing)
+            .frame(width: Self.actionsWidth, alignment: .trailing)
         }
         .padding(.horizontal, 18)
         .frame(minHeight: 56)

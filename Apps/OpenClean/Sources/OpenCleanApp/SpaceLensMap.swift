@@ -352,7 +352,7 @@ struct SpaceMapResultsView: View {
                         ForEach(Array(focus.children.enumerated()), id: \.element.id) { index, child in
                             if index > 0 { SpaceLensDivider() }
                             row(child)
-                                .background(hoveredID == child.id ? Theme.glassFill : .clear)
+                                .flatRowHighlight(hoveredID == child.id ? Theme.rowHover : .clear)
                         }
                     }
                 } else if !focus.isTruncated {

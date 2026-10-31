@@ -79,8 +79,10 @@ struct ContentView: View {
                 Spacer(minLength: 0)
 
                 VStack(spacing: 6) {
-                    StorageCard(disk: model.disk, stats: model.stats)
-                        .layoutProbe("sidebar.storage")
+                    if model.disk != nil || model.stats.totalFreedBytes > 0 {
+                        StorageCard(disk: model.disk, stats: model.stats)
+                            .layoutProbe("sidebar.storage")
+                    }
                     SidebarRow(item: .settings, isSelected: navigation.selection == .settings) {
                         navigation.selection = .settings
                     }

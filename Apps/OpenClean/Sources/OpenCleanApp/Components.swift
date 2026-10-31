@@ -119,18 +119,17 @@ struct StorageCard: View {
                     .progressViewStyle(.linear)
                     .tint(Theme.accent)
             }
-            Text(caption).font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
+            // Nothing freed yet: no line at all rather than a placeholder.
+            if stats.cleanups > 0, stats.totalFreedBytes > 0 {
+                Text("\(formatBytes(stats.totalFreedBytes)) freed by OpenClean")
+                    .font(.system(size: 11))
+                    .foregroundStyle(Theme.textSecondary)
+            }
         }
         .foregroundStyle(.white)
         .padding(12)
         .glassPanel(radius: 12)
         .accessibilityElement(children: .combine)
-    }
-
-    private var caption: String {
-        stats.cleanups == 0
-            ? String(localized: "Nothing cleaned yet")
-            : String(localized: "\(formatBytes(stats.totalFreedBytes)) freed by OpenClean")
     }
 }
 

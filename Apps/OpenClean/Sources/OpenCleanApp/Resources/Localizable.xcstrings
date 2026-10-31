@@ -8199,40 +8199,6 @@
         }
       }
     },
-    "Force Quit…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sofort beenden …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Forzar salida…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Forcer à quitter…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "強制終了…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "强制退出…"
-          }
-        }
-      }
-    },
     "Force quit %@": {
       "localizations": {
         "de": {
@@ -12715,40 +12681,6 @@
         }
       }
     },
-    "Nothing cleaned yet": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noch nichts bereinigt"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no se ha limpiado nada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rien de nettoyé pour l’instant"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "まだ何もクリーンアップしていません"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚未清理任何内容"
-          }
-        }
-      }
-    },
     "Nothing inside takes up space.": {
       "localizations": {
         "de": {
@@ -15355,6 +15287,40 @@
         }
       }
     },
+    "Quit OpenClean": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean beenden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir de OpenClean"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter OpenClean"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenClean を終了"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出 OpenClean"
+          }
+        }
+      }
+    },
     "Quitting %@…": {
       "localizations": {
         "de": {
@@ -16101,36 +16067,36 @@
         }
       }
     },
-    "Restore All…": {
+    "Restore All": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Alle wiederherstellen …"
+            "value": "Alle wiederherstellen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaurar todo…"
+            "value": "Restaurar todo"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tout restaurer…"
+            "value": "Tout restaurer"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "すべて復元…"
+            "value": "すべて復元"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "全部恢复…"
+            "value": "全部恢复"
           }
         }
       }

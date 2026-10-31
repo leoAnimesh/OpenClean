@@ -336,8 +336,6 @@
 	<string>Forzar salida</string>
 	<key>Force Quit %@…</key>
 	<string>Forzar salida de %@…</string>
-	<key>Force Quit…</key>
-	<string>Forzar salida…</string>
 	<key>Force quit %@</key>
 	<string>Forzar salida de %@</string>
 	<key>Force quit %@?</key>
@@ -584,8 +582,6 @@
 	<string>Aún no se ha ejecutado desde OpenClean</string>
 	<key>Nothing</key>
 	<string>Nada</string>
-	<key>Nothing cleaned yet</key>
-	<string>Aún no se ha limpiado nada</string>
 	<key>Nothing inside takes up space.</key>
 	<string>Nada de su contenido ocupa espacio.</string>
 	<key>Nothing is excluded. Excluded folders and files are never scanned or cleaned.</key>
@@ -724,6 +720,8 @@
 	<string>Salir</string>
 	<key>Quit %@ to uninstall it</key>
 	<string>Cierra %@ para desinstalarla</string>
+	<key>Quit OpenClean</key>
+	<string>Salir de OpenClean</string>
 	<key>Quitting %@…</key>
 	<string>Cerrando %@…</string>
 	<key>Reading launch agents…</key>
@@ -762,8 +760,8 @@
 	<string>Restablecer</string>
 	<key>Restore</key>
 	<string>Restaurar</string>
-	<key>Restore All…</key>
-	<string>Restaurar todo…</string>
+	<key>Restore All</key>
+	<string>Restaurar todo</string>
 	<key>Restored</key>
 	<string>Restaurado</string>
 	<key>Restored from History</key>

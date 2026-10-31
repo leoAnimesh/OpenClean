@@ -336,8 +336,6 @@
 	<string>强制退出</string>
 	<key>Force Quit %@…</key>
 	<string>强制退出 %@…</string>
-	<key>Force Quit…</key>
-	<string>强制退出…</string>
 	<key>Force quit %@</key>
 	<string>强制退出 %@</string>
 	<key>Force quit %@?</key>
@@ -584,8 +582,6 @@
 	<string>尚未从 OpenClean 运行</string>
 	<key>Nothing</key>
 	<string>无</string>
-	<key>Nothing cleaned yet</key>
-	<string>尚未清理任何内容</string>
 	<key>Nothing inside takes up space.</key>
 	<string>其中没有占用空间的内容。</string>
 	<key>Nothing is excluded. Excluded folders and files are never scanned or cleaned.</key>
@@ -724,6 +720,8 @@
 	<string>退出</string>
 	<key>Quit %@ to uninstall it</key>
 	<string>退出 %@ 后即可卸载</string>
+	<key>Quit OpenClean</key>
+	<string>退出 OpenClean</string>
 	<key>Quitting %@…</key>
 	<string>正在退出 %@…</string>
 	<key>Reading launch agents…</key>
@@ -762,8 +760,8 @@
 	<string>重置</string>
 	<key>Restore</key>
 	<string>恢复</string>
-	<key>Restore All…</key>
-	<string>全部恢复…</string>
+	<key>Restore All</key>
+	<string>全部恢复</string>
 	<key>Restored</key>
 	<string>已恢复</string>
 	<key>Restored from History</key>

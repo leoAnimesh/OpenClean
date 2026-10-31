@@ -133,6 +133,7 @@ struct SpaceLensItemRow<Accessory: View>: View {
         }
         .padding(.horizontal, 16)
         .frame(minHeight: 52)
+        .flatRowHighlight(hovering ? Theme.rowHover : .clear)
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
         .contextMenu {
@@ -173,7 +174,9 @@ struct SpaceLensPanel<Content: View>: View {
     @ViewBuilder var content: Content
 
     var body: some View {
-        VStack(spacing: 0) { content }.glassPanel()
+        VStack(spacing: 0) { content }
+            .clipShape(RoundedRectangle(cornerRadius: Theme.panelRadius, style: .continuous))
+            .glassPanel()
     }
 }
 

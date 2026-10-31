@@ -336,8 +336,6 @@
 	<string>強制終了</string>
 	<key>Force Quit %@…</key>
 	<string>%@ を強制終了…</string>
-	<key>Force Quit…</key>
-	<string>強制終了…</string>
 	<key>Force quit %@</key>
 	<string>%@ を強制終了</string>
 	<key>Force quit %@?</key>
@@ -584,8 +582,6 @@
 	<string>まだ OpenClean から実行していません</string>
 	<key>Nothing</key>
 	<string>なし</string>
-	<key>Nothing cleaned yet</key>
-	<string>まだ何もクリーンアップしていません</string>
 	<key>Nothing inside takes up space.</key>
 	<string>中身は容量を使っていません。</string>
 	<key>Nothing is excluded. Excluded folders and files are never scanned or cleaned.</key>
@@ -724,6 +720,8 @@
 	<string>終了</string>
 	<key>Quit %@ to uninstall it</key>
 	<string>アンインストールするには %@ を終了してください</string>
+	<key>Quit OpenClean</key>
+	<string>OpenClean を終了</string>
 	<key>Quitting %@…</key>
 	<string>%@ を終了しています…</string>
 	<key>Reading launch agents…</key>
@@ -762,8 +760,8 @@
 	<string>リセット</string>
 	<key>Restore</key>
 	<string>復元</string>
-	<key>Restore All…</key>
-	<string>すべて復元…</string>
+	<key>Restore All</key>
+	<string>すべて復元</string>
 	<key>Restored</key>
 	<string>復元済み</string>
 	<key>Restored from History</key>
