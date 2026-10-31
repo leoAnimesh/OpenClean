@@ -79,7 +79,7 @@ struct ContentView: View {
                 Spacer(minLength: 0)
 
                 VStack(spacing: 6) {
-                    if model.disk != nil || model.stats.totalFreedBytes > 0 {
+                    if StorageCard.hasContent(disk: model.disk, stats: model.stats) {
                         StorageCard(disk: model.disk, stats: model.stats)
                             .layoutProbe("sidebar.storage")
                     }

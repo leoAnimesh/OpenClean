@@ -373,7 +373,10 @@ enum DockPresence {
             nonisolated(unsafe) let closing = note.object as? NSWindow
             MainActor.assumeIsolated {
                 guard let closing, MainWindow.isMain(closing) else { return }
-                let othersOpen = NSApp.windows.contains { $0 !== closing && MainWindow.isMain($0) && $0.isVisible }
+                // A minimised window still counts: it can only be brought back from the Dock.
+                let othersOpen = NSApp.windows.contains {
+                    $0 !== closing && MainWindow.isMain($0) && ($0.isVisible || $0.isMiniaturized)
+                }
                 if !othersOpen && menuBarEnabled { NSApp.setActivationPolicy(.accessory) }
             }
         }

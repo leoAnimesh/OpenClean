@@ -352,7 +352,6 @@ struct SpaceMapResultsView: View {
                         ForEach(Array(focus.children.enumerated()), id: \.element.id) { index, child in
                             if index > 0 { SpaceLensDivider() }
                             row(child)
-                                .flatRowHighlight(hoveredID == child.id ? Theme.rowHover : .clear)
                         }
                     }
                 } else if !focus.isTruncated {
@@ -384,6 +383,7 @@ struct SpaceMapResultsView: View {
             }
             .padding(.horizontal, 16)
             .frame(minHeight: 52)
+            .flatRowHighlight(hoveredID == node.id ? Theme.rowHover : .clear)
             .accessibilityElement(children: .combine)
         } else if let candidate = model.candidate(for: node) {
             SpaceLensItemRow(
@@ -391,6 +391,7 @@ struct SpaceMapResultsView: View {
                 isSelected: model.isSelected(candidate.path),
                 disabledReason: model.protection(for: candidate.path, isDirectory: candidate.isDirectory)
                     .map { String(localized: "Can’t be moved to the Trash: \($0)") },
+                isHighlighted: hoveredID == node.id,
                 onToggle: { model.toggle(candidate) },
                 accessory: {
                     if node.canOpen {

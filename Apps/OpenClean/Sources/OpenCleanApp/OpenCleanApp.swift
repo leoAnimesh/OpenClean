@@ -104,6 +104,8 @@ struct OpenCleanApp: App {
         MenuBarExtra(isInserted: $menuBarEnabled) {
             MenuBarPopover()
                 .environment(model)
+                .environment(uninstaller)
+                .environment(updates)
                 .environment(performance)
                 .environment(navigation)
                 .environment(reminder)

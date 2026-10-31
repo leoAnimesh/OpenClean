@@ -61,6 +61,8 @@ struct MenuBarLabel: View {
 struct MenuBarPopover: View {
     @Environment(PerformanceModel.self) private var model
     @Environment(AppModel.self) private var app
+    @Environment(UninstallerModel.self) private var uninstaller
+    @Environment(UpdateModel.self) private var updates
     @Environment(AppNavigation.self) private var navigation
     @Environment(\.openWindow) private var openWindow
     @State private var forceQuitNotice: String?
@@ -73,7 +75,7 @@ struct MenuBarPopover: View {
                 Spacer()
                 // With the window closed there is no Dock icon, so the popover is where you quit.
                 Button {
-                    NSApp.terminate(nil)
+                    quit()
                 } label: {
                     Image(systemName: "power")
                         .font(.system(size: 13, weight: .semibold))
@@ -143,7 +145,7 @@ struct MenuBarPopover: View {
                                 if allowed {
                                     confirmForceQuit(group)
                                 } else {
-                                    forceQuitNotice = AppQuitter.protectedReason
+                                    forceQuitNotice = AppQuitter.unavailableReason(group)
                                 }
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
@@ -153,8 +155,13 @@ struct MenuBarPopover: View {
                                     .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
-                            .help(allowed ? String(localized: "Force Quit \(group.name)…") : AppQuitter.protectedReason)
-                            .accessibilityLabel("Force quit \(group.name)")
+                            .help(
+                                allowed
+                                    ? String(localized: "Force Quit \(group.name)…")
+                                    : AppQuitter.unavailableReason(group)
+                            )
+                            .accessibilityLabel(
+                                allowed ? Text("Force quit \(group.name)") : Text(AppQuitter.unavailableReason(group)))
                         }
                     }
                     .font(.system(size: 12))
@@ -213,6 +220,25 @@ struct MenuBarPopover: View {
         alert.addButton(withTitle: String(localized: "Cancel"))
         alert.buttons.first?.hasDestructiveAction = true
         if alert.runModal() == .alertFirstButtonReturn { forceQuit(group) }
+    }
+
+    /// With the window closed, nothing shows that work is running, so quitting mid-way asks first.
+    private func quit() {
+        let busy =
+            app.phase == .scanning || app.phase == .cleaning || uninstaller.phase == .uninstalling
+            || updates.state == .installing
+        if busy {
+            NSApp.activate(ignoringOtherApps: true)
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = String(localized: "Quit OpenClean while it’s working?")
+            alert.informativeText = String(
+                localized: "A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.")
+            alert.addButton(withTitle: String(localized: "Quit"))
+            alert.addButton(withTitle: String(localized: "Cancel"))
+            guard alert.runModal() == .alertFirstButtonReturn else { return }
+        }
+        NSApp.terminate(nil)
     }
 
     private func forceQuit(_ group: ProcessGroup) {

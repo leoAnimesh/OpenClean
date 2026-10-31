@@ -145,7 +145,7 @@ struct SessionRow: View {
                 Spacer()
                 quarantineStatus(hasRestorable: !restorable.isEmpty)
                 if manifest.purgedAt == nil && !restorable.isEmpty {
-                    Button("Restore All") { onRestore(nil) }
+                    Button("Restore All…") { onRestore(nil) }
                         .buttonStyle(CapsuleButtonStyle())
                         .fixedSize()
                 }

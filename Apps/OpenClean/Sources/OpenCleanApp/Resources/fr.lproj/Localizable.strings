@@ -94,6 +94,8 @@
 	<string>6 mois</string>
 	<key>A new version of OpenClean is available</key>
 	<string>Une nouvelle version d’OpenClean est disponible</string>
+	<key>A scan, cleanup, uninstall or update is still running. Quitting now stops it partway.</key>
+	<string>Une analyse, un nettoyage, une désinstallation ou une mise à jour est en cours. Quitter maintenant l’interrompra en cours de route.</string>
 	<key>A transparent, open-source cleaner for your Mac. Take a quick look at what it does, then set up the one permission it needs.</key>
 	<string>Un nettoyeur transparent et open source pour votre Mac. Découvrez rapidement ce qu’il fait, puis accordez la seule autorisation dont il a besoin.</string>
 	<key>AI Models &amp; Caches</key>
@@ -336,6 +338,8 @@
 	<string>Forcer à quitter</string>
 	<key>Force Quit %@…</key>
 	<string>Forcer %@ à quitter…</string>
+	<key>Force Quit…</key>
+	<string>Forcer à quitter…</string>
 	<key>Force quit %@</key>
 	<string>Forcer %@ à quitter</string>
 	<key>Force quit %@?</key>
@@ -722,6 +726,8 @@
 	<string>Quittez %@ pour la désinstaller</string>
 	<key>Quit OpenClean</key>
 	<string>Quitter OpenClean</string>
+	<key>Quit OpenClean while it’s working?</key>
+	<string>Quitter OpenClean pendant une opération ?</string>
 	<key>Quitting %@…</key>
 	<string>Fermeture de %@…</string>
 	<key>Reading launch agents…</key>
@@ -760,8 +766,8 @@
 	<string>Réinitialiser</string>
 	<key>Restore</key>
 	<string>Restaurer</string>
-	<key>Restore All</key>
-	<string>Tout restaurer</string>
+	<key>Restore All…</key>
+	<string>Tout restaurer…</string>
 	<key>Restored</key>
 	<string>Restauré</string>
 	<key>Restored from History</key>

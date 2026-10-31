@@ -18,25 +18,61 @@ enum AppQuitter {
         return app
     }
 
-    /// Only the app's helpers were sampled because its main process runs from another path (Chrome
-    /// relaunches from a signed copy in a temporary folder after updating itself). The app is then
-    /// identified by the bundle id of the sampled bundle, and only when exactly one app has that id.
+    /// What `findRunningAppElsewhere` found, by bundle path and sampled pids: views redraw every sample,
+    /// and this keeps the Info.plist read and LaunchServices query to once per set of processes.
+    private static var elsewhereCache: [String: (pid: pid_t, bundleID: String)?] = [:]
+
     private static func runningAppElsewhere(for group: ProcessGroup) -> NSRunningApplication? {
+        guard let bundlePath = group.bundlePath, !group.processes.isEmpty else { return nil }
+        let key = bundlePath + "|" + group.processes.map { String($0.pid) }.sorted().joined(separator: ",")
+        if let cached = elsewhereCache[key] {
+            guard let cached, let app = NSRunningApplication(processIdentifier: cached.pid), !app.isTerminated,
+                app.bundleIdentifier == cached.bundleID
+            else { return nil }
+            return app
+        }
+        if elsewhereCache.count > 256 { elsewhereCache.removeAll() }
+        let app = findRunningAppElsewhere(bundlePath: bundlePath, processes: group.processes)
+        elsewhereCache[key] = app.flatMap { app in app.bundleIdentifier.map { (app.processIdentifier, $0) } }
+        return app
+    }
+
+    /// Only the app's helpers were sampled because its main process runs from another path (Chrome
+    /// relaunches from a signed copy in a temporary folder after updating itself). The app is the one
+    /// running app with the sampled bundle's id, and only when it is the parent of a sampled helper, so a
+    /// second copy of the app elsewhere (say in Downloads) is never taken for it.
+    private static func findRunningAppElsewhere(bundlePath: String, processes: [ProcessUsage])
+        -> NSRunningApplication?
+    {
         let policy = ForceQuitPolicy()
-        guard let bundlePath = group.bundlePath, !group.processes.isEmpty,
-            !group.processes.contains(where: policy.isProtected),
+        guard !processes.contains(where: policy.isProtected),
             let bundleID = Bundle(path: bundlePath)?.bundleIdentifier,
             bundleID != Bundle.main.bundleIdentifier
         else { return nil }
         let running = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID)
         guard running.count == 1, let app = running.first, !app.isTerminated,
-            app.processIdentifier != ProcessInfo.processInfo.processIdentifier
+            app.processIdentifier != ProcessInfo.processInfo.processIdentifier,
+            processes.contains(where: { parentPID(of: $0.pid) == app.processIdentifier })
         else { return nil }
         return app
     }
 
+    private static func parentPID(of pid: Int32) -> pid_t? {
+        var info = proc_bsdshortinfo()
+        let size = Int32(MemoryLayout<proc_bsdshortinfo>.size)
+        guard proc_pidinfo(pid, PROC_PIDT_SHORTBSDINFO, 0, &info, size) == size else { return nil }
+        return pid_t(info.pbsi_ppid)
+    }
+
     static let protectedReason = String(
         localized: "Part of macOS, another user's, or OpenClean itself — it can't be quit from here.")
+
+    /// Why `group` can't be force quit: it's protected, or OpenClean can't tell which running app it is.
+    static func unavailableReason(_ group: ProcessGroup) -> String {
+        let policy = ForceQuitPolicy()
+        if group.processes.isEmpty || group.processes.contains(where: policy.isProtected) { return protectedReason }
+        return String(localized: "\(group.name) can't be force quit from OpenClean.")
+    }
 
     /// Apps go through `NSRunningApplication`; a lone background process of the user's own goes
     /// through `ProcessTerminator`, which re-checks its identity before killing it.
@@ -153,8 +189,9 @@ struct HeavyConsumersView: View {
 }
 
 struct ConsumerRow: View {
-    /// Wide enough for the compact Quit and Force Quit side by side, so the figures line up from row to row.
-    static let actionsWidth: CGFloat = 170
+    /// Wide enough for the compact Quit and Force Quit… side by side in every language (German is the
+    /// widest, about 211 pt), so the figures line up from row to row.
+    static let actionsWidth: CGFloat = 216
 
     let group: ProcessGroup
     let onQuit: () -> Void
@@ -190,7 +227,7 @@ struct ConsumerRow: View {
                     Button("Quit", action: onQuit).buttonStyle(CapsuleButtonStyle(compact: true)).fixedSize()
                 }
                 if quittable || group.killableProcess != nil {
-                    Button("Force Quit", action: onForceQuit).buttonStyle(CapsuleButtonStyle(compact: true))
+                    Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle(compact: true))
                         .fixedSize()
                 } else {
                     StatusTag(

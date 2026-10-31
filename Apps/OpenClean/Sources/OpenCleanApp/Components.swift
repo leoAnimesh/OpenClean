@@ -120,7 +120,7 @@ struct StorageCard: View {
                     .tint(Theme.accent)
             }
             // Nothing freed yet: no line at all rather than a placeholder.
-            if stats.cleanups > 0, stats.totalFreedBytes > 0 {
+            if Self.showsFreed(stats) {
                 Text("\(formatBytes(stats.totalFreedBytes)) freed by OpenClean")
                     .font(.system(size: 11))
                     .foregroundStyle(Theme.textSecondary)
@@ -130,6 +130,15 @@ struct StorageCard: View {
         .padding(12)
         .glassPanel(radius: 12)
         .accessibilityElement(children: .combine)
+    }
+
+    /// The card is shown only when it has something in it.
+    static func hasContent(disk: DiskSpace?, stats: CleanupStats) -> Bool {
+        disk != nil || showsFreed(stats)
+    }
+
+    private static func showsFreed(_ stats: CleanupStats) -> Bool {
+        stats.cleanups > 0 && stats.totalFreedBytes > 0
     }
 }
 
