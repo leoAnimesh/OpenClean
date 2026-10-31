@@ -24,6 +24,8 @@
 	<string>CPU とメモリ</string>
 	<key>CPU, memory and GPU</key>
 	<string>CPU、メモリ、GPU</string>
+	<key>CPU, memory and network</key>
+	<string>CPU、メモリ、ネットワーク</string>
 	<key>Changed since the scan; an app may be using it.</key>
 	<string>スキャン後に変更されました。App が使用している可能性があります。</string>
 	<key>Could not save settings: %@</key>

@@ -24,6 +24,8 @@
 	<string>CPU und Speicher</string>
 	<key>CPU, memory and GPU</key>
 	<string>CPU, Speicher und GPU</string>
+	<key>CPU, memory and network</key>
+	<string>CPU, Speicher und Netzwerk</string>
 	<key>Changed since the scan; an app may be using it.</key>
 	<string>Seit dem Scan geändert; möglicherweise nutzt es eine App.</string>
 	<key>Could not save settings: %@</key>

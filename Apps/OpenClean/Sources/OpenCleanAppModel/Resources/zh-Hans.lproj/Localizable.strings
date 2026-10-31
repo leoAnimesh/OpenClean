@@ -24,6 +24,8 @@
 	<string>CPU 和内存</string>
 	<key>CPU, memory and GPU</key>
 	<string>CPU、内存和 GPU</string>
+	<key>CPU, memory and network</key>
+	<string>CPU、内存和网络</string>
 	<key>Changed since the scan; an app may be using it.</key>
 	<string>自扫描后已更改；可能有 App 正在使用它。</string>
 	<key>Could not save settings: %@</key>
