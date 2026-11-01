@@ -71,7 +71,14 @@ for code in "$app" "$cli"; do
 done
 codesign --verify --strict --verbose=2 "$cli"
 codesign --verify --verbose=2 "$dmg"
-xcrun stapler validate "$dmg"
+# stapler validate asks Apple's ticket server too; a dropped connection fails it (error 68) even
+# when the ticket is stapled, so it is retried like the staple step in release.yml.
+for attempt in 1 2 3 4 5; do
+    xcrun stapler validate "$dmg" && break
+    [ "$attempt" != 5 ] || fail "stapler could not validate $dmg"
+    echo "stapler validate failed, retrying in $((attempt * 20)) s"
+    sleep $((attempt * 20))
+done
 spctl --assess --type open --context context:primary-signature --verbose=2 "$dmg" 2>&1 | tee "$work/spctl-dmg.txt"
 grep -q 'source=Notarized Developer ID' "$work/spctl-dmg.txt" || fail "Gatekeeper does not see the DMG as notarized"
 spctl --assess --type execute --verbose=2 "$app" 2>&1 | tee "$work/spctl-app.txt"
