@@ -258,28 +258,30 @@ struct MenuBarPopover: View {
     }
 }
 
-/// Draws "CPU icon · CPU% · memory icon · memory%", and optionally "GPU icon · GPU%" or the download and
-/// upload rates, into one template image for the menu bar. Spacing and rates are kept short so the
-/// item doesn't crowd the menu bar.
+/// Draws the figures into one template image for the menu bar, in the style of the Stats app: each
+/// percentage is a small "CPU" / "RAM" / "GPU" caption above its value, and the network speed is upload
+/// above download, right-aligned. Every value sits in a fixed-width slot, so the item doesn't change
+/// width (or nudge its neighbours) as the figures change.
 @MainActor
 enum MenuBarFiguresImage {
     static func render(
         cpu: String, memory: String, gpu: String? = nil, network: (down: Double?, up: Double?)? = nil
     ) -> NSImage {
-        let font = Font.system(size: 12, weight: .medium)
-        let content = HStack(spacing: 7) {
-            figure("cpu", cpu, font: font)
-            figure("memorychip", memory, font: font)
+        let content = HStack(spacing: 6) {
+            mini(String(localized: "CPU"), cpu)
+            mini(String(localized: "RAM"), memory)
             if let gpu {
-                figure("cube", gpu, font: font)
+                mini(String(localized: "GPU"), gpu)
             }
             if let network {
-                Text(verbatim: "↓\(formatCompactRate(network.down)) ↑\(formatCompactRate(network.up))")
-                    .font(font).monospacedDigit()
+                VStack(alignment: .trailing, spacing: -1) {
+                    speed("arrow.up", formatRate(network.up))
+                    speed("arrow.down", formatRate(network.down))
+                }
             }
         }
         .foregroundStyle(.black)
-        .frame(height: 18)
+        .frame(height: 20)
         let renderer = ImageRenderer(content: content)
         renderer.scale = 2
         let image = renderer.nsImage ?? MenuBarGlyph.image
@@ -298,22 +300,28 @@ enum MenuBarFiguresImage {
         return image
     }
 
-    private static func figure(_ symbol: String, _ value: String, font: Font) -> some View {
-        HStack(spacing: 2) {
-            Image(systemName: symbol).font(font)
-            Text(value).font(font).monospacedDigit()
+    /// A tiny caption above its value, in a column as wide as "100%".
+    private static func mini(_ caption: String, _ value: String) -> some View {
+        VStack(alignment: .leading, spacing: -1) {
+            Text(verbatim: caption).font(.system(size: 7, weight: .semibold))
+            slot(value, widest: "100%", alignment: .leading).font(.system(size: 11, weight: .semibold))
         }
     }
-}
 
-/// A short rate for the menu bar: "0K", "5K", "285K", "1.2M", "12M", "1.5G" (decimal units, per second).
-func formatCompactRate(_ bytesPerSecond: Double?) -> String {
-    guard let bytesPerSecond else { return "–" }
-    let units: [(Double, String)] = [(1e9, "G"), (1e6, "M"), (1e3, "K")]
-    // 999.6K would round to "1000K", so switch units just below each boundary.
-    for (size, suffix) in units where bytesPerSecond >= size * 0.9995 {
-        let value = bytesPerSecond / size
-        return (value < 10 && suffix != "K" ? String(format: "%.1f", value) : String(format: "%.0f", value)) + suffix
+    /// An arrow and a rate ("510 KB/s"), right-aligned in a slot as wide as the longest rate.
+    private static func speed(_ symbol: String, _ value: String) -> some View {
+        HStack(spacing: 2) {
+            Image(systemName: symbol).font(.system(size: 7, weight: .bold))
+            slot(value, widest: "88.8 MB/s", alignment: .trailing).font(.system(size: 9, weight: .semibold))
+        }
     }
-    return "0K"
+
+    /// `value` in a box as wide as `widest` (wider only for a rare longer value).
+    private static func slot(_ value: String, widest: String, alignment: Alignment) -> some View {
+        ZStack(alignment: alignment) {
+            Text(verbatim: widest).hidden()
+            Text(verbatim: value)
+        }
+        .monospacedDigit().fixedSize()
+    }
 }

@@ -728,6 +728,8 @@
 	<string>Quitter OpenClean pendant une opération ?</string>
 	<key>Quitting %@…</key>
 	<string>Fermeture de %@…</string>
+	<key>RAM</key>
+	<string>RAM</string>
 	<key>Reading launch agents…</key>
 	<string>Lecture des agents de lancement…</string>
 	<key>Reads your Applications folders only</key>

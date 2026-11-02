@@ -728,6 +728,8 @@
 	<string>要在 OpenClean 处理任务时退出吗？</string>
 	<key>Quitting %@…</key>
 	<string>正在退出 %@…</string>
+	<key>RAM</key>
+	<string>内存</string>
 	<key>Reading launch agents…</key>
 	<string>正在读取启动代理…</string>
 	<key>Reads your Applications folders only</key>

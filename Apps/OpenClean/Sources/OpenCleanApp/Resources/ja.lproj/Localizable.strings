@@ -728,6 +728,8 @@
 	<string>処理中に OpenClean を終了しますか？</string>
 	<key>Quitting %@…</key>
 	<string>%@ を終了しています…</string>
+	<key>RAM</key>
+	<string>RAM</string>
 	<key>Reading launch agents…</key>
 	<string>起動エージェントを読み込み中…</string>
 	<key>Reads your Applications folders only</key>
