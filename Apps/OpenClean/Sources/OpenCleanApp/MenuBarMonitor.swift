@@ -165,7 +165,7 @@ struct MenuBarPopover: View {
                             .buttonStyle(.plain)
                             .help(
                                 allowed
-                                    ? String(localized: "Force Quit \(group.name)…")
+                                    ? String(localized: "Force Quit \(group.name)")
                                     : AppQuitter.unavailableReason(group)
                             )
                             .accessibilityLabel(

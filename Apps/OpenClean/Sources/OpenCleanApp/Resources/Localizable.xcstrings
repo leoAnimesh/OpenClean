@@ -3989,36 +3989,36 @@
         }
       }
     },
-    "Add Folder…": {
+    "Add Folder": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ordner hinzufügen …"
+            "value": "Ordner hinzufügen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Añadir carpeta…"
+            "value": "Añadir carpeta"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ajouter un dossier…"
+            "value": "Ajouter un dossier"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "フォルダを追加…"
+            "value": "フォルダを追加"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "添加文件夹…"
+            "value": "添加文件夹"
           }
         }
       }
@@ -4155,40 +4155,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "添加需要在清理前仔细检查的规则。"
-          }
-        }
-      }
-    },
-    "Add…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hinzufügen …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Añadir…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajouter…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "追加…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加…"
           }
         }
       }
@@ -5957,36 +5923,36 @@
         }
       }
     },
-    "Check for Updates…": {
+    "Check for Updates": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nach Updates suchen …"
+            "value": "Nach Updates suchen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Buscar actualizaciones…"
+            "value": "Buscar actualizaciones"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rechercher des mises à jour…"
+            "value": "Rechercher des mises à jour"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "アップデートを確認…"
+            "value": "アップデートを確認"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "检查更新…"
+            "value": "检查更新"
           }
         }
       }
@@ -6127,36 +6093,36 @@
         }
       }
     },
-    "Choose Folder…": {
+    "Choose Folder": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ordner auswählen …"
+            "value": "Ordner auswählen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Elegir carpeta…"
+            "value": "Elegir carpeta"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choisir un dossier…"
+            "value": "Choisir un dossier"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "フォルダを選択…"
+            "value": "フォルダを選択"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选取文件夹…"
+            "value": "选取文件夹"
           }
         }
       }
@@ -6633,40 +6599,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "继续"
-          }
-        }
-      }
-    },
-    "Continue…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Weiter …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continuar…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continuer…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "続ける…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "继续…"
           }
         }
       }
@@ -8233,70 +8165,36 @@
         }
       }
     },
-    "Force Quit %@…": {
+    "Force Quit %@": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ sofort beenden …"
+            "value": "%@ sofort beenden"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Forzar salida de %@…"
+            "value": "Forzar salida de %@"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Forcer %@ à quitter…"
+            "value": "Forcer %@ à quitter"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ を強制終了…"
+            "value": "%@ を強制終了"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "强制退出 %@…"
-          }
-        }
-      }
-    },
-    "Force Quit…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sofort beenden …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Forzar salida…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Forcer à quitter…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "強制終了…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "强制退出…"
+            "value": "强制退出 %@"
           }
         }
       }
@@ -15967,40 +15865,6 @@
         }
       }
     },
-    "Remove…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entfernen …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retirer…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "削除…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "移除…"
-          }
-        }
-      }
-    },
     "Replace It (old one goes to Trash)": {
       "localizations": {
         "de": {
@@ -16237,36 +16101,36 @@
         }
       }
     },
-    "Restore All…": {
+    "Restore All": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Alle wiederherstellen …"
+            "value": "Alle wiederherstellen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restaurar todo…"
+            "value": "Restaurar todo"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tout restaurer…"
+            "value": "Tout restaurer"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "すべて復元…"
+            "value": "すべて復元"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "全部恢复…"
+            "value": "全部恢复"
           }
         }
       }
@@ -16845,40 +16709,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "运行：%@"
-          }
-        }
-      }
-    },
-    "Run…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ausführen …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ejecutar…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Exécuter…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "実行…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "运行…"
           }
         }
       }
@@ -17559,40 +17389,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "设置"
-          }
-        }
-      }
-    },
-    "Settings…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "设置…"
           }
         }
       }
@@ -19803,40 +19599,6 @@
         }
       }
     },
-    "Trash…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Papierkorb …"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Papelera…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Corbeille…"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ゴミ箱へ…"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "移到废纸篓…"
-          }
-        }
-      }
-    },
     "Turn Off": {
       "localizations": {
         "de": {
@@ -20687,36 +20449,36 @@
         }
       }
     },
-    "Welcome Tour…": {
+    "Welcome Tour": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Willkommensübersicht …"
+            "value": "Willkommensübersicht"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Presentación de bienvenida…"
+            "value": "Presentación de bienvenida"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Présentation de bienvenue…"
+            "value": "Présentation de bienvenue"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ようこそツアー…"
+            "value": "ようこそツアー"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "欢迎导览…"
+            "value": "欢迎导览"
           }
         }
       }

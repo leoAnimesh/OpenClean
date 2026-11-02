@@ -208,7 +208,7 @@ struct LaunchItemRow: View {
                     Button(item.isDisabled ? "Turn On" : "Turn Off", action: item.isDisabled ? onEnable : onDisable)
                         .buttonStyle(CapsuleButtonStyle())
                         .fixedSize()
-                    Button("Remove…", action: onRemove)
+                    Button("Remove", action: onRemove)
                         .buttonStyle(CapsuleButtonStyle())
                         .fixedSize()
                 }

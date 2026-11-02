@@ -54,7 +54,7 @@ struct UninstallerDetailView: View {
                     symbol: "exclamationmark.triangle.fill",
                     text: quitNotice ?? String(localized: "\(app.name) is running. Quit it to uninstall."),
                     tint: Theme.gold)
-                Button("Force Quit…") { forceQuit(app) }
+                Button("Force Quit") { forceQuit(app) }
                     .buttonStyle(CapsuleButtonStyle())
                     .fixedSize()
                     .disabled(isQuitting)

@@ -225,7 +225,7 @@ struct SpaceMapTab: View {
                                 .foregroundStyle(Theme.textSecondary)
                                 .lineLimit(1)
                                 .truncationMode(.middle)
-                            Button("Choose Folder…") {
+                            Button("Choose Folder") {
                                 if let path = chooseFolder(startingAt: model.mapRoot) { model.startMapScan(root: path) }
                             }
                             .buttonStyle(CapsuleButtonStyle())

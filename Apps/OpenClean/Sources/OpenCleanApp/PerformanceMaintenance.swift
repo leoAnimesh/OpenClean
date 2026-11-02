@@ -30,7 +30,7 @@ struct MaintenanceListView: View {
             "Run “\(confirmTarget?.localizedTitle ?? "")”?", isPresented: confirmBinding, presenting: confirmTarget
         ) { task in
             Button("Cancel", role: .cancel) {}
-            Button(task.needsAdmin ? "Continue…" : "Run") { Task { await model.run(task) } }
+            Button(task.needsAdmin ? "Continue" : "Run") { Task { await model.run(task) } }
         } message: { task in
             Text(confirmMessage(task))
         }
@@ -72,7 +72,7 @@ struct MaintenanceRow: View {
                     .font(.system(size: 12))
                     .foregroundStyle(record?.succeeded == false ? Theme.coral : Theme.textTertiary)
             }
-            Button("Run…", action: onRun)
+            Button("Run", action: onRun)
                 .buttonStyle(CapsuleButtonStyle())
                 .fixedSize()
                 .accessibilityLabel("Run \(task.localizedTitle)")

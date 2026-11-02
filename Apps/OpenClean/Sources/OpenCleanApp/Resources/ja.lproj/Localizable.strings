@@ -106,8 +106,8 @@
 	<string>アクセスが許可されました</string>
 	<key>Add</key>
 	<string>追加</string>
-	<key>Add Folder…</key>
-	<string>フォルダを追加…</string>
+	<key>Add Folder</key>
+	<string>フォルダを追加</string>
 	<key>Add a folder or file</key>
 	<string>フォルダまたはファイルを追加</string>
 	<key>Add a project folder</key>
@@ -116,8 +116,6 @@
 	<string>このフォルダに独自の YAML ルールを追加できます。</string>
 	<key>Adds rules that need a closer look before cleaning.</key>
 	<string>クリーンアップの前に慎重な確認が必要なルールを追加します。</string>
-	<key>Add…</key>
-	<string>追加…</string>
 	<key>After this, quarantined files are deleted for good.</key>
 	<string>この期間を過ぎると、隔離中のファイルは完全に削除されます。</string>
 	<key>Agents and daemons in /Library are installed by an administrator and run for everyone. OpenClean lists them so you know they’re there, but doesn’t change them.</key>
@@ -210,8 +208,8 @@
 	<string>再確認</string>
 	<key>Check Now</key>
 	<string>今すぐ確認</string>
-	<key>Check for Updates…</key>
-	<string>アップデートを確認…</string>
+	<key>Check for Updates</key>
+	<string>アップデートを確認</string>
 	<key>Check for updates automatically</key>
 	<string>アップデートを自動的に確認</string>
 	<key>Checking for updates…</key>
@@ -220,8 +218,8 @@
 	<string>確認中…</string>
 	<key>Choose</key>
 	<string>選択</string>
-	<key>Choose Folder…</key>
-	<string>フォルダを選択…</string>
+	<key>Choose Folder</key>
+	<string>フォルダを選択</string>
 	<key>Choose a folder where you keep code projects.</key>
 	<string>コードのプロジェクトを保管しているフォルダを選択してください。</string>
 	<key>Clean</key>
@@ -250,8 +248,6 @@
 	<string>コンテナ</string>
 	<key>Continue</key>
 	<string>続ける</string>
-	<key>Continue…</key>
-	<string>続ける…</string>
 	<key>Copies made by APFS cloning share space on disk, so moving one may free less than shown.</key>
 	<string>APFS のクローンで作成されたコピーはディスク領域を共有するため、移動しても表示より少ない容量しか解放されない場合があります。</string>
 	<key>Couldn't check for updates</key>
@@ -338,10 +334,8 @@
 	<string>フォルダ：%@</string>
 	<key>Force Quit</key>
 	<string>強制終了</string>
-	<key>Force Quit %@…</key>
-	<string>%@ を強制終了…</string>
-	<key>Force Quit…</key>
-	<string>強制終了…</string>
+	<key>Force Quit %@</key>
+	<string>%@ を強制終了</string>
 	<key>Force quit %@</key>
 	<string>%@ を強制終了</string>
 	<key>Force quit %@?</key>
@@ -760,8 +754,6 @@
 	<string>App と、その残りファイルを削除</string>
 	<key>Remove apps and what they left behind</key>
 	<string>App と、その残りファイルを削除</string>
-	<key>Remove…</key>
-	<string>削除…</string>
 	<key>Replace It (old one goes to Trash)</key>
 	<string>置き換える（古いものはゴミ箱へ）</string>
 	<key>Report only</key>
@@ -770,8 +762,8 @@
 	<string>リセット</string>
 	<key>Restore</key>
 	<string>復元</string>
-	<key>Restore All…</key>
-	<string>すべて復元…</string>
+	<key>Restore All</key>
+	<string>すべて復元</string>
 	<key>Restored</key>
 	<string>復元済み</string>
 	<key>Restored from History</key>
@@ -806,8 +798,6 @@
 	<string>macOS に付属する日次・週次・月次のメンテナンススクリプト（ログのローテーション、一時ファイルの削除）を実行します。通常は macOS が自動で実行します。</string>
 	<key>Runs: %@</key>
 	<string>実行内容：%@</string>
-	<key>Run…</key>
-	<string>実行…</string>
 	<key>Safe</key>
 	<string>安全</string>
 	<key>Safe by design</key>
@@ -848,8 +838,6 @@
 	<string>App を選択</string>
 	<key>Settings</key>
 	<string>設定</string>
-	<key>Settings…</key>
-	<string>設定…</string>
 	<key>Shared memory</key>
 	<string>共有メモリ</string>
 	<key>Show CPU and memory in the menu bar</key>
@@ -968,8 +956,6 @@
 	<string>ゴミ箱、メール、Safari、iOS バックアップは、フルディスクアクセスがある場合のみスキャンできます。</string>
 	<key>Trash, Mail, Safari and iOS backups live in folders macOS protects. OpenClean only reads what its cleaning rules list, and never sends anything off your Mac.</key>
 	<string>ゴミ箱、メール、Safari、iOS バックアップは macOS が保護するフォルダにあります。OpenClean はクリーンアップルールに記載されたものだけを読み取り、Mac の外に何かを送信することはありません。</string>
-	<key>Trash…</key>
-	<string>ゴミ箱へ…</string>
 	<key>Turn Off</key>
 	<string>オフにする</string>
 	<key>Turn On</key>
@@ -1020,8 +1006,8 @@
 	<string>パスワードの入力を待っています。その後 %@ を隔離へ移動します…</string>
 	<key>We found %@ to clean</key>
 	<string>クリーンアップできるものが %@ 見つかりました</string>
-	<key>Welcome Tour…</key>
-	<string>ようこそツアー…</string>
+	<key>Welcome Tour</key>
+	<string>ようこそツアー</string>
 	<key>Welcome back. Ready for another sweep?</key>
 	<string>おかえりなさい。もう一度スキャンしますか？</string>
 	<key>Welcome to OpenClean</key>

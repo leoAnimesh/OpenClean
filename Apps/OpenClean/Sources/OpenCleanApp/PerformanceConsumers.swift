@@ -227,7 +227,7 @@ struct ConsumerRow: View {
                     Button("Quit", action: onQuit).buttonStyle(CapsuleButtonStyle(compact: true)).fixedSize()
                 }
                 if quittable || group.killableProcess != nil {
-                    Button("Force Quit…", action: onForceQuit).buttonStyle(CapsuleButtonStyle(compact: true))
+                    Button("Force Quit", action: onForceQuit).buttonStyle(CapsuleButtonStyle(compact: true))
                         .fixedSize()
                 } else {
                     StatusTag(
