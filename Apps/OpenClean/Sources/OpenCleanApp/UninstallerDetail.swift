@@ -149,7 +149,8 @@ struct UninstallerDetailView: View {
                 }
             }
             .glassPanel(radius: 12)
-            if model.isFindingLeftovers {
+            // Leftovers found earlier stay on screen while they're looked up again.
+            if model.isFindingLeftovers && model.leftovers.isEmpty {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
                     Text("Looking for leftovers…").font(.system(size: 12)).foregroundStyle(Theme.textSecondary)

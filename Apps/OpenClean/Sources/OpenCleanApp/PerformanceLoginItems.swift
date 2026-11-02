@@ -82,7 +82,8 @@ struct LoginItemsView: View {
             .padding(.bottom, 24)
         }
         .scrollIndicators(.never)
-        .task { if model.inventory == nil { await model.refreshLoginItems() } }
+        // Every visit checks again behind the list already on screen (cached at first).
+        .task { await model.refreshLoginItems() }
         .alert(
             "Remove \(removeTarget?.label ?? "")?", isPresented: removeBinding, presenting: removeTarget
         ) { item in
@@ -120,7 +121,9 @@ struct LoginItemsView: View {
             } else {
                 VStack(spacing: 0) {
                     ForEach(items) { item in
-                        LaunchItemRow(item: item, busy: model.busyItems.contains(item.path)) {
+                        LaunchItemRow(
+                            item: item, busy: model.busyItems.contains(item.path), ready: model.loginItemsAreFresh
+                        ) {
                             Task { await model.disable(item) }
                         } onEnable: {
                             Task { await model.enable(item) }
@@ -177,6 +180,8 @@ struct LoginItemsView: View {
 struct LaunchItemRow: View {
     let item: LaunchItem
     let busy: Bool
+    /// False while the list on screen is the cached one; actions wait for the fresh listing.
+    var ready = true
     let onDisable: () -> Void
     let onEnable: () -> Void
     let onRemove: () -> Void
@@ -208,9 +213,11 @@ struct LaunchItemRow: View {
                     Button(item.isDisabled ? "Turn On" : "Turn Off", action: item.isDisabled ? onEnable : onDisable)
                         .buttonStyle(CapsuleButtonStyle(compact: true))
                         .fixedSize()
+                        .disabled(!ready)
                     Button("Remove", action: onRemove)
                         .buttonStyle(CapsuleButtonStyle(compact: true))
                         .fixedSize()
+                        .disabled(!ready)
                 }
             } else {
                 StatusTag(text: String(localized: "System (read-only)"), color: Theme.gold)

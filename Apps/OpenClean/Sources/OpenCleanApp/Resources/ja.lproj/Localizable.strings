@@ -160,6 +160,8 @@
 	<string>GitHub に最新リリースを問い合わせています。</string>
 	<key>Asks macOS to remove the local Time Machine snapshots it can drop to free space. Backups on your backup disk are not touched.</key>
 	<string>空き領域を増やすために、macOS が手放せるローカルの Time Machine スナップショットの削除を macOS に依頼します。バックアップディスク上のバックアップには触れません。</string>
+	<key>Available once the app list has been checked again</key>
+	<string>アプリのリストを再確認すると使用できます</string>
 	<key>Back</key>
 	<string>戻る</string>
 	<key>Background Smart Scan</key>
@@ -990,6 +992,8 @@
 	<string>アップデート</string>
 	<key>Updates</key>
 	<string>アップデート</string>
+	<key>Updating</key>
+	<string>更新中</string>
 	<key>User Caches &amp; Logs</key>
 	<string>ユーザのキャッシュとログ</string>
 	<key>Using the GPU</key>

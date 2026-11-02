@@ -146,4 +146,26 @@ struct PerformanceModelTests {
         #expect(model.inventory?.items.isEmpty == true)
         #expect(model.busyItems.isEmpty)
     }
+
+    @Test func loginItemsShowTheCacheButActOnlyAfterAFreshListing() async throws {
+        let home = try TempDirectory()
+        let path = home.path + "/Library/LaunchAgents/com.example.agent.plist"
+        let first = try makeModel(home)
+        try PropertyListSerialization.data(fromPropertyList: ["Label": "com.example.agent"], format: .xml, options: 0)
+            .write(to: URL(fileURLWithPath: path))
+        await first.refreshLoginItems()
+        let cached = try #require(first.coordinator.displayCache.load(LoginItemsInventory.self, .loginItems))
+        #expect(cached.value == first.inventory)
+
+        // A new session has the cached list but hasn't listed again yet: actions do nothing.
+        let second = try makeModel(home)
+        #expect(!second.loginItemsAreFresh)
+        await second.remove(try #require(cached.value.items.first))
+        #expect(FileManager.default.fileExists(atPath: path))
+        #expect(second.loginItemsNotice == nil)
+
+        await second.refreshLoginItems()
+        #expect(second.loginItemsAreFresh)
+        #expect(second.inventory == first.inventory)
+    }
 }

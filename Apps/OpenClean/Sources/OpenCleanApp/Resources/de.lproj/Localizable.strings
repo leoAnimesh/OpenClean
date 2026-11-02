@@ -160,6 +160,8 @@
 	<string>GitHub wird nach der neuesten Version gefragt.</string>
 	<key>Asks macOS to remove the local Time Machine snapshots it can drop to free space. Backups on your backup disk are not touched.</key>
 	<string>Bittet macOS, die lokalen Time Machine-Snapshots zu entfernen, auf die es verzichten kann, um Speicherplatz freizugeben. Backups auf deinem Backup-Volume bleiben unberührt.</string>
+	<key>Available once the app list has been checked again</key>
+	<string>Verfügbar, sobald die App-Liste erneut geprüft wurde</string>
 	<key>Back</key>
 	<string>Zurück</string>
 	<key>Background Smart Scan</key>
@@ -990,6 +992,8 @@
 	<string>Aktualisieren</string>
 	<key>Updates</key>
 	<string>Updates</string>
+	<key>Updating</key>
+	<string>Wird aktualisiert</string>
 	<key>User Caches &amp; Logs</key>
 	<string>Benutzer-Caches &amp; Protokolle</string>
 	<key>Using the GPU</key>

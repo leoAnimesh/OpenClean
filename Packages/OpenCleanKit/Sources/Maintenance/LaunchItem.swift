@@ -1,7 +1,7 @@
 import Foundation
 
 /// Where a launchd property list lives, which decides whether OpenClean may act on it.
-public enum LaunchItemScope: String, Sendable, Equatable, CaseIterable {
+public enum LaunchItemScope: String, Sendable, Equatable, CaseIterable, Codable {
     /// `~/Library/LaunchAgents`: runs as you; Disable / Enable / Remove are offered.
     case user
     /// `/Library/LaunchAgents`: installed for every user by an administrator. Read-only in v1.
@@ -12,7 +12,7 @@ public enum LaunchItemScope: String, Sendable, Equatable, CaseIterable {
     public var isActionable: Bool { self == .user }
 }
 
-public enum KeepAlive: Sendable, Equatable {
+public enum KeepAlive: Sendable, Equatable, Codable {
     case no
     case always
     /// A dictionary of conditions (e.g. `SuccessfulExit`, `NetworkState`).
@@ -20,7 +20,7 @@ public enum KeepAlive: Sendable, Equatable {
 }
 
 /// The facts read from one launchd plist.
-public struct LaunchItemDefinition: Sendable, Equatable {
+public struct LaunchItemDefinition: Sendable, Equatable, Codable {
     public var label: String
     /// `Program`, or the first element of `ProgramArguments`.
     public var program: String?
@@ -85,8 +85,8 @@ public enum LaunchItemParser {
 }
 
 /// Who installed a launch item, as far as we can tell.
-public struct LaunchItemOwner: Sendable, Equatable {
-    public enum Confidence: String, Sendable, Equatable {
+public struct LaunchItemOwner: Sendable, Equatable, Codable {
+    public enum Confidence: String, Sendable, Equatable, Codable {
         /// The program lives inside this app, or the label is this app's bundle identifier (or starts with it).
         case exact
         /// Same vendor prefix as an installed app (e.g. `com.google.*`).
@@ -106,7 +106,7 @@ public struct LaunchItemOwner: Sendable, Equatable {
     }
 }
 
-public enum LoadState: Sendable, Equatable {
+public enum LoadState: Sendable, Equatable, Codable {
     case loaded(pid: Int32?)
     case notLoaded
     /// launchctl couldn't be asked or its output couldn't be read.
@@ -119,7 +119,7 @@ public enum LoadState: Sendable, Equatable {
 }
 
 /// A launch agent or daemon with everything the UI shows.
-public struct LaunchItem: Sendable, Equatable, Identifiable {
+public struct LaunchItem: Sendable, Equatable, Identifiable, Codable {
     public var path: String
     public var scope: LaunchItemScope
     public var definition: LaunchItemDefinition
@@ -145,7 +145,7 @@ public struct LaunchItem: Sendable, Equatable, Identifiable {
 }
 
 /// A plist we found but couldn't use; shown so nothing is silently hidden.
-public struct UnreadableLaunchItem: Sendable, Equatable, Identifiable {
+public struct UnreadableLaunchItem: Sendable, Equatable, Identifiable, Codable {
     public var path: String
     public var scope: LaunchItemScope
     public var reason: String
@@ -160,7 +160,7 @@ public struct UnreadableLaunchItem: Sendable, Equatable, Identifiable {
 
 /// An app that ships a login item or launchd job inside its bundle (`SMAppService`). macOS manages
 /// whether it's on in System Settings → General → Login Items; OpenClean only lists it.
-public struct BundledBackgroundItem: Sendable, Equatable, Identifiable {
+public struct BundledBackgroundItem: Sendable, Equatable, Identifiable, Codable {
     public var appName: String
     public var bundlePath: String
     /// File names under `Contents/Library/LoginItems`, `LaunchAgents` and `LaunchDaemons`.
@@ -174,7 +174,7 @@ public struct BundledBackgroundItem: Sendable, Equatable, Identifiable {
     }
 }
 
-public struct LoginItemsInventory: Sendable, Equatable {
+public struct LoginItemsInventory: Sendable, Equatable, Codable {
     public var items: [LaunchItem]
     public var unreadable: [UnreadableLaunchItem]
     public var bundled: [BundledBackgroundItem]

@@ -77,6 +77,9 @@ public final class PerformanceModel {
 
     public private(set) var inventory: LoginItemsInventory?
     public private(set) var isLoadingInventory = false
+    /// The inventory on screen came from a listing in this session, not from the display cache.
+    /// Turning items off or removing them waits for this.
+    public private(set) var loginItemsAreFresh = false
     public private(set) var busyItems: Set<String> = []
     /// The latest action result or error, shown under the list.
     public var loginItemsNotice: Notice?
@@ -207,11 +210,20 @@ public final class PerformanceModel {
         return made
     }
 
+    /// Lists login items again. The first time, the cached list (if any) shows while it loads.
     public func refreshLoginItems() async {
         guard !isLoadingInventory else { return }
         isLoadingInventory = true
+        let cache = coordinator.displayCache
+        if inventory == nil { inventory = cache.load(LoginItemsInventory.self, .loginItems)?.value }
         let service = service()
-        inventory = await Task.detached(priority: .userInitiated) { service.inventory() }.value
+        let fresh = await Task.detached(priority: .userInitiated) { () -> LoginItemsInventory in
+            let inventory = service.inventory()
+            cache.save(inventory, .loginItems)
+            return inventory
+        }.value
+        inventory = fresh
+        loginItemsAreFresh = true
         isLoadingInventory = false
     }
 
@@ -250,6 +262,7 @@ public final class PerformanceModel {
         _ item: LaunchItem, success: String,
         _ action: @escaping @Sendable (LoginItemsService) throws -> LaunchItemActionResult
     ) async {
+        guard loginItemsAreFresh else { return }
         busyItems.insert(item.path)
         let service = service()
         let result = await Task.detached(priority: .userInitiated) { () -> Result<LaunchItemActionResult, Error> in

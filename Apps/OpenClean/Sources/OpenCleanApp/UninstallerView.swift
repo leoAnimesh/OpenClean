@@ -60,9 +60,19 @@ struct UninstallerListView: View {
                     Image(systemName: "square.grid.2x2").font(.system(size: 11, weight: .semibold))
                 }
                 .fixedSize()
+                if model.isRefreshing {
+                    // The list stays usable while a fresh one loads behind it.
+                    HStack(spacing: 6) {
+                        ProgressView().controlSize(.small)
+                        Text("Updating").font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                    }
+                    .fixedSize()
+                    .accessibilityElement(children: .combine)
+                }
                 Button("Refresh") { model.load() }
                     .buttonStyle(CapsuleButtonStyle())
                     .fixedSize()
+                    .disabled(model.isRefreshing)
                     .help("List apps again and re-measure their sizes")
             }
             .padding(.horizontal, 32)
@@ -218,7 +228,10 @@ struct UninstallBar: View {
                 .buttonStyle(GlassCircleButtonStyle(diameter: 96))
                 .disabled(!model.canUninstall)
                 .keyboardShortcut(.defaultAction)
-                .help("Review what moves to quarantine before anything happens")
+                .help(
+                    model.listIsFresh && !model.isRefreshing
+                        ? String(localized: "Review what moves to quarantine before anything happens")
+                        : String(localized: "Available once the app list has been checked again"))
 
             Text(
                 model.selectedApp?.status.isRemovable == true

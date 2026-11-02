@@ -160,6 +160,8 @@
 	<string>正在向 GitHub 查询最新版本。</string>
 	<key>Asks macOS to remove the local Time Machine snapshots it can drop to free space. Backups on your backup disk are not touched.</key>
 	<string>请 macOS 移除它可以舍弃的本地 Time Machine 快照以释放空间。备份磁盘上的备份不受影响。</string>
+	<key>Available once the app list has been checked again</key>
+	<string>重新检查应用列表后可用</string>
 	<key>Back</key>
 	<string>返回</string>
 	<key>Background Smart Scan</key>
@@ -990,6 +992,8 @@
 	<string>更新</string>
 	<key>Updates</key>
 	<string>更新</string>
+	<key>Updating</key>
+	<string>正在更新</string>
 	<key>User Caches &amp; Logs</key>
 	<string>用户缓存与日志</string>
 	<key>Using the GPU</key>
