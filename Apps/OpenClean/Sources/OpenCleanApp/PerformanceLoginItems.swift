@@ -203,13 +203,13 @@ struct LaunchItemRow: View {
             StatusTag(text: stateText, color: item.isDisabled ? Theme.textTertiary : Theme.textSecondary)
             if item.scope.isActionable {
                 if busy {
-                    ProgressView().controlSize(.small).frame(width: 190)
+                    ProgressView().controlSize(.small).frame(width: 130)
                 } else {
                     Button(item.isDisabled ? "Turn On" : "Turn Off", action: item.isDisabled ? onEnable : onDisable)
-                        .buttonStyle(CapsuleButtonStyle())
+                        .buttonStyle(CapsuleButtonStyle(compact: true))
                         .fixedSize()
                     Button("Remove", action: onRemove)
-                        .buttonStyle(CapsuleButtonStyle())
+                        .buttonStyle(CapsuleButtonStyle(compact: true))
                         .fixedSize()
                 }
             } else {

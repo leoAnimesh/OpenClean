@@ -73,7 +73,7 @@ struct MaintenanceRow: View {
                     .foregroundStyle(record?.succeeded == false ? Theme.coral : Theme.textTertiary)
             }
             Button("Run", action: onRun)
-                .buttonStyle(CapsuleButtonStyle())
+                .buttonStyle(CapsuleButtonStyle(compact: true))
                 .fixedSize()
                 .accessibilityLabel("Run \(task.localizedTitle)")
         }
