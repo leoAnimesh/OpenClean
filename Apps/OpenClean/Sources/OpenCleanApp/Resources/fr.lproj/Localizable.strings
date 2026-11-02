@@ -494,6 +494,8 @@
 	<string>Correspond à l’ID de paquet</string>
 	<key>Matches name</key>
 	<string>Correspond au nom</string>
+	<key>Measuring</key>
+	<string>Mesure en cours</string>
 	<key>Measuring apps</key>
 	<string>Mesure des apps</string>
 	<key>Measuring apps…</key>

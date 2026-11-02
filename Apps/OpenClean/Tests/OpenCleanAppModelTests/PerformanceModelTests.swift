@@ -43,7 +43,7 @@ struct PerformanceModelTests {
     func makeModel(
         _ home: TempDirectory, sampler: CountingSampler = CountingSampler(),
         admin: FakeMaintenanceAdminExecutor = FakeMaintenanceAdminExecutor(),
-        runner: FakeCommandRunner = FakeCommandRunner()
+        runner: FakeCommandRunner = FakeCommandRunner(), interval: Duration = .milliseconds(50)
     ) throws -> PerformanceModel {
         let coordinator = OpenCleanCoordinator(
             home: home.path, environment: [:], registry: ProbeRegistry([]), processChecker: FakeProcessChecker(),
@@ -55,7 +55,24 @@ struct PerformanceModelTests {
             coordinator: coordinator, monitor: SystemMonitor(sampler: sampler),
             loginItems: { coordinator.loginItemsService(runner: runner, roots: roots, installedApps: []) },
             maintenance: coordinator.maintenanceRunner(runner: runner, admin: admin),
-            availableTasks: MaintenanceTask.allCases, interval: .milliseconds(50))
+            availableTasks: MaintenanceTask.allCases, interval: interval)
+    }
+
+    @Test func newDemandIsSampledWithoutWaitingForTheNextTick() async throws {
+        let home = try TempDirectory()
+        let sampler = CountingSampler()
+        let model = try makeModel(home, sampler: sampler, interval: .seconds(10))
+        let metrics = Task { await model.monitor(.metrics) }
+        defer { metrics.cancel() }
+        try await waitUntil { model.cpu != nil }
+
+        // The menu bar keeps CPU going on a long interval; opening the process list must not wait for it.
+        let started = Date()
+        let processes = Task { await model.monitor([.metrics, .processes]) }
+        defer { processes.cancel() }
+        try await waitUntil { sampler.requests.filter { $0.contains(.processes) }.count >= 2 }
+        #expect(sampler.requests.filter { $0.contains(.processes) }.count >= 2)
+        #expect(Date().timeIntervalSince(started) < 3, "two process samples, not two 10 s ticks")
     }
 
     @Test func samplesOnlyWhileSomethingIsObserving() async throws {

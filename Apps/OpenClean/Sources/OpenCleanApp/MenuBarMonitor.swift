@@ -134,7 +134,7 @@ struct MenuBarPopover: View {
                 Text("Heavy apps").font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.textSecondary)
                 let top = model.topByCPU(3)
                 if top.isEmpty {
-                    Text("Measuring…").font(.system(size: 12)).foregroundStyle(Theme.textTertiary)
+                    PlaceholderRows()
                 }
                 ForEach(top) { group in
                     VStack(alignment: .leading, spacing: 6) {

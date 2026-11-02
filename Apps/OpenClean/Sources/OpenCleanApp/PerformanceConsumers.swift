@@ -125,13 +125,10 @@ struct HeavyConsumersView: View {
                 }
             }
             if groups.isEmpty {
-                VStack(spacing: 10) {
-                    ProgressView().controlSize(.small)
-                    Text("Measuring…").font(.system(size: 14)).foregroundStyle(Theme.textSecondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(40)
-                .glassPanel()
+                PlaceholderRows(count: 6, iconSize: 30, spacing: 14)
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .top)
+                    .glassPanel()
             } else {
                 ScrollView {
                     VStack(spacing: 0) {
@@ -189,7 +186,7 @@ struct HeavyConsumersView: View {
 }
 
 struct ConsumerRow: View {
-    /// Wide enough for the compact Quit and Force Quit… side by side in every language (German is the
+    /// Wide enough for the compact Quit and Force Quit side by side in every language (German is the
     /// widest, about 211 pt), so the figures line up from row to row.
     static let actionsWidth: CGFloat = 216
 

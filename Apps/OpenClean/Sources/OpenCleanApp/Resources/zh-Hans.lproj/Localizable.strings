@@ -494,6 +494,8 @@
 	<string>与包 ID 匹配</string>
 	<key>Matches name</key>
 	<string>与名称匹配</string>
+	<key>Measuring</key>
+	<string>正在测量</string>
 	<key>Measuring apps</key>
 	<string>正在测量 App</string>
 	<key>Measuring apps…</key>

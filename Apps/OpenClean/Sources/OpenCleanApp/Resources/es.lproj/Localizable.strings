@@ -494,6 +494,8 @@
 	<string>Coincide con el ID de paquete</string>
 	<key>Matches name</key>
 	<string>Coincide con el nombre</string>
+	<key>Measuring</key>
+	<string>Midiendo</string>
 	<key>Measuring apps</key>
 	<string>Midiendo apps</string>
 	<key>Measuring apps…</key>

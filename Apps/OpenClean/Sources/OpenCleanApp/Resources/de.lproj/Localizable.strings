@@ -494,6 +494,8 @@
 	<string>Passt zur Bundle-ID</string>
 	<key>Matches name</key>
 	<string>Passt zum Namen</string>
+	<key>Measuring</key>
+	<string>Wird gemessen</string>
 	<key>Measuring apps</key>
 	<string>Apps werden gemessen</string>
 	<key>Measuring apps…</key>

@@ -67,6 +67,10 @@ public final class PerformanceModel {
     public private(set) var isSampling = false
     @ObservationIgnored private var demands: [UUID: SampleRequest] = [:]
     @ObservationIgnored private var samplingTask: Task<Void, Never>?
+    /// The current wait between samples, cancelled to sample early when new figures are asked for.
+    @ObservationIgnored private var nap: Task<Void, Never>?
+    /// What the loop last sampled.
+    @ObservationIgnored private var sampledRequest: SampleRequest = []
     @ObservationIgnored private var pointCounter = 0
 
     // MARK: Login items
@@ -127,27 +131,36 @@ public final class PerformanceModel {
         if combinedRequest.isEmpty {
             samplingTask?.cancel()
             samplingTask = nil
+            nap?.cancel()
             isSampling = false
             monitor.reset()
         } else if samplingTask == nil {
             isSampling = true
             samplingTask = Task { [weak self] in await self?.sampleLoop() }
+        } else if !combinedRequest.isSubset(of: sampledRequest) {
+            // Something new was asked for (say the process list, while the menu bar keeps CPU going):
+            // sample now instead of at the next tick, so its figures don't wait two whole intervals.
+            nap?.cancel()
         }
     }
 
     private func sampleLoop() async {
-        var primed = false
+        sampledRequest = []
         while !Task.isCancelled {
             let request = combinedRequest
             guard !request.isEmpty else { return }
+            // Figures need two samples of a kind, so the first sample of anything new is followed
+            // quickly by the second one.
+            let isNew = !request.isSubset(of: sampledRequest)
+            sampledRequest = request
             let monitor = self.monitor
             let snapshot = await Task.detached(priority: .utility) { monitor.next(request) }.value
             guard !Task.isCancelled else { return }
             apply(snapshot)
-            // The first figures need two samples; take the second one quickly.
-            let wait: Duration = primed ? interval : .milliseconds(500)
-            primed = true
-            try? await Task.sleep(for: wait)
+            let wait: Duration = isNew ? .milliseconds(500) : interval
+            let nap = Task { _ = try? await Task.sleep(for: wait) }
+            self.nap = nap
+            await nap.value
         }
     }
 

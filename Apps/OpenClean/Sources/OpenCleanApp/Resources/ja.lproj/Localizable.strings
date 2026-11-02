@@ -494,6 +494,8 @@
 	<string>バンドル ID に一致</string>
 	<key>Matches name</key>
 	<string>名前に一致</string>
+	<key>Measuring</key>
+	<string>計測中</string>
 	<key>Measuring apps</key>
 	<string>App を計測中</string>
 	<key>Measuring apps…</key>
