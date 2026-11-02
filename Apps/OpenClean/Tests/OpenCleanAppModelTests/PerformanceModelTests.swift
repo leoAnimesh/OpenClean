@@ -30,8 +30,10 @@ final class CountingSampler: SystemSampler, @unchecked Sendable {
 }
 
 /// Polls until `condition` holds or `timeout` seconds pass, so timing-based tests don't flake on slow machines.
+/// The limit is generous because CI runs every suite at once and main-actor tests there can stall for 20 s
+/// or more; a test whose condition holds returns as soon as it does.
 @MainActor
-func waitUntil(timeout: TimeInterval = 5, _ condition: @MainActor () -> Bool) async throws {
+func waitUntil(timeout: TimeInterval = 30, _ condition: @MainActor () -> Bool) async throws {
     let deadline = Date().addingTimeInterval(timeout)
     while !condition() && Date() < deadline {
         try await Task.sleep(for: .milliseconds(20))
@@ -65,12 +67,12 @@ struct PerformanceModelTests {
         let model = try makeModel(home, sampler: sampler, interval: .seconds(3_600))
         let metrics = Task { await model.monitor(.metrics) }
         defer { metrics.cancel() }
-        try await waitUntil(timeout: 30) { model.cpu != nil }
+        try await waitUntil { model.cpu != nil }
 
         // The menu bar keeps CPU going on a long interval; opening the process list must not wait for it.
         let processes = Task { await model.monitor([.metrics, .processes]) }
         defer { processes.cancel() }
-        try await waitUntil(timeout: 30) { sampler.requests.filter { $0.contains(.processes) }.count >= 2 }
+        try await waitUntil { sampler.requests.filter { $0.contains(.processes) }.count >= 2 }
         #expect(
             sampler.requests.filter { $0.contains(.processes) }.count >= 2,
             "both process samples come at once, not at the next (hour-long) tick")
