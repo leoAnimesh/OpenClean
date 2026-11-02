@@ -26,10 +26,7 @@ struct MenuBarLabel: View {
                         cpu: formatPercent(model.cpu), memory: formatPercent(model.memory?.usedFraction),
                         gpu: metric == .cpuMemoryAndGPU ? formatPercent(model.gpu?.utilization) : nil,
                         network: metric == .cpuMemoryAndNetwork
-                            ? (
-                                down: formatRate(model.network?.receivedPerSecond),
-                                up: formatRate(model.network?.sentPerSecond)
-                            ) : nil))
+                            ? (down: model.network?.receivedPerSecond, up: model.network?.sentPerSecond) : nil))
             } else {
                 Image(nsImage: MenuBarGlyph.image)
                 if metric != .none {
@@ -262,25 +259,23 @@ struct MenuBarPopover: View {
 }
 
 /// Draws "CPU icon · CPU% · memory icon · memory%", and optionally "GPU icon · GPU%" or the download and
-/// upload rates, into one template image for the menu bar.
+/// upload rates, into one template image for the menu bar. Spacing and rates are kept short so the
+/// item doesn't crowd the menu bar.
 @MainActor
 enum MenuBarFiguresImage {
     static func render(
-        cpu: String, memory: String, gpu: String? = nil, network: (down: String, up: String)? = nil
+        cpu: String, memory: String, gpu: String? = nil, network: (down: Double?, up: Double?)? = nil
     ) -> NSImage {
         let font = Font.system(size: 12, weight: .medium)
-        let content = HStack(spacing: 4) {
-            Image(systemName: "cpu").font(font)
-            Text(cpu).font(font).monospacedDigit()
-            Image(systemName: "memorychip").font(font).padding(.leading, 3)
-            Text(memory).font(font).monospacedDigit()
+        let content = HStack(spacing: 7) {
+            figure("cpu", cpu, font: font)
+            figure("memorychip", memory, font: font)
             if let gpu {
-                Image(systemName: "cube").font(font).padding(.leading, 3)
-                Text(gpu).font(font).monospacedDigit()
+                figure("cube", gpu, font: font)
             }
             if let network {
-                Text(verbatim: "↓ \(network.down)").font(font).monospacedDigit().padding(.leading, 3)
-                Text(verbatim: "↑ \(network.up)").font(font).monospacedDigit().padding(.leading, 3)
+                Text(verbatim: "↓\(formatCompactRate(network.down)) ↑\(formatCompactRate(network.up))")
+                    .font(font).monospacedDigit()
             }
         }
         .foregroundStyle(.black)
@@ -295,10 +290,30 @@ enum MenuBarFiguresImage {
             } else if let network {
                 String(
                     localized:
-                        "OpenClean, CPU \(cpu), memory \(memory), download \(network.down), upload \(network.up)")
+                        "OpenClean, CPU \(cpu), memory \(memory), download \(formatRate(network.down)), upload \(formatRate(network.up))"
+                )
             } else {
                 String(localized: "OpenClean, CPU \(cpu), memory \(memory)")
             }
         return image
     }
+
+    private static func figure(_ symbol: String, _ value: String, font: Font) -> some View {
+        HStack(spacing: 2) {
+            Image(systemName: symbol).font(font)
+            Text(value).font(font).monospacedDigit()
+        }
+    }
+}
+
+/// A short rate for the menu bar: "0K", "5K", "285K", "1.2M", "12M", "1.5G" (decimal units, per second).
+func formatCompactRate(_ bytesPerSecond: Double?) -> String {
+    guard let bytesPerSecond else { return "–" }
+    let units: [(Double, String)] = [(1e9, "G"), (1e6, "M"), (1e3, "K")]
+    // 999.6K would round to "1000K", so switch units just below each boundary.
+    for (size, suffix) in units where bytesPerSecond >= size * 0.9995 {
+        let value = bytesPerSecond / size
+        return (value < 10 && suffix != "K" ? String(format: "%.1f", value) : String(format: "%.0f", value)) + suffix
+    }
+    return "0K"
 }
