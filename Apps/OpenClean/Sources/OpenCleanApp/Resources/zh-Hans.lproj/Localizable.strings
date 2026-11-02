@@ -524,6 +524,8 @@
 	<string>正在将 %@ 移入隔离区…</string>
 	<key>Moving…</key>
 	<string>正在移动…</string>
+	<key>Name</key>
+	<string>名称</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>扫描废纸篓、邮件、Safari 和 iOS 备份时需要。</string>
 	<key>Needs access</key>

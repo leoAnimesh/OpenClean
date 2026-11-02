@@ -524,6 +524,8 @@
 	<string>Placement de %@ en quarantaine…</string>
 	<key>Moving…</key>
 	<string>Déplacement…</string>
+	<key>Name</key>
+	<string>Nom</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>Nécessaire pour analyser la Corbeille, Mail, Safari et les sauvegardes iOS.</string>
 	<key>Needs access</key>

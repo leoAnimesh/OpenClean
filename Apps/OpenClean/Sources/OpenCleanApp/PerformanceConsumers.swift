@@ -250,6 +250,8 @@ struct ConsumerRow: View {
 struct ConsumerColumnHeader: View {
     var body: some View {
         HStack(spacing: 14) {
+            // Lines up with the names, past the 30 pt icon in each row.
+            Text("Name").padding(.leading, 30 + 14)
             Spacer(minLength: 0)
             Text("CPU").frame(minWidth: 64, alignment: .trailing)
             Text("GPU").frame(minWidth: 64, alignment: .trailing)

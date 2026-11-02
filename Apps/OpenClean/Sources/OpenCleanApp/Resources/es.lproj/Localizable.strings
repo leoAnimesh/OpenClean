@@ -524,6 +524,8 @@
 	<string>Moviendo %@ a cuarentena…</string>
 	<key>Moving…</key>
 	<string>Moviendo…</string>
+	<key>Name</key>
+	<string>Nombre</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>Necesario para analizar la Papelera, Mail, Safari y las copias de iOS.</string>
 	<key>Needs access</key>

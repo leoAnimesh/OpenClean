@@ -524,6 +524,8 @@
 	<string>%@ を隔離へ移動中…</string>
 	<key>Moving…</key>
 	<string>移動中…</string>
+	<key>Name</key>
+	<string>名前</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>ゴミ箱、メール、Safari、iOS バックアップのスキャンに必要です。</string>
 	<key>Needs access</key>

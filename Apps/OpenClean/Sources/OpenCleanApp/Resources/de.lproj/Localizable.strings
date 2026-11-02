@@ -524,6 +524,8 @@
 	<string>%@ wird in die Quarantäne bewegt …</string>
 	<key>Moving…</key>
 	<string>Wird bewegt …</string>
+	<key>Name</key>
+	<string>Name</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>Nötig, um Papierkorb, Mail, Safari und iOS-Backups zu scannen.</string>
 	<key>Needs access</key>
