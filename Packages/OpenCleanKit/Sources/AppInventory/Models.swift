@@ -23,7 +23,7 @@ public struct ApplicationFolder: Sendable, Hashable {
 }
 
 /// Why an app can or cannot be uninstalled. Running state is tracked separately because it changes.
-public enum AppStatus: String, Sendable, Hashable {
+public enum AppStatus: String, Sendable, Hashable, Codable {
     case removable
     case appleApp
     case openClean
@@ -51,7 +51,7 @@ public enum AppStatus: String, Sendable, Hashable {
     }
 }
 
-public struct InstalledApp: Sendable, Hashable, Identifiable {
+public struct InstalledApp: Sendable, Hashable, Identifiable, Codable {
     public static let openCleanBundleID = "com.openclean"
 
     public var id: String { path }

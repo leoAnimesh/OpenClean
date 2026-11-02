@@ -322,20 +322,20 @@ struct CheckForUpdatesButton: View {
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        Button("Check for Updates…") {
+        Button("Check for Updates") {
             MainWindow.show(openWindow: openWindow)
             updates.checkForUpdates()
         }
     }
 }
 
-/// OpenClean → Settings… (⌘,): shows the Settings page in the main window.
+/// OpenClean → Settings (⌘,): shows the Settings page in the main window.
 struct OpenSettingsButton: View {
     let navigation: AppNavigation
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        Button("Settings…") {
+        Button("Settings") {
             navigation.selection = .settings
             MainWindow.show(openWindow: openWindow)
         }

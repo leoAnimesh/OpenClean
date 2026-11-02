@@ -67,12 +67,19 @@ public final class PerformanceModel {
     public private(set) var isSampling = false
     @ObservationIgnored private var demands: [UUID: SampleRequest] = [:]
     @ObservationIgnored private var samplingTask: Task<Void, Never>?
+    /// The current wait between samples, cancelled to sample early when new figures are asked for.
+    @ObservationIgnored private var nap: Task<Void, Never>?
+    /// What the loop last sampled.
+    @ObservationIgnored private var sampledRequest: SampleRequest = []
     @ObservationIgnored private var pointCounter = 0
 
     // MARK: Login items
 
     public private(set) var inventory: LoginItemsInventory?
     public private(set) var isLoadingInventory = false
+    /// The inventory on screen came from a listing in this session, not from the display cache.
+    /// Turning items off or removing them waits for this.
+    public private(set) var loginItemsAreFresh = false
     public private(set) var busyItems: Set<String> = []
     /// The latest action result or error, shown under the list.
     public var loginItemsNotice: Notice?
@@ -127,27 +134,36 @@ public final class PerformanceModel {
         if combinedRequest.isEmpty {
             samplingTask?.cancel()
             samplingTask = nil
+            nap?.cancel()
             isSampling = false
             monitor.reset()
         } else if samplingTask == nil {
             isSampling = true
             samplingTask = Task { [weak self] in await self?.sampleLoop() }
+        } else if !combinedRequest.isSubset(of: sampledRequest) {
+            // Something new was asked for (say the process list, while the menu bar keeps CPU going):
+            // sample now instead of at the next tick, so its figures don't wait two whole intervals.
+            nap?.cancel()
         }
     }
 
     private func sampleLoop() async {
-        var primed = false
+        sampledRequest = []
         while !Task.isCancelled {
             let request = combinedRequest
             guard !request.isEmpty else { return }
+            // Figures need two samples of a kind, so the first sample of anything new is followed
+            // quickly by the second one.
+            let isNew = !request.isSubset(of: sampledRequest)
+            sampledRequest = request
             let monitor = self.monitor
             let snapshot = await Task.detached(priority: .utility) { monitor.next(request) }.value
             guard !Task.isCancelled else { return }
             apply(snapshot)
-            // The first figures need two samples; take the second one quickly.
-            let wait: Duration = primed ? interval : .milliseconds(500)
-            primed = true
-            try? await Task.sleep(for: wait)
+            let wait: Duration = isNew ? .milliseconds(500) : interval
+            let nap = Task { _ = try? await Task.sleep(for: wait) }
+            self.nap = nap
+            await nap.value
         }
     }
 
@@ -194,11 +210,20 @@ public final class PerformanceModel {
         return made
     }
 
+    /// Lists login items again. The first time, the cached list (if any) shows while it loads.
     public func refreshLoginItems() async {
         guard !isLoadingInventory else { return }
         isLoadingInventory = true
+        let cache = coordinator.displayCache
+        if inventory == nil { inventory = cache.load(LoginItemsInventory.self, .loginItems)?.value }
         let service = service()
-        inventory = await Task.detached(priority: .userInitiated) { service.inventory() }.value
+        let fresh = await Task.detached(priority: .userInitiated) { () -> LoginItemsInventory in
+            let inventory = service.inventory()
+            cache.save(inventory, .loginItems)
+            return inventory
+        }.value
+        inventory = fresh
+        loginItemsAreFresh = true
         isLoadingInventory = false
     }
 
@@ -237,6 +262,7 @@ public final class PerformanceModel {
         _ item: LaunchItem, success: String,
         _ action: @escaping @Sendable (LoginItemsService) throws -> LaunchItemActionResult
     ) async {
+        guard loginItemsAreFresh else { return }
         busyItems.insert(item.path)
         let service = service()
         let result = await Task.detached(priority: .userInitiated) { () -> Result<LaunchItemActionResult, Error> in

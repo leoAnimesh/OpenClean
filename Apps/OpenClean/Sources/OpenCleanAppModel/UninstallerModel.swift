@@ -20,6 +20,11 @@ public final class UninstallerModel {
     public private(set) var phase: Phase = .idle
     public private(set) var progress: AppInventoryProgress?
     public private(set) var apps: [InstalledApp] = []
+    /// A fresh listing is loading behind a list that is already on screen (cached or older).
+    public private(set) var isRefreshing = false
+    /// The list on screen came from a finished listing in this session, not from the display cache.
+    /// Uninstalling waits for this, so nothing is ever removed on the strength of cached data.
+    public private(set) var listIsFresh = false
     public var searchText = ""
     public private(set) var selectedAppID: String?
     public private(set) var leftovers: [Leftover] = []
@@ -40,45 +45,78 @@ public final class UninstallerModel {
     @ObservationIgnored private var leftoverTask: Task<Void, Never>?
     @ObservationIgnored private var selectionGeneration = 0
     @ObservationIgnored private var didAutoLoad = false
+    @ObservationIgnored private var lastLoaded: Date?
+    /// Leftovers found per app this session, shown at once when an app is selected again while they
+    /// are looked up afresh.
+    @ObservationIgnored private var leftoverCache: [String: [Leftover]] = [:]
+    /// How old the list may get before revisiting the screen refreshes it behind the scenes.
+    @ObservationIgnored let staleAfter: TimeInterval
 
     public init(
         coordinator: OpenCleanCoordinator, lastUsed: (any LastUsedProvider)? = MdlsLastUsedProvider(),
-        systemLibrary: String = "/Library"
+        systemLibrary: String = "/Library", staleAfter: TimeInterval = 300
     ) {
         self.coordinator = coordinator
         self.lastUsed = lastUsed
         self.systemLibrary = systemLibrary
+        self.staleAfter = staleAfter
     }
 
     // MARK: Loading
 
-    /// Loads the app list the first time the screen appears.
+    /// The first time the screen appears, shows the cached list (if any) and loads a fresh one; later
+    /// visits refresh the list behind the scenes once it is a few minutes old.
     public func onAppear() {
-        guard !didAutoLoad, phase == .idle else { return }
-        didAutoLoad = true
-        load()
+        if !didAutoLoad {
+            guard phase == .idle else { return }
+            didAutoLoad = true
+            if let cached = coordinator.displayCache.load([InstalledApp].self, .installedApps), !cached.value.isEmpty {
+                apps = cached.value
+                phase = .list
+            }
+            load()
+        } else if phase == .list, let lastLoaded, Date().timeIntervalSince(lastLoaded) > staleAfter {
+            load()
+        }
     }
 
+    /// Lists the apps. With a list already on screen it stays there (and usable for browsing) while the
+    /// new one loads; otherwise the loading screen shows progress.
     public func load() {
-        guard phase != .loading, phase != .uninstalling else { return }
-        phase = .loading
-        progress = nil
+        guard phase != .loading, phase != .uninstalling, !isRefreshing else { return }
+        let inBackground = phase == .list && !apps.isEmpty
+        if inBackground {
+            isRefreshing = true
+        } else {
+            phase = .loading
+            progress = nil
+        }
         let coordinator = coordinator
         let lastUsed = lastUsed
         let (stream, continuation) = AsyncStream.makeStream(of: AppInventoryProgress.self)
         loadTask = Task {
             async let listed = coordinator.installedApps(lastUsed: lastUsed, progress: continuation)
-            for await update in stream {
+            for await update in stream where !inBackground {
                 self.progress = update
             }
             let result = await listed
             if Task.isCancelled {
-                self.apps = []
-                self.clearSelection()
-                self.phase = .idle
+                if inBackground {
+                    self.isRefreshing = false
+                } else {
+                    self.apps = []
+                    self.clearSelection()
+                    self.phase = .idle
+                }
                 return
             }
             self.apps = result
+            self.isRefreshing = false
+            self.listIsFresh = true
+            self.lastLoaded = Date()
+            self.leftoverCache = self.leftoverCache.filter { id, _ in result.contains { $0.id == id } }
+            let cache = coordinator.displayCache
+            Task.detached(priority: .utility) { cache.save(result, .installedApps) }
             self.phase = .list
             if let selected = self.selectedApp {
                 self.select(selected)
@@ -144,8 +182,9 @@ public final class UninstallerModel {
         let changed = selectedAppID != app.id
         selectedAppID = app.id
         if changed {
-            leftovers = []
-            selectedLeftovers = []
+            // Show what was found last time at once; the search below replaces it.
+            leftovers = leftoverCache[app.id] ?? []
+            selectedLeftovers = Set(leftovers.filter(\.isSelectedByDefault).map(\.id))
         }
         selectedAppIsRunning = app.isRunning
         guard app.bundleID != nil else {
@@ -165,6 +204,7 @@ public final class UninstallerModel {
                     app.bundleID.map { coordinator.isAppRunning(bundleID: $0) } ?? false
                 )
             }.value
+            self.leftoverCache[app.id] = found
             guard generation == self.selectionGeneration, self.selectedAppID == app.id else { return }
             let previous = Set(self.leftovers.map(\.id))
             self.leftovers = found
@@ -204,7 +244,7 @@ public final class UninstallerModel {
     // MARK: Uninstalling
 
     public var canUninstall: Bool {
-        guard phase == .list, let app = selectedApp else { return false }
+        guard phase == .list, listIsFresh, !isRefreshing, let app = selectedApp else { return false }
         return app.status.isRemovable && !selectedAppIsRunning && !isFindingLeftovers
     }
 
@@ -242,10 +282,17 @@ public final class UninstallerModel {
         return entry.outcome == .failed && entry.reason == SkipReason.adminCancelled.description
     }
 
-    /// Leaves the summary and reloads the list, since sizes and the app set have changed.
+    /// Leaves the summary and refreshes the list behind the scenes, since sizes and the app set have changed.
     public func done() {
         guard phase == .finished else { return }
-        if appWasRemoved { clearSelection() }
+        if let processedApp {
+            leftoverCache[processedApp.id] = nil
+            if appWasRemoved {
+                clearSelection()
+                // Take it off the list now rather than after the refresh below.
+                apps.removeAll { $0.id == processedApp.id }
+            }
+        }
         outcome = nil
         processedApp = nil
         errorMessage = nil

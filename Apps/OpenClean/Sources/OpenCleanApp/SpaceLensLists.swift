@@ -232,7 +232,7 @@ struct DuplicateRootsBar: View {
                 }
             }
             HStack(spacing: 10) {
-                Button("Add Folder…") {
+                Button("Add Folder") {
                     if let path = chooseFolder(startingAt: model.home, prompt: String(localized: "Add")) {
                         model.addDuplicateRoot(path)
                     }

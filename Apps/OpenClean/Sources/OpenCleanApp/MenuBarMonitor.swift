@@ -26,10 +26,7 @@ struct MenuBarLabel: View {
                         cpu: formatPercent(model.cpu), memory: formatPercent(model.memory?.usedFraction),
                         gpu: metric == .cpuMemoryAndGPU ? formatPercent(model.gpu?.utilization) : nil,
                         network: metric == .cpuMemoryAndNetwork
-                            ? (
-                                down: formatRate(model.network?.receivedPerSecond),
-                                up: formatRate(model.network?.sentPerSecond)
-                            ) : nil))
+                            ? (down: model.network?.receivedPerSecond, up: model.network?.sentPerSecond) : nil))
             } else {
                 Image(nsImage: MenuBarGlyph.image)
                 if metric != .none {
@@ -137,7 +134,7 @@ struct MenuBarPopover: View {
                 Text("Heavy apps").font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.textSecondary)
                 let top = model.topByCPU(3)
                 if top.isEmpty {
-                    Text("Measuring…").font(.system(size: 12)).foregroundStyle(Theme.textTertiary)
+                    PlaceholderRows()
                 }
                 ForEach(top) { group in
                     VStack(alignment: .leading, spacing: 6) {
@@ -168,7 +165,7 @@ struct MenuBarPopover: View {
                             .buttonStyle(.plain)
                             .help(
                                 allowed
-                                    ? String(localized: "Force Quit \(group.name)…")
+                                    ? String(localized: "Force Quit \(group.name)")
                                     : AppQuitter.unavailableReason(group)
                             )
                             .accessibilityLabel(
@@ -261,30 +258,30 @@ struct MenuBarPopover: View {
     }
 }
 
-/// Draws "CPU icon · CPU% · memory icon · memory%", and optionally "GPU icon · GPU%" or the download and
-/// upload rates, into one template image for the menu bar.
+/// Draws the figures into one template image for the menu bar, in the style of the Stats app: each
+/// percentage is a small "CPU" / "RAM" / "GPU" caption above its value, and the network speed is upload
+/// above download, right-aligned. Every value sits in a fixed-width slot, so the item doesn't change
+/// width (or nudge its neighbours) as the figures change.
 @MainActor
 enum MenuBarFiguresImage {
     static func render(
-        cpu: String, memory: String, gpu: String? = nil, network: (down: String, up: String)? = nil
+        cpu: String, memory: String, gpu: String? = nil, network: (down: Double?, up: Double?)? = nil
     ) -> NSImage {
-        let font = Font.system(size: 12, weight: .medium)
-        let content = HStack(spacing: 4) {
-            Image(systemName: "cpu").font(font)
-            Text(cpu).font(font).monospacedDigit()
-            Image(systemName: "memorychip").font(font).padding(.leading, 3)
-            Text(memory).font(font).monospacedDigit()
+        let content = HStack(spacing: 6) {
+            mini(String(localized: "CPU"), cpu)
+            mini(String(localized: "RAM"), memory)
             if let gpu {
-                Image(systemName: "cube").font(font).padding(.leading, 3)
-                Text(gpu).font(font).monospacedDigit()
+                mini(String(localized: "GPU"), gpu)
             }
             if let network {
-                Text(verbatim: "↓ \(network.down)").font(font).monospacedDigit().padding(.leading, 3)
-                Text(verbatim: "↑ \(network.up)").font(font).monospacedDigit().padding(.leading, 3)
+                VStack(alignment: .trailing, spacing: -1) {
+                    speed("arrow.up", formatRate(network.up))
+                    speed("arrow.down", formatRate(network.down))
+                }
             }
         }
         .foregroundStyle(.black)
-        .frame(height: 18)
+        .frame(height: 20)
         let renderer = ImageRenderer(content: content)
         renderer.scale = 2
         let image = renderer.nsImage ?? MenuBarGlyph.image
@@ -295,10 +292,36 @@ enum MenuBarFiguresImage {
             } else if let network {
                 String(
                     localized:
-                        "OpenClean, CPU \(cpu), memory \(memory), download \(network.down), upload \(network.up)")
+                        "OpenClean, CPU \(cpu), memory \(memory), download \(formatRate(network.down)), upload \(formatRate(network.up))"
+                )
             } else {
                 String(localized: "OpenClean, CPU \(cpu), memory \(memory)")
             }
         return image
+    }
+
+    /// A tiny caption above its value, in a column as wide as "100%".
+    private static func mini(_ caption: String, _ value: String) -> some View {
+        VStack(alignment: .leading, spacing: -1) {
+            Text(verbatim: caption).font(.system(size: 7, weight: .semibold))
+            slot(value, widest: "100%", alignment: .leading).font(.system(size: 11, weight: .semibold))
+        }
+    }
+
+    /// An arrow and a rate ("510 KB/s"), right-aligned in a slot as wide as the longest rate.
+    private static func speed(_ symbol: String, _ value: String) -> some View {
+        HStack(spacing: 2) {
+            Image(systemName: symbol).font(.system(size: 7, weight: .bold))
+            slot(value, widest: "88.8 MB/s", alignment: .trailing).font(.system(size: 9, weight: .semibold))
+        }
+    }
+
+    /// `value` in a box as wide as `widest` (wider only for a rare longer value).
+    private static func slot(_ value: String, widest: String, alignment: Alignment) -> some View {
+        ZStack(alignment: alignment) {
+            Text(verbatim: widest).hidden()
+            Text(verbatim: value)
+        }
+        .monospacedDigit().fixedSize()
     }
 }

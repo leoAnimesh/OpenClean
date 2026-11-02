@@ -124,4 +124,55 @@ struct UninstallerModelTests {
         #expect(model.errorMessage == nil)
         #expect(FileStat.of(foo) != nil)
     }
+
+    @Test func showsTheCachedListAtOnceAndUninstallsOnlyAfterAFreshListing() async throws {
+        let home = try TempDirectory()
+        try makeApp(home, "Foo", id: "com.example.foo")
+        let first = makeModel(home)
+        first.onAppear()
+        await first.waitForLoad()
+        let cache = first.coordinator.displayCache
+        try await waitUntil { cache.load([InstalledApp].self, .installedApps) != nil }
+        try makeApp(home, "Bar", id: "com.example.bar")
+
+        let second = makeModel(home)
+        second.onAppear()
+        #expect(second.phase == .list, "the cached list shows instead of the loading screen")
+        #expect(second.apps.map(\.name) == ["Foo"])
+        #expect(second.isRefreshing)
+        #expect(!second.listIsFresh)
+        second.select(try #require(second.apps.first))
+        #expect(!second.canUninstall, "never uninstall from cached data")
+
+        await second.waitForLoad()
+        await second.waitForLeftovers()
+        #expect(!second.isRefreshing)
+        #expect(second.listIsFresh)
+        #expect(second.apps.map(\.name) == ["Bar", "Foo"])
+        #expect(second.selectedApp?.name == "Foo")
+        #expect(second.canUninstall)
+    }
+
+    @Test func reselectingAnAppShowsItsLeftoversAtOnce() async throws {
+        let home = try TempDirectory()
+        try makeApp(home, "Foo", id: "com.example.foo")
+        try makeApp(home, "Bar", id: "com.example.bar")
+        let byID = try home.directory("Library/Caches/com.example.foo")
+        let model = makeModel(home)
+        model.onAppear()
+        await model.waitForLoad()
+        let foo = try #require(model.apps.first { $0.name == "Foo" })
+        let bar = try #require(model.apps.first { $0.name == "Bar" })
+
+        model.select(foo)
+        await model.waitForLeftovers()
+        model.select(bar)
+        await model.waitForLeftovers()
+        model.select(foo)
+        #expect(model.leftovers.map(\.path) == [byID], "shown before the search finishes")
+        #expect(model.selectedLeftovers == [byID])
+        #expect(!model.canUninstall, "but uninstalling waits for the search")
+        await model.waitForLeftovers()
+        #expect(model.canUninstall)
+    }
 }

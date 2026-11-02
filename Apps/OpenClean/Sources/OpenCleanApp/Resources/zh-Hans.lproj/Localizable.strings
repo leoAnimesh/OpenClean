@@ -106,8 +106,8 @@
 	<string>已授予访问权限</string>
 	<key>Add</key>
 	<string>添加</string>
-	<key>Add Folder…</key>
-	<string>添加文件夹…</string>
+	<key>Add Folder</key>
+	<string>添加文件夹</string>
 	<key>Add a folder or file</key>
 	<string>添加文件夹或文件</string>
 	<key>Add a project folder</key>
@@ -116,8 +116,6 @@
 	<string>将你自己的 YAML 规则添加到此文件夹。</string>
 	<key>Adds rules that need a closer look before cleaning.</key>
 	<string>添加需要在清理前仔细检查的规则。</string>
-	<key>Add…</key>
-	<string>添加…</string>
 	<key>After this, quarantined files are deleted for good.</key>
 	<string>此后，隔离区中的文件将被永久删除。</string>
 	<key>Agents and daemons in /Library are installed by an administrator and run for everyone. OpenClean lists them so you know they’re there, but doesn’t change them.</key>
@@ -162,6 +160,8 @@
 	<string>正在向 GitHub 查询最新版本。</string>
 	<key>Asks macOS to remove the local Time Machine snapshots it can drop to free space. Backups on your backup disk are not touched.</key>
 	<string>请 macOS 移除它可以舍弃的本地 Time Machine 快照以释放空间。备份磁盘上的备份不受影响。</string>
+	<key>Available once the app list has been checked again</key>
+	<string>重新检查应用列表后可用</string>
 	<key>Back</key>
 	<string>返回</string>
 	<key>Background Smart Scan</key>
@@ -210,8 +210,8 @@
 	<string>再次检查</string>
 	<key>Check Now</key>
 	<string>立即检查</string>
-	<key>Check for Updates…</key>
-	<string>检查更新…</string>
+	<key>Check for Updates</key>
+	<string>检查更新</string>
 	<key>Check for updates automatically</key>
 	<string>自动检查更新</string>
 	<key>Checking for updates…</key>
@@ -220,8 +220,8 @@
 	<string>正在检查…</string>
 	<key>Choose</key>
 	<string>选取</string>
-	<key>Choose Folder…</key>
-	<string>选取文件夹…</string>
+	<key>Choose Folder</key>
+	<string>选取文件夹</string>
 	<key>Choose a folder where you keep code projects.</key>
 	<string>选取你存放代码项目的文件夹。</string>
 	<key>Clean</key>
@@ -250,8 +250,6 @@
 	<string>容器</string>
 	<key>Continue</key>
 	<string>继续</string>
-	<key>Continue…</key>
-	<string>继续…</string>
 	<key>Copies made by APFS cloning share space on disk, so moving one may free less than shown.</key>
 	<string>通过 APFS 克隆生成的副本共享磁盘空间，因此移走其中一个释放的空间可能少于显示的大小。</string>
 	<key>Couldn't check for updates</key>
@@ -338,10 +336,8 @@
 	<string>文件夹：%@</string>
 	<key>Force Quit</key>
 	<string>强制退出</string>
-	<key>Force Quit %@…</key>
-	<string>强制退出 %@…</string>
-	<key>Force Quit…</key>
-	<string>强制退出…</string>
+	<key>Force Quit %@</key>
+	<string>强制退出 %@</string>
 	<key>Force quit %@</key>
 	<string>强制退出 %@</string>
 	<key>Force quit %@?</key>
@@ -500,6 +496,8 @@
 	<string>与包 ID 匹配</string>
 	<key>Matches name</key>
 	<string>与名称匹配</string>
+	<key>Measuring</key>
+	<string>正在测量</string>
 	<key>Measuring apps</key>
 	<string>正在测量 App</string>
 	<key>Measuring apps…</key>
@@ -528,6 +526,8 @@
 	<string>正在将 %@ 移入隔离区…</string>
 	<key>Moving…</key>
 	<string>正在移动…</string>
+	<key>Name</key>
+	<string>名称</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>扫描废纸篓、邮件、Safari 和 iOS 备份时需要。</string>
 	<key>Needs access</key>
@@ -734,6 +734,8 @@
 	<string>要在 OpenClean 处理任务时退出吗？</string>
 	<key>Quitting %@…</key>
 	<string>正在退出 %@…</string>
+	<key>RAM</key>
+	<string>内存</string>
 	<key>Reading launch agents…</key>
 	<string>正在读取启动代理…</string>
 	<key>Reads your Applications folders only</key>
@@ -760,8 +762,6 @@
 	<string>移除 App 及其残留内容</string>
 	<key>Remove apps and what they left behind</key>
 	<string>移除 App 及其遗留内容</string>
-	<key>Remove…</key>
-	<string>移除…</string>
 	<key>Replace It (old one goes to Trash)</key>
 	<string>替换（旧文件移到废纸篓）</string>
 	<key>Report only</key>
@@ -770,8 +770,8 @@
 	<string>重置</string>
 	<key>Restore</key>
 	<string>恢复</string>
-	<key>Restore All…</key>
-	<string>全部恢复…</string>
+	<key>Restore All</key>
+	<string>全部恢复</string>
 	<key>Restored</key>
 	<string>已恢复</string>
 	<key>Restored from History</key>
@@ -806,8 +806,6 @@
 	<string>运行 macOS 自带的每日、每周和每月维护脚本（日志轮换、临时文件清理）。macOS 通常会自行运行它们。</string>
 	<key>Runs: %@</key>
 	<string>运行：%@</string>
-	<key>Run…</key>
-	<string>运行…</string>
 	<key>Safe</key>
 	<string>安全</string>
 	<key>Safe by design</key>
@@ -848,8 +846,6 @@
 	<string>选择一个 App</string>
 	<key>Settings</key>
 	<string>设置</string>
-	<key>Settings…</key>
-	<string>设置…</string>
 	<key>Shared memory</key>
 	<string>共享内存</string>
 	<key>Show CPU and memory in the menu bar</key>
@@ -968,8 +964,6 @@
 	<string>只有获得完全磁盘访问权限后才能扫描废纸篓、邮件、Safari 和 iOS 备份。</string>
 	<key>Trash, Mail, Safari and iOS backups live in folders macOS protects. OpenClean only reads what its cleaning rules list, and never sends anything off your Mac.</key>
 	<string>废纸篓、邮件、Safari 和 iOS 备份位于受 macOS 保护的文件夹中。OpenClean 只读取其清理规则列出的内容，绝不会将任何内容发送到 Mac 之外。</string>
-	<key>Trash…</key>
-	<string>移到废纸篓…</string>
 	<key>Turn Off</key>
 	<string>关闭</string>
 	<key>Turn On</key>
@@ -998,6 +992,8 @@
 	<string>更新</string>
 	<key>Updates</key>
 	<string>更新</string>
+	<key>Updating</key>
+	<string>正在更新</string>
 	<key>User Caches &amp; Logs</key>
 	<string>用户缓存与日志</string>
 	<key>Using the GPU</key>
@@ -1020,8 +1016,8 @@
 	<string>正在等待你输入密码，然后将 %@ 移入隔离区…</string>
 	<key>We found %@ to clean</key>
 	<string>找到 %@ 可清理</string>
-	<key>Welcome Tour…</key>
-	<string>欢迎导览…</string>
+	<key>Welcome Tour</key>
+	<string>欢迎导览</string>
 	<key>Welcome back. Ready for another sweep?</key>
 	<string>欢迎回来。准备好再清理一次了吗？</string>
 	<key>Welcome to OpenClean</key>

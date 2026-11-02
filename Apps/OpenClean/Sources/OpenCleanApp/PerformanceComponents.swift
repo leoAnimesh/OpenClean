@@ -156,3 +156,37 @@ enum MenuBarGlyph {
         return image
     }()
 }
+
+/// Grey rows shaped like the process list, shown while its first figures are measured (they need two
+/// samples), so the list doesn't jump into place and the wait reads as loading rather than as empty.
+struct PlaceholderRows: View {
+    var count = 3
+    var iconSize: CGFloat = 18
+    var spacing: CGFloat = 8
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var dimmed = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: spacing) {
+            ForEach(0..<count, id: \.self) { index in
+                HStack(spacing: 8) {
+                    RoundedRectangle(cornerRadius: 4).frame(width: iconSize, height: iconSize)
+                    // Varied widths so the rows read as names rather than a pattern.
+                    Capsule().frame(width: [110, 80, 96, 70, 88][index % 5], height: 8)
+                    Spacer()
+                    Capsule().frame(width: 34, height: 8)
+                    Capsule().frame(width: 48, height: 8)
+                }
+                .frame(height: iconSize + 4)
+            }
+        }
+        .foregroundStyle(Theme.glassStroke)
+        .opacity(dimmed ? 0.45 : 1)
+        .onAppear {
+            guard !reduceMotion else { return }
+            withAnimation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true)) { dimmed = true }
+        }
+        .accessibilityElement()
+        .accessibilityLabel("Measuring")
+    }
+}

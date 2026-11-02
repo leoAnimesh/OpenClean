@@ -106,8 +106,8 @@
 	<string>Zugriff erteilt</string>
 	<key>Add</key>
 	<string>Hinzufügen</string>
-	<key>Add Folder…</key>
-	<string>Ordner hinzufügen …</string>
+	<key>Add Folder</key>
+	<string>Ordner hinzufügen</string>
 	<key>Add a folder or file</key>
 	<string>Ordner oder Datei hinzufügen</string>
 	<key>Add a project folder</key>
@@ -116,8 +116,6 @@
 	<string>Lege eigene YAML-Regeln in diesen Ordner.</string>
 	<key>Adds rules that need a closer look before cleaning.</key>
 	<string>Fügt Regeln hinzu, die vor dem Bereinigen genauer geprüft werden sollten.</string>
-	<key>Add…</key>
-	<string>Hinzufügen …</string>
 	<key>After this, quarantined files are deleted for good.</key>
 	<string>Danach werden Dateien in Quarantäne endgültig gelöscht.</string>
 	<key>Agents and daemons in /Library are installed by an administrator and run for everyone. OpenClean lists them so you know they’re there, but doesn’t change them.</key>
@@ -162,6 +160,8 @@
 	<string>GitHub wird nach der neuesten Version gefragt.</string>
 	<key>Asks macOS to remove the local Time Machine snapshots it can drop to free space. Backups on your backup disk are not touched.</key>
 	<string>Bittet macOS, die lokalen Time Machine-Snapshots zu entfernen, auf die es verzichten kann, um Speicherplatz freizugeben. Backups auf deinem Backup-Volume bleiben unberührt.</string>
+	<key>Available once the app list has been checked again</key>
+	<string>Verfügbar, sobald die App-Liste erneut geprüft wurde</string>
 	<key>Back</key>
 	<string>Zurück</string>
 	<key>Background Smart Scan</key>
@@ -210,8 +210,8 @@
 	<string>Erneut prüfen</string>
 	<key>Check Now</key>
 	<string>Jetzt prüfen</string>
-	<key>Check for Updates…</key>
-	<string>Nach Updates suchen …</string>
+	<key>Check for Updates</key>
+	<string>Nach Updates suchen</string>
 	<key>Check for updates automatically</key>
 	<string>Automatisch nach Updates suchen</string>
 	<key>Checking for updates…</key>
@@ -220,8 +220,8 @@
 	<string>Wird geprüft …</string>
 	<key>Choose</key>
 	<string>Auswählen</string>
-	<key>Choose Folder…</key>
-	<string>Ordner auswählen …</string>
+	<key>Choose Folder</key>
+	<string>Ordner auswählen</string>
 	<key>Choose a folder where you keep code projects.</key>
 	<string>Wähle einen Ordner, in dem du Code-Projekte aufbewahrst.</string>
 	<key>Clean</key>
@@ -250,8 +250,6 @@
 	<string>Container</string>
 	<key>Continue</key>
 	<string>Weiter</string>
-	<key>Continue…</key>
-	<string>Weiter …</string>
 	<key>Copies made by APFS cloning share space on disk, so moving one may free less than shown.</key>
 	<string>Durch APFS-Klonen erstellte Kopien teilen sich Speicherplatz, daher kann das Bewegen einer Kopie weniger freigeben als angezeigt.</string>
 	<key>Couldn't check for updates</key>
@@ -338,10 +336,8 @@
 	<string>Ordner: %@</string>
 	<key>Force Quit</key>
 	<string>Sofort beenden</string>
-	<key>Force Quit %@…</key>
-	<string>%@ sofort beenden …</string>
-	<key>Force Quit…</key>
-	<string>Sofort beenden …</string>
+	<key>Force Quit %@</key>
+	<string>%@ sofort beenden</string>
 	<key>Force quit %@</key>
 	<string>%@ sofort beenden</string>
 	<key>Force quit %@?</key>
@@ -500,6 +496,8 @@
 	<string>Passt zur Bundle-ID</string>
 	<key>Matches name</key>
 	<string>Passt zum Namen</string>
+	<key>Measuring</key>
+	<string>Wird gemessen</string>
 	<key>Measuring apps</key>
 	<string>Apps werden gemessen</string>
 	<key>Measuring apps…</key>
@@ -528,6 +526,8 @@
 	<string>%@ wird in die Quarantäne bewegt …</string>
 	<key>Moving…</key>
 	<string>Wird bewegt …</string>
+	<key>Name</key>
+	<string>Name</string>
 	<key>Needed to scan Trash, Mail, Safari and iOS backups.</key>
 	<string>Nötig, um Papierkorb, Mail, Safari und iOS-Backups zu scannen.</string>
 	<key>Needs access</key>
@@ -734,6 +734,8 @@
 	<string>OpenClean beenden, während es noch arbeitet?</string>
 	<key>Quitting %@…</key>
 	<string>%@ wird beendet …</string>
+	<key>RAM</key>
+	<string>RAM</string>
 	<key>Reading launch agents…</key>
 	<string>Startagents werden gelesen …</string>
 	<key>Reads your Applications folders only</key>
@@ -760,8 +762,6 @@
 	<string>Apps entfernen und was sie hinterlassen</string>
 	<key>Remove apps and what they left behind</key>
 	<string>Apps entfernen und was sie hinterlassen haben</string>
-	<key>Remove…</key>
-	<string>Entfernen …</string>
 	<key>Replace It (old one goes to Trash)</key>
 	<string>Ersetzen (die alte kommt in den Papierkorb)</string>
 	<key>Report only</key>
@@ -770,8 +770,8 @@
 	<string>Zurücksetzen</string>
 	<key>Restore</key>
 	<string>Wiederherstellen</string>
-	<key>Restore All…</key>
-	<string>Alle wiederherstellen …</string>
+	<key>Restore All</key>
+	<string>Alle wiederherstellen</string>
 	<key>Restored</key>
 	<string>Wiederhergestellt</string>
 	<key>Restored from History</key>
@@ -806,8 +806,6 @@
 	<string>Führt die täglichen, wöchentlichen und monatlichen Wartungsskripte von macOS aus (Protokollrotation, Bereinigung temporärer Dateien). Normalerweise führt macOS sie selbst aus.</string>
 	<key>Runs: %@</key>
 	<string>Führt aus: %@</string>
-	<key>Run…</key>
-	<string>Ausführen …</string>
 	<key>Safe</key>
 	<string>Sicher</string>
 	<key>Safe by design</key>
@@ -848,8 +846,6 @@
 	<string>App auswählen</string>
 	<key>Settings</key>
 	<string>Einstellungen</string>
-	<key>Settings…</key>
-	<string>Einstellungen …</string>
 	<key>Shared memory</key>
 	<string>Gemeinsamer Speicher</string>
 	<key>Show CPU and memory in the menu bar</key>
@@ -968,8 +964,6 @@
 	<string>Papierkorb, Mail, Safari und iOS-Backups lassen sich nur mit Festplattenvollzugriff scannen.</string>
 	<key>Trash, Mail, Safari and iOS backups live in folders macOS protects. OpenClean only reads what its cleaning rules list, and never sends anything off your Mac.</key>
 	<string>Papierkorb, Mail, Safari und iOS-Backups liegen in Ordnern, die macOS schützt. OpenClean liest nur, was seine Bereinigungsregeln aufführen, und sendet nie etwas von deinem Mac weg.</string>
-	<key>Trash…</key>
-	<string>Papierkorb …</string>
 	<key>Turn Off</key>
 	<string>Ausschalten</string>
 	<key>Turn On</key>
@@ -998,6 +992,8 @@
 	<string>Aktualisieren</string>
 	<key>Updates</key>
 	<string>Updates</string>
+	<key>Updating</key>
+	<string>Wird aktualisiert</string>
 	<key>User Caches &amp; Logs</key>
 	<string>Benutzer-Caches &amp; Protokolle</string>
 	<key>Using the GPU</key>
@@ -1020,8 +1016,8 @@
 	<string>Warten auf dein Passwort, dann wird %@ in die Quarantäne bewegt …</string>
 	<key>We found %@ to clean</key>
 	<string>Wir haben %@ zum Bereinigen gefunden</string>
-	<key>Welcome Tour…</key>
-	<string>Willkommensübersicht …</string>
+	<key>Welcome Tour</key>
+	<string>Willkommensübersicht</string>
 	<key>Welcome back. Ready for another sweep?</key>
 	<string>Willkommen zurück. Bereit für eine weitere Runde?</string>
 	<key>Welcome to OpenClean</key>

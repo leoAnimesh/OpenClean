@@ -97,7 +97,7 @@ struct OpenCleanApp: App {
                 OpenSettingsButton(navigation: navigation)
             }
             CommandGroup(before: .help) {
-                Button("Welcome Tour…") { onboarding.restart() }
+                Button("Welcome Tour") { onboarding.restart() }
                     .disabled(!onboarding.isCompleted)
             }
         }

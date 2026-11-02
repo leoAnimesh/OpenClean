@@ -59,6 +59,7 @@ public struct OpenCleanCoordinator: Sendable {
     }
 
     public var settingsStore: SettingsStore { SettingsStore(url: paths.settingsFile) }
+    public var displayCache: DisplayCache { DisplayCache(directory: paths.cache) }
     public var store: QuarantineStore { QuarantineStore(root: paths.quarantine) }
     /// The home every check uses (`OPENCLEAN_HOME` if set), symlinks resolved.
     public var canonicalHome: String { resolvedHome }

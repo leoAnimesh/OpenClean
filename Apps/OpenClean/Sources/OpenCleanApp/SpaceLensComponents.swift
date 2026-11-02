@@ -212,7 +212,7 @@ struct SpaceLensTrashBar: View {
             } label: {
                 VStack(spacing: 4) {
                     Image(systemName: "trash").font(.system(size: 22, weight: .semibold))
-                    Text("Trash…").font(.system(size: 14, weight: .semibold))
+                    Text("Trash").font(.system(size: 14, weight: .semibold))
                 }
             }
             .buttonStyle(GlassCircleButtonStyle(diameter: 96))

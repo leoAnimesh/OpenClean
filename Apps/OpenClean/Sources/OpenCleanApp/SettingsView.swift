@@ -91,7 +91,7 @@ struct SettingsView: View {
                         divider
                     }
                     row(String(localized: "Add a folder or file")) {
-                        Button("Add…") { addExclusion() }
+                        Button("Add") { addExclusion() }
                             .buttonStyle(CapsuleButtonStyle())
                     }
                 }
@@ -117,7 +117,7 @@ struct SettingsView: View {
                                     "Only node_modules, virtual environments and build output go to quarantine. Nothing else in it is touched."
                             )
                     ) {
-                        Button("Add…") { addProjectFolder() }
+                        Button("Add") { addProjectFolder() }
                             .buttonStyle(CapsuleButtonStyle())
                     }
                 }

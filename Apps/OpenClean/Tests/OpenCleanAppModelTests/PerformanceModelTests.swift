@@ -29,10 +29,12 @@ final class CountingSampler: SystemSampler, @unchecked Sendable {
     }
 }
 
-/// Polls until `condition` holds or 5 s pass, so timing-based tests don't flake on slow machines.
+/// Polls until `condition` holds or `timeout` seconds pass, so timing-based tests don't flake on slow machines.
+/// The limit is generous because CI runs every suite at once and main-actor tests there can stall for 20 s
+/// or more; a test whose condition holds returns as soon as it does.
 @MainActor
-func waitUntil(_ condition: @MainActor () -> Bool) async throws {
-    let deadline = Date().addingTimeInterval(5)
+func waitUntil(timeout: TimeInterval = 30, _ condition: @MainActor () -> Bool) async throws {
+    let deadline = Date().addingTimeInterval(timeout)
     while !condition() && Date() < deadline {
         try await Task.sleep(for: .milliseconds(20))
     }
@@ -43,7 +45,7 @@ struct PerformanceModelTests {
     func makeModel(
         _ home: TempDirectory, sampler: CountingSampler = CountingSampler(),
         admin: FakeMaintenanceAdminExecutor = FakeMaintenanceAdminExecutor(),
-        runner: FakeCommandRunner = FakeCommandRunner()
+        runner: FakeCommandRunner = FakeCommandRunner(), interval: Duration = .milliseconds(50)
     ) throws -> PerformanceModel {
         let coordinator = OpenCleanCoordinator(
             home: home.path, environment: [:], registry: ProbeRegistry([]), processChecker: FakeProcessChecker(),
@@ -55,7 +57,25 @@ struct PerformanceModelTests {
             coordinator: coordinator, monitor: SystemMonitor(sampler: sampler),
             loginItems: { coordinator.loginItemsService(runner: runner, roots: roots, installedApps: []) },
             maintenance: coordinator.maintenanceRunner(runner: runner, admin: admin),
-            availableTasks: MaintenanceTask.allCases, interval: .milliseconds(50))
+            availableTasks: MaintenanceTask.allCases, interval: interval)
+    }
+
+    @Test func newDemandIsSampledWithoutWaitingForTheNextTick() async throws {
+        let home = try TempDirectory()
+        let sampler = CountingSampler()
+        // An hour between ticks: without an early wake-up, no process sample could happen during the test.
+        let model = try makeModel(home, sampler: sampler, interval: .seconds(3_600))
+        let metrics = Task { await model.monitor(.metrics) }
+        defer { metrics.cancel() }
+        try await waitUntil { model.cpu != nil }
+
+        // The menu bar keeps CPU going on a long interval; opening the process list must not wait for it.
+        let processes = Task { await model.monitor([.metrics, .processes]) }
+        defer { processes.cancel() }
+        try await waitUntil { sampler.requests.filter { $0.contains(.processes) }.count >= 2 }
+        #expect(
+            sampler.requests.filter { $0.contains(.processes) }.count >= 2,
+            "both process samples come at once, not at the next (hour-long) tick")
     }
 
     @Test func samplesOnlyWhileSomethingIsObserving() async throws {
@@ -128,5 +148,27 @@ struct PerformanceModelTests {
         #expect(!FileManager.default.fileExists(atPath: path))
         #expect(model.inventory?.items.isEmpty == true)
         #expect(model.busyItems.isEmpty)
+    }
+
+    @Test func loginItemsShowTheCacheButActOnlyAfterAFreshListing() async throws {
+        let home = try TempDirectory()
+        let path = home.path + "/Library/LaunchAgents/com.example.agent.plist"
+        let first = try makeModel(home)
+        try PropertyListSerialization.data(fromPropertyList: ["Label": "com.example.agent"], format: .xml, options: 0)
+            .write(to: URL(fileURLWithPath: path))
+        await first.refreshLoginItems()
+        let cached = try #require(first.coordinator.displayCache.load(LoginItemsInventory.self, .loginItems))
+        #expect(cached.value == first.inventory)
+
+        // A new session has the cached list but hasn't listed again yet: actions do nothing.
+        let second = try makeModel(home)
+        #expect(!second.loginItemsAreFresh)
+        await second.remove(try #require(cached.value.items.first))
+        #expect(FileManager.default.fileExists(atPath: path))
+        #expect(second.loginItemsNotice == nil)
+
+        await second.refreshLoginItems()
+        #expect(second.loginItemsAreFresh)
+        #expect(second.inventory == first.inventory)
     }
 }
